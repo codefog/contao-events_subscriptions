@@ -16,7 +16,7 @@
  * Extension version
  */
 @define('EVENTS_SUBSCRIPTIONS_VERSION', '1.0');
-@define('EVENTS_SUBSCRIPTIONS_BUILD', '0');
+@define('EVENTS_SUBSCRIPTIONS_BUILD', '1');
 
 
 /**
