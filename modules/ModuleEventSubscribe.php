@@ -2,19 +2,15 @@
 
 /**
  * events_subscriptions extension for Contao Open Source CMS
- * 
- * Copyright (C) 2013 Codefog
- * 
+ *
+ * Copyright (C) 2013 Codefog Ltd
+ *
  * @package events_subscriptions
- * @link    http://codefog.pl
+ * @author  Codefog Ltd <http://codefog.pl>
  * @author  Kamil Kuzminski <kamil.kuzminski@codefog.pl>
  * @license LGPL
  */
 
-
-/**
- * Run in a custom namespace, so the class can be replaced
- */
 namespace EventsSubscriptions;
 
 
@@ -115,7 +111,7 @@ class ModuleEventSubscribe extends \Module
 			if ($blnSubscribe)
 			{
 				if ($this->EventsSubscriptions->subscribeMember($objEvent->id, $this->User->id))
-				{					
+				{
 					if (!$this->jumpTo_subscribe)
 					{
 						$_SESSION['EVENT_SUBSCRIBE_MESSAGE'] = $GLOBALS['TL_LANG']['MSC']['eventSubscribed'];
@@ -129,7 +125,7 @@ class ModuleEventSubscribe extends \Module
 			else
 			{
 				if ($this->EventsSubscriptions->unsubscribeMember($objEvent->id, $this->User->id))
-				{					
+				{
 					if (!$this->jumpTo_unsubscribe)
 					{
 						$_SESSION['EVENT_SUBSCRIBE_MESSAGE'] = $GLOBALS['TL_LANG']['MSC']['eventUnsubscribed'];
