@@ -7,6 +7,7 @@ To make the extension work you will need to set up the hourly CRON job.
 
 ### Compatibility
 - Contao 3.0
+- Contao 3.1
 
 ### Available languages
 - English
