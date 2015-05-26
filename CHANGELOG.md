@@ -1,6 +1,13 @@
 events_subscriptions Changelog
 ==============================
 
+Version 1.0.5 stable (2015-??-??)
+---------------------------------
+
+### Fixed
+- Fixed the simple tokens in e-mails
+
+
 Version 1.0.4 stable (2014-12-18)
 ---------------------------------
 
