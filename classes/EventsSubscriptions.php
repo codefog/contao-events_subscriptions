@@ -213,7 +213,7 @@ class EventsSubscriptions extends \Frontend
 			if ($strPrefix != '')
 			{
 				unset($arrReturn[$k]);
-				$k = $strPrefix . '.' . $k;
+				$k = $strPrefix . '_' . $k;
 			}
 
 			$arrReturn[$k] = $v;
