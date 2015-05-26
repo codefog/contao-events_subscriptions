@@ -1,7 +1,7 @@
 events_subscriptions Changelog
 ==============================
 
-Version 1.0.5 stable (2015-??-??)
+Version 1.0.5 stable (2015-05-26)
 ---------------------------------
 
 ### Fixed
