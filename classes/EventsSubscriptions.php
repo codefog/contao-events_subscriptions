@@ -163,7 +163,7 @@ class EventsSubscriptions extends \Frontend
 
 				$objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'];
 				$objEmail->fromName = $GLOBALS['TL_ADMIN_NAME'];
-				$objEmail->subject = \String::parseSimpleTokens($objCalendars->subscription_title, $arrWildcards);
+				$objEmail->subject = \String::parseSimpleTokens($objCalendars->subscription_subject, $arrWildcards);
 				$objEmail->text = \String::parseSimpleTokens($objCalendars->subscription_message, $arrWildcards);
 
 				// Send an e-mail
