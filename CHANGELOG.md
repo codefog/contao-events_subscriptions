@@ -1,6 +1,13 @@
 events_subscriptions Changelog
 ==============================
 
+Version 1.0.6 stable (2015-05-26)
+---------------------------------
+
+### Fixed
+- Fixed the subject in e-mail reminders
+
+
 Version 1.0.5 stable (2015-05-26)
 ---------------------------------
 
