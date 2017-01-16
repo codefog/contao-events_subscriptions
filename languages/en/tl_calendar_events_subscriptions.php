@@ -52,4 +52,5 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['delete'] = [
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['summary'] = 'There are %s subscription(s) to this event.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['summary']    = 'There are %s subscription(s) to this event.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['summaryMax'] = 'There are %s subscription(s) of %s possible to this event.';

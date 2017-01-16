@@ -11,8 +11,23 @@
  * @license LGPL
  */
 
+/**
+ * Fields
+ */
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_maximum'] = [
+    'Maximum number of subscriptions',
+    'Here you can set the maximum number of subscriptions. Leave 0 to allow unlimited subscriptions.',
+];
+
+/**
+ * Legends
+ */
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_legend'] = 'Subscription settings';
 
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_calendar_events']['members'] = array('Subscribed members', 'Show the subscribed members to event ID %s');
+$GLOBALS['TL_LANG']['tl_calendar_events']['members'] = [
+    'Subscribed members',
+    'Show the subscribed members to event ID %s',
+];

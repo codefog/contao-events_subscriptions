@@ -15,6 +15,7 @@ namespace Codefog\EventsSubscriptions\FrontendModule;
 
 use Contao\Environment;
 use Codefog\EventsSubscriptions\EventsSubscriptions;
+use Contao\FrontendUser;
 
 class SubscribeModule extends \Module
 {
@@ -79,23 +80,31 @@ class SubscribeModule extends \Module
 			return;
 		}
 
-		$this->import('FrontendUser', 'User');
+        $this->Template->message = '';
 
-		$blnSubscribe = EventsSubscriptions::checkSubscription($objEvent->id, $this->User->id);
+        // Display the message
+        if ($_SESSION['EVENT_SUBSCRIBE_MESSAGE'] != '')
+        {
+            $this->Template->message = $_SESSION['EVENT_SUBSCRIBE_MESSAGE'];
+            unset($_SESSION['EVENT_SUBSCRIBE_MESSAGE']);
+        }
+
+		$user = FrontendUser::getInstance();
+        $isSubscribed = EventsSubscriptions::isSubscribed($objEvent->id, $user->id);
+
+        // Return if the user can't subscribe to the event
+        if (!EventsSubscriptions::canSubscribe($objEvent->id, $user->id) && !$isSubscribed) {
+            $this->Template->showForm = false;
+
+            return;
+        }
+
 		$strFormId = 'event_subscribe_' . $this->id;
-		$this->Template->message = '';
 
-		// Display the message
-		if ($_SESSION['EVENT_SUBSCRIBE_MESSAGE'] != '')
-		{
-			$this->Template->message = $_SESSION['EVENT_SUBSCRIBE_MESSAGE'];
-			unset($_SESSION['EVENT_SUBSCRIBE_MESSAGE']);
-		}
-
-		$this->Template->subscribed = !$blnSubscribe;
+		$this->Template->subscribed = $isSubscribed;
 		$this->Template->formId = $strFormId;
 		$this->Template->action = Environment::get('request');
-		$this->Template->submit = $blnSubscribe ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'];
+		$this->Template->submit = !$isSubscribed ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'];
 
 		// Process the form
 		if (\Input::post('FORM_SUBMIT') == $strFormId)
@@ -106,9 +115,9 @@ class SubscribeModule extends \Module
 			}
 
 			// Subscribe user
-			if ($blnSubscribe)
+			if (!$isSubscribed)
 			{
-				if (EventsSubscriptions::subscribeMember($objEvent->id, $this->User->id))
+				if (EventsSubscriptions::subscribeMember($objEvent->id, $user->id))
 				{
 					if (!$this->jumpTo_subscribe)
 					{
@@ -122,7 +131,7 @@ class SubscribeModule extends \Module
 			// Unsubscribe user
 			else
 			{
-				if (EventsSubscriptions::unsubscribeMember($objEvent->id, $this->User->id))
+				if (EventsSubscriptions::unsubscribeMember($objEvent->id, $user->id))
 				{
 					if (!$this->jumpTo_unsubscribe)
 					{

@@ -32,6 +32,6 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscription_notification'] = [
 ];
 
 /**
- * Fields
+ * Legends
  */
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_legend'] = 'Subscription settings';

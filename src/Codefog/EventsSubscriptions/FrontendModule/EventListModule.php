@@ -16,6 +16,7 @@ namespace Codefog\EventsSubscriptions\FrontendModule;
 use Contao\Date;
 use Contao\Environment;
 use Codefog\EventsSubscriptions\EventsSubscriptions;
+use Contao\FrontendUser;
 
 class EventListModule extends \Events
 {
@@ -139,7 +140,6 @@ class EventListModule extends \Events
 			$this->Template->pagination = $objPagination->generate("\n  ");
 		}
 
-		$this->import('FrontendUser', 'User');
 		$arrEvents = array();
 		$intEvents = 0;
 		$imgSize = false;
@@ -159,11 +159,13 @@ class EventListModule extends \Events
 		for ($i=$offset; $i<$limit; $i++)
 		{
 			$arrEvent = $arrAllEvents[$i];
-			$strFormId = 'event_subscribe_' . $this->id . '_' . $arrEvent['id'];
-			$blnSubscribe = EventsSubscriptions::checkSubscription($arrEvent['id'], $this->User->id);
+            $user = FrontendUser::getInstance();
+            $canSubscribe = EventsSubscriptions::canSubscribe($arrEvent['id'], $user->id);
+            $isSubscribed = EventsSubscriptions::isSubscribed($arrEvent['id'], $user->id);
+            $strFormId = 'event_subscribe_' . $this->id . '_' . $arrEvent['id'];
 
 			// Process the form
-			if (\Input::post('FORM_SUBMIT') == $strFormId)
+			if (($canSubscribe || $isSubscribed) && \Input::post('FORM_SUBMIT') == $strFormId)
 			{
 				if (!FE_USER_LOGGED_IN)
 				{
@@ -171,9 +173,9 @@ class EventListModule extends \Events
 				}
 
 				// Subscribe user
-				if ($blnSubscribe)
+				if ($canSubscribe)
 				{
-					if (EventsSubscriptions::subscribeMember($arrEvent['id'], $this->User->id))
+					if (EventsSubscriptions::subscribeMember($arrEvent['id'], $user->id))
 					{
 						if (!$this->jumpTo_subscribe)
 						{
@@ -187,7 +189,7 @@ class EventListModule extends \Events
 				// Unsubscribe user
 				else
 				{
-					if (EventsSubscriptions::unsubscribeMember($arrEvent['id'], $this->User->id))
+					if (EventsSubscriptions::unsubscribeMember($arrEvent['id'], $user->id))
 					{
 						if (!$this->jumpTo_unsubscribe)
 						{
@@ -242,11 +244,14 @@ class EventListModule extends \Events
 				unset($_SESSION['EVENT_SUBSCRIBE_MESSAGE'][$arrEvent['id']]);
 			}
 
-			// Add form
-			$objTemplate->subscribed = !$blnSubscribe;
-			$objTemplate->formId = $strFormId;
-			$objTemplate->action = Environment::get('request');
-			$objTemplate->submit = $blnSubscribe ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'];
+            // Add form
+            if ($canSubscribe || $isSubscribed) {
+                $objTemplate->subscribed = $isSubscribed;
+                $objTemplate->formId     = $strFormId;
+                $objTemplate->action     = Environment::get('request');
+                $objTemplate->showForm   = true;
+                $objTemplate->submit     = !$isSubscribed ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'];
+            }
 
 			$arrEvents[] = $objTemplate->parse();
 		}

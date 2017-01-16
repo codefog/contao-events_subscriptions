@@ -7,6 +7,7 @@ Version 2.0.0 stable (????-??-??)
 ### Improved
 - Added support for notification_center
 - Display the summary of subscriptions in the list view
+- Allow to set the maximum number of subscriptions per event
 
 
 Version 1.0.6 stable (2015-05-26)

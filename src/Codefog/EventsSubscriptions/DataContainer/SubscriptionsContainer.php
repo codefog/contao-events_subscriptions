@@ -20,13 +20,29 @@ class SubscriptionsContainer
             return;
         }
 
-        $total = Database::getInstance()->prepare(
-            "SELECT COUNT(*) AS total FROM tl_calendar_events_subscriptions WHERE pid=?"
+        $event = Database::getInstance()->prepare(
+            "SELECT subscription_maximum, (SELECT COUNT(*) FROM tl_calendar_events_subscriptions WHERE pid=tl_calendar_events.id) AS subscriptions FROM tl_calendar_events WHERE id=?"
         )
-            ->execute(CURRENT_ID)
-            ->total;
+            ->limit(1)
+            ->execute(CURRENT_ID);
 
-        Message::addInfo(sprintf($GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['summary'], $total));
+        if (!$event->numRows) {
+            return;
+        }
+
+        if ($event->subscription_maximum) {
+            Message::addInfo(
+                sprintf(
+                    $GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['summaryMax'],
+                    $event->subscriptions,
+                    $event->subscription_maximum
+                )
+            );
+        } else {
+            Message::addInfo(
+                sprintf($GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['summary'], $event->subscriptions)
+            );
+        }
     }
 
     /**
@@ -74,7 +90,7 @@ class SubscriptionsContainer
      */
     public function checkIfAlreadyExists($varValue, DataContainer $dc)
     {
-        if ($varValue && !EventsSubscriptions::checkSubscription($dc->activeRecord->pid, $varValue)) {
+        if ($varValue && EventsSubscriptions::isSubscribed($dc->activeRecord->pid, $varValue)) {
             throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['memberAlreadySubscribed'], $varValue));
         }
 
