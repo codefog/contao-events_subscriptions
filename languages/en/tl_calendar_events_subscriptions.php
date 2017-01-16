@@ -48,3 +48,8 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['delete'] = [
     'Delete subscription',
     'Delete subscription ID %s',
 ];
+
+/**
+ * Miscellaneous
+ */
+$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['summary'] = 'There are %s subscription(s) to this event.';

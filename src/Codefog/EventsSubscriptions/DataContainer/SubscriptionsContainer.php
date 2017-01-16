@@ -5,9 +5,30 @@ namespace Codefog\EventsSubscriptions\DataContainer;
 use Contao\Database;
 use Contao\DataContainer;
 use Codefog\EventsSubscriptions\EventsSubscriptions;
+use Contao\Input;
+use Contao\Message;
 
 class SubscriptionsContainer
 {
+    /**
+     * Display the summary of subscriptions
+     */
+    public function displaySummary()
+    {
+        // Return if not a list view
+        if ((int)CURRENT_ID !== (int)Input::get('id')) {
+            return;
+        }
+
+        $total = Database::getInstance()->prepare(
+            "SELECT COUNT(*) AS total FROM tl_calendar_events_subscriptions WHERE pid=?"
+        )
+            ->execute(CURRENT_ID)
+            ->total;
+
+        Message::addInfo(sprintf($GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['summary'], $total));
+    }
+
     /**
      * List all subscribed members
      *
