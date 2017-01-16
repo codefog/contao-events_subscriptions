@@ -11,13 +11,12 @@
  * @license LGPL
  */
 
-namespace EventsSubscriptions;
+namespace Codefog\EventsSubscriptions\FrontendModule;
 
+use Contao\Environment;
+use Codefog\EventsSubscriptions\EventsSubscriptions;
 
-/**
- * Front end module "event subscribe"
- */
-class ModuleEventSubscribe extends \Module
+class SubscribeModule extends \Module
 {
 
 	/**
@@ -80,10 +79,9 @@ class ModuleEventSubscribe extends \Module
 			return;
 		}
 
-		$this->import('EventsSubscriptions');
 		$this->import('FrontendUser', 'User');
 
-		$blnSubscribe = $this->EventsSubscriptions->checkSubscription($objEvent->id, $this->User->id);
+		$blnSubscribe = EventsSubscriptions::checkSubscription($objEvent->id, $this->User->id);
 		$strFormId = 'event_subscribe_' . $this->id;
 		$this->Template->message = '';
 
@@ -96,7 +94,7 @@ class ModuleEventSubscribe extends \Module
 
 		$this->Template->subscribed = !$blnSubscribe;
 		$this->Template->formId = $strFormId;
-		$this->Template->action = $this->getIndexFreeRequest();
+		$this->Template->action = Environment::get('request');
 		$this->Template->submit = $blnSubscribe ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'];
 
 		// Process the form
@@ -110,7 +108,7 @@ class ModuleEventSubscribe extends \Module
 			// Subscribe user
 			if ($blnSubscribe)
 			{
-				if ($this->EventsSubscriptions->subscribeMember($objEvent->id, $this->User->id))
+				if (EventsSubscriptions::subscribeMember($objEvent->id, $this->User->id))
 				{
 					if (!$this->jumpTo_subscribe)
 					{
@@ -124,7 +122,7 @@ class ModuleEventSubscribe extends \Module
 			// Unsubscribe user
 			else
 			{
-				if ($this->EventsSubscriptions->unsubscribeMember($objEvent->id, $this->User->id))
+				if (EventsSubscriptions::unsubscribeMember($objEvent->id, $this->User->id))
 				{
 					if (!$this->jumpTo_unsubscribe)
 					{

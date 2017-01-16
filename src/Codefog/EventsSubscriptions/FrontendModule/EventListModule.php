@@ -11,13 +11,13 @@
  * @license LGPL
  */
 
-namespace EventsSubscriptions;
+namespace Codefog\EventsSubscriptions\FrontendModule;
 
+use Contao\Date;
+use Contao\Environment;
+use Codefog\EventsSubscriptions\EventsSubscriptions;
 
-/**
- * Front end module "event list subscribe".
- */
-class ModuleEventListSubscribe extends \Events
+class EventListModule extends \Events
 {
 
 	/**
@@ -93,7 +93,7 @@ class ModuleEventListSubscribe extends \Events
 				foreach ($events as $event)
 				{
 					$event['firstDay'] = $GLOBALS['TL_LANG']['DAYS'][date('w', $day)];
-					$event['firstDate'] = $this->parseDate($objPage->dateFormat, $day);
+					$event['firstDate'] = Date::parse($GLOBALS['objPage']->dateFormat, $day);
 					$event['datetime'] = date('Y-m-d', $day);
 
 					$arrAllEvents[$event['id']] = $event;
@@ -139,7 +139,6 @@ class ModuleEventListSubscribe extends \Events
 			$this->Template->pagination = $objPagination->generate("\n  ");
 		}
 
-		$this->import('EventsSubscriptions');
 		$this->import('FrontendUser', 'User');
 		$arrEvents = array();
 		$intEvents = 0;
@@ -161,7 +160,7 @@ class ModuleEventListSubscribe extends \Events
 		{
 			$arrEvent = $arrAllEvents[$i];
 			$strFormId = 'event_subscribe_' . $this->id . '_' . $arrEvent['id'];
-			$blnSubscribe = $this->EventsSubscriptions->checkSubscription($arrEvent['id'], $this->User->id);
+			$blnSubscribe = EventsSubscriptions::checkSubscription($arrEvent['id'], $this->User->id);
 
 			// Process the form
 			if (\Input::post('FORM_SUBMIT') == $strFormId)
@@ -174,7 +173,7 @@ class ModuleEventListSubscribe extends \Events
 				// Subscribe user
 				if ($blnSubscribe)
 				{
-					if ($this->EventsSubscriptions->subscribeMember($arrEvent['id'], $this->User->id))
+					if (EventsSubscriptions::subscribeMember($arrEvent['id'], $this->User->id))
 					{
 						if (!$this->jumpTo_subscribe)
 						{
@@ -188,7 +187,7 @@ class ModuleEventListSubscribe extends \Events
 				// Unsubscribe user
 				else
 				{
-					if ($this->EventsSubscriptions->unsubscribeMember($arrEvent['id'], $this->User->id))
+					if (EventsSubscriptions::unsubscribeMember($arrEvent['id'], $this->User->id))
 					{
 						if (!$this->jumpTo_unsubscribe)
 						{
@@ -208,10 +207,10 @@ class ModuleEventListSubscribe extends \Events
 			$objTemplate->more = $GLOBALS['TL_LANG']['MSC']['more'];
 			$objTemplate->startTstamp = $arrEvent['startTime'];
 			$objTemplate->endTstamp = $arrEvent['endTime'];
-			$objTemplate->startTime = $this->parseDate($GLOBALS['TL_CONFIG']['timeFormat'], $arrEvent['startTime']);
-			$objTemplate->startDate = $this->parseDate($GLOBALS['TL_CONFIG']['dateFormat'], $arrEvent['startDate']);
-			$objTemplate->endTime = $this->parseDate($GLOBALS['TL_CONFIG']['timeFormat'], $arrEvent['endTime']);
-			$objTemplate->endDate = $this->parseDate($GLOBALS['TL_CONFIG']['dateFormat'], $arrEvent['endDate']);
+			$objTemplate->startTime = Date::parse($GLOBALS['objPage']->timeFormat, $arrEvent['startTime']);
+			$objTemplate->startDate = Date::parse($GLOBALS['objPage']->dateFormat, $arrEvent['startDate']);
+			$objTemplate->endTime = Date::parse($GLOBALS['objPage']->timeFormat, $arrEvent['endTime']);
+			$objTemplate->endDate = Date::parse($GLOBALS['objPage']->dateFormat, $arrEvent['endDate']);
 			$objTemplate->addImage = false;
 
 			// Add image
@@ -246,7 +245,7 @@ class ModuleEventListSubscribe extends \Events
 			// Add form
 			$objTemplate->subscribed = !$blnSubscribe;
 			$objTemplate->formId = $strFormId;
-			$objTemplate->action = $this->getIndexFreeRequest();
+			$objTemplate->action = Environment::get('request');
 			$objTemplate->submit = $blnSubscribe ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'];
 
 			$arrEvents[] = $objTemplate->parse();

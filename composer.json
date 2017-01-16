@@ -11,9 +11,14 @@
         }
     ],
     "require": {
-        "php": ">=5.3.2",
-        "contao/core": ">=3.2",
+        "php": ">=5.4.0",
+        "contao/core": ">=3.5",
         "contao-community-alliance/composer-plugin": "2.*"
+    },
+    "autoload":{
+        "psr-4": {
+            "Codefog\\EventsSubscriptions\\": "src"
+        }
     },
     "extra": {
         "contao": {

@@ -42,7 +42,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
 			'mode'                    => 4,
 			'disableGrouping'         => true,
 			'headerFields'            => array('title', 'startDate', 'startTime', 'endDate', 'endTime', 'published'),
-			'child_record_callback'   => array('tl_calendar_events_subscriptions', 'listMembers')
+			'child_record_callback'   => array('Codefog\EventsSubscriptions\DataContainer\SubscriptionsContainer', 'listMembers')
 		),
 		'global_operations' => array
 		(
@@ -104,11 +104,11 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
 			'label'                   => &$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['member'],
 			'exclude'                 => true,
 			'inputType'               => 'select',
-			'options_callback'        => array('tl_calendar_events_subscriptions', 'getMembers'),
+			'options_callback'        => array('Codefog\EventsSubscriptions\DataContainer\SubscriptionsContainer', 'getMembers'),
 			'eval'                    => array('mandatory'=>true, 'includeBlankOption'=>true, 'chosen'=>true, 'tl_class'=>'w50'),
 			'save_callback' => array
 			(
-				array('tl_calendar_events_subscriptions', 'checkIfAlreadyExists')
+				array('Codefog\EventsSubscriptions\DataContainer\SubscriptionsContainer', 'checkIfAlreadyExists')
 			),
 			'sql'                     => "int(10) unsigned NOT NULL default '0'"
 		),
@@ -128,64 +128,3 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
 		)
 	)
 );
-
-
-/**
- * Provide miscellaneous methods that are used by the data configuration array.
- */
-class tl_calendar_events_subscriptions extends \Backend
-{
-
-	/**
-	 * List all subscribed members
-	 * @param array
-	 * @return array
-	 */
-	public function listMembers($arrRow)
-	{
-		$objMember = $this->Database->prepare("SELECT * FROM tl_member WHERE id=?")->limit(1)->execute($arrRow['member']);
-		return '<div>' . $objMember->firstname . ' ' . $objMember->lastname . ' <span style="color:#b3b3b3;padding-left:3px;">[' . $objMember->username . ' - ' . $objMember->email . ']</span></div>';
-	}
-
-
-	/**
-	 * Get all members and return them as array
-	 * @return array
-	 */
-	public function getMembers()
-	{
-		$arrMembers = array();
-		$objMembers = $this->Database->execute("SELECT * FROM tl_member");
-
-		while ($objMembers->next())
-		{
-			$arrMembers[$objMembers->id] = $objMembers->firstname . ' ' . $objMembers->lastname . ' (' . $objMembers->username . ')';
-		}
-
-		return $arrMembers;
-	}
-
-
-	/**
-	 * Check if the member is already subscribed to the event
-	 * @param mixed
-	 * @param object
-	 * @return mixed
-	 * @throws Exception
-	 */
-	public function checkIfAlreadyExists($varValue, \DataContainer $dc)
-	{
-		if ($varValue)
-		{
-			$this->import('EventsSubscriptions');
-
-			// Throw an error
-			if (!$this->EventsSubscriptions->checkSubscription($dc->activeRecord->pid, $varValue))
-			{
-				throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['memberAlreadySubscribed'], $varValue));
-			}
-		}
-
-		return $varValue;
-	}
-}
