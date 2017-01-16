@@ -32,3 +32,20 @@ $GLOBALS['FE_MOD']['events']['eventlistsubscribe'] = 'Codefog\EventsSubscription
  * Cron jobs
  */
 $GLOBALS['TL_CRON']['hourly'][] = ['Codefog\EventsSubscriptions\EventListener\CronListener', 'onHourlyJob'];
+
+/**
+ * Notification Center Notification Types
+ */
+$GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['events_subscriptions'] = [
+    'events_subscriptions_reminder' => [
+        'recipients'           => ['admin_email', 'member_email'],
+        'email_subject'        => ['admin_email', 'member_email', 'member_*', 'event_*'],
+        'email_text'           => ['admin_email', 'member_email', 'member_*', 'event_*'],
+        'email_html'           => ['admin_email', 'member_email', 'member_*', 'event_*'],
+        'email_sender_name'    => ['admin_email', 'member_email'],
+        'email_sender_address' => ['admin_email', 'member_email'],
+        'email_recipient_cc'   => ['admin_email', 'member_email'],
+        'email_recipient_bcc'  => ['admin_email', 'member_email'],
+        'email_replyTo'        => ['admin_email', 'member_email'],
+    ],
+];

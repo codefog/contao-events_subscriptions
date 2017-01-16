@@ -104,6 +104,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
 			'label'                   => &$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['member'],
 			'exclude'                 => true,
 			'inputType'               => 'select',
+			'foreignKey'              => 'tl_member.username',
 			'options_callback'        => array('Codefog\EventsSubscriptions\DataContainer\SubscriptionsContainer', 'getMembers'),
 			'eval'                    => array('mandatory'=>true, 'includeBlankOption'=>true, 'chosen'=>true, 'tl_class'=>'w50'),
 			'save_callback' => array
@@ -115,15 +116,17 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
 		'addedBy' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['addedBy'],
-			'default'                 => $this->User->id,
+			'default'                 => \Contao\BackendUser::getInstance()->id,
 			'exclude'                 => true,
 			'inputType'               => 'select',
 			'foreignKey'              => 'tl_user.name',
-			'eval'                    => array('mandatory'=>true, 'includeBlankOption'=>true, 'tl_class'=>'w50'),
+			'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
 			'sql'                     => "int(10) unsigned NOT NULL default '0'"
 		),
 		'lastEmail' => array
 		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['lastEmail'],
+		    'flag'                    => 8,
 			'sql'                     => "int(10) unsigned NOT NULL default '0'"
 		)
 	)

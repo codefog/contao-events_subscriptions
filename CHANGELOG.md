@@ -1,6 +1,13 @@
 events_subscriptions Changelog
 ==============================
 
+Version 2.0.0 stable (????-??-??)
+---------------------------------
+
+### Improved
+- Added support for notification_center
+
+
 Version 1.0.6 stable (2015-05-26)
 ---------------------------------
 

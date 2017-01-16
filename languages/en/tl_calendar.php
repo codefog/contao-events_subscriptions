@@ -11,16 +11,25 @@
  * @license LGPL
  */
 
-
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_reminders'] = array('Enable reminders', 'Enable the e-mail reminders for events in the calendar.');
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_time']      = array('Sending time', 'Please enter the approximate time when reminders should be send.');
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_days']      = array('Days before event', 'Please enter the comma separated days before event when the reminders should be send.');
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_subject']   = array('E-mail subject', 'Please enter the e-mail subject. You can enter wildcards to insert dynamic data (e.g. ##event_title## to display event\'s title)');
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_message']   = array('E-mail text', 'Please enter the e-mail text. You can enter wildcards to insert dynamic data (e.g. ##member_firstname## to display member\'s first name).');
-
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_reminders']    = [
+    'Enable reminders',
+    'Enable the e-mail reminders for events in the calendar.',
+];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_time']         = [
+    'Sending time',
+    'Please enter the approximate time when reminders should be send.',
+];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_days']         = [
+    'Days before event',
+    'Please enter the comma separated days before event when the reminders should be send.',
+];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_notification'] = [
+    'Reminder notification',
+    'Please choose the notification that will be used to sent the reminder.',
+];
 
 /**
  * Fields
