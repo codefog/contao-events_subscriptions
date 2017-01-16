@@ -213,6 +213,7 @@ class EventListModule extends \Events
 			$objTemplate->startDate = Date::parse($GLOBALS['objPage']->dateFormat, $arrEvent['startDate']);
 			$objTemplate->endTime = Date::parse($GLOBALS['objPage']->timeFormat, $arrEvent['endTime']);
 			$objTemplate->endDate = Date::parse($GLOBALS['objPage']->dateFormat, $arrEvent['endDate']);
+			$objTemplate->lastDay = Date::parse($GLOBALS['objPage']->datimFormat, $arrEvent['subscription_lastDay']);
 			$objTemplate->addImage = false;
 
 			// Add image

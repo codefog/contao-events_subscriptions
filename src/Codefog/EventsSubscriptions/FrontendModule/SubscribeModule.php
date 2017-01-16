@@ -13,6 +13,7 @@
 
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
+use Contao\Date;
 use Contao\Environment;
 use Codefog\EventsSubscriptions\EventsSubscriptions;
 use Contao\FrontendUser;
@@ -101,6 +102,7 @@ class SubscribeModule extends \Module
 
 		$strFormId = 'event_subscribe_' . $this->id;
 
+		$this->Template->lastDay = Date::parse($GLOBALS['objPage']->datimFormat, $objEvent->subscription_lastDay);
 		$this->Template->subscribed = $isSubscribed;
 		$this->Template->formId = $strFormId;
 		$this->Template->action = Environment::get('request');

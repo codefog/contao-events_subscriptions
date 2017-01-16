@@ -30,7 +30,7 @@ class EventsContainer
 
         $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default'] = str_replace(
             'author;',
-            'author;{subscription_legend:hide},subscription_maximum;',
+            'author;{subscription_legend:hide},subscription_maximum,subscription_lastDay;',
             $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default']
         );
     }

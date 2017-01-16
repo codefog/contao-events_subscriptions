@@ -42,6 +42,11 @@ class EventsSubscriptions
             return false;
         }
 
+        // Validate subscription last day
+        if (!static::validateSubscriptionLastDay($event)) {
+            return false;
+        }
+
         return true;
     }
 
@@ -65,6 +70,22 @@ class EventsSubscriptions
             ->total;
 
         return $total < $event->subscription_maximum;
+    }
+
+    /**
+     * Validate the subscription last day
+     *
+     * @param CalendarEventsModel $event
+     *
+     * @return bool
+     */
+    private static function validateSubscriptionLastDay(CalendarEventsModel $event)
+    {
+        if (!$event->subscription_lastDay) {
+            return true;
+        }
+
+        return $event->subscription_lastDay > time();
     }
 
     /**
