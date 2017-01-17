@@ -9,6 +9,7 @@ Version 2.0.0 stable (????-??-??)
 - Display the summary of subscriptions in the list view
 - Allow to set the maximum number of subscriptions per event
 - Allow to set the last day of subscription per event
+- Added the frontend module that displays current user event subscriptions
 
 
 Version 1.0.6 stable (2015-05-26)

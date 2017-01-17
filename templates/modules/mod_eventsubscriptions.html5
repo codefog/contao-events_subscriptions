@@ -1,0 +1,11 @@
+<?php $this->extend('block_unsearchable'); ?>
+
+<?php $this->block('content'); ?>
+
+<?= $this->message ?>
+
+<?= $this->events ?>
+
+<?= $this->pagination ?>
+
+<?php $this->endblock(); ?>

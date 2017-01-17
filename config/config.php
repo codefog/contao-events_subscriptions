@@ -27,6 +27,7 @@ $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_subs
  */
 $GLOBALS['FE_MOD']['events']['eventsubscribe']     = 'Codefog\EventsSubscriptions\FrontendModule\SubscribeModule';
 $GLOBALS['FE_MOD']['events']['eventlistsubscribe'] = 'Codefog\EventsSubscriptions\FrontendModule\EventListModule';
+$GLOBALS['FE_MOD']['events']['eventsubscriptions'] = 'Codefog\EventsSubscriptions\FrontendModule\EventSubscriptionsModule';
 
 /**
  * Cron jobs

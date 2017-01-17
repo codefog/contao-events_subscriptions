@@ -24,5 +24,6 @@ TemplateLoader::addFiles(
         'event_list_subscribe'   => 'system/modules/events_subscriptions/templates/events',
         'mod_eventsubscribe'     => 'system/modules/events_subscriptions/templates/modules',
         'mod_eventlistsubscribe' => 'system/modules/events_subscriptions/templates/modules',
+        'mod_eventsubscriptions' => 'system/modules/events_subscriptions/templates/modules',
     ]
 );
