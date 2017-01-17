@@ -14,7 +14,9 @@
 /**
  * Register PSR-0 namespace
  */
-NamespaceClassLoader::add('Codefog\EventsSubscriptions', 'system/modules/events_subscriptions/src');
+if (class_exists('NamespaceClassLoader')) {
+    NamespaceClassLoader::add('Codefog\EventsSubscriptions', 'system/modules/events_subscriptions/src');
+}
 
 /**
  * Register the templates
