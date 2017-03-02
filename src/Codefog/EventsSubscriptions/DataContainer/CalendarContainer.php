@@ -15,7 +15,7 @@ class CalendarContainer
     {
         $notifications = [];
         $records       = Database::getInstance()->execute(
-            "SELECT id,title FROM tl_nc_notification WHERE type='events_subscriptions_reminder' ORDER BY title"
+            "SELECT id, title FROM tl_nc_notification WHERE type='events_subscriptions_reminder' ORDER BY title"
         );
 
         while ($records->next()) {

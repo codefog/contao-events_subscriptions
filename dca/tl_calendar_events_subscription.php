@@ -13,9 +13,9 @@
 
 
 /**
- * Table tl_calendar_events_subscriptions
+ * Table tl_calendar_events_subscription
  */
-$GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
+$GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = array
 (
 
     // Config
@@ -24,7 +24,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
         'dataContainer'   => 'Table',
         'ptable'          => 'tl_calendar_events',
         'onload_callback' => [
-            ['Codefog\EventsSubscriptions\DataContainer\SubscriptionsContainer', 'displaySummary'],
+            ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'displaySummary'],
         ],
         'sql'             => array
         (
@@ -46,7 +46,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
             'disableGrouping'       => true,
             'headerFields'          => array('title', 'startDate', 'startTime', 'endDate', 'endTime', 'published'),
             'child_record_callback' => array(
-                'Codefog\EventsSubscriptions\DataContainer\SubscriptionsContainer',
+                'Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer',
                 'listMembers',
             ),
         ),
@@ -64,20 +64,20 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
         (
             'edit'   => array
             (
-                'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['edit'],
+                'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['edit'],
                 'href'  => 'act=edit',
                 'icon'  => 'edit.gif',
             ),
             'delete' => array
             (
-                'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['delete'],
+                'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['delete'],
                 'href'       => 'act=delete',
                 'icon'       => 'delete.gif',
                 'attributes' => 'onclick="if(!confirm(\''.$GLOBALS['TL_LANG']['MSC']['deleteConfirm'].'\'))return false;Backend.getScrollOffset()"',
             ),
             'show'   => array
             (
-                'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['show'],
+                'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['show'],
                 'href'  => 'act=show',
                 'icon'  => 'show.gif',
             ),
@@ -107,12 +107,12 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
         ),
         'member'    => array
         (
-            'label'            => &$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['member'],
+            'label'            => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member'],
             'exclude'          => true,
             'inputType'        => 'select',
             'foreignKey'       => 'tl_member.username',
             'options_callback' => array(
-                'Codefog\EventsSubscriptions\DataContainer\SubscriptionsContainer',
+                'Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer',
                 'getMembers',
             ),
             'eval'             => array(
@@ -123,13 +123,13 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
             ),
             'save_callback'    => array
             (
-                array('Codefog\EventsSubscriptions\DataContainer\SubscriptionsContainer', 'checkIfAlreadyExists'),
+                array('Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'checkIfAlreadyExists'),
             ),
             'sql'              => "int(10) unsigned NOT NULL default '0'",
         ),
         'addedBy'   => array
         (
-            'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['addedBy'],
+            'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['addedBy'],
             'default'    => \Contao\BackendUser::getInstance()->id,
             'exclude'    => true,
             'inputType'  => 'select',
@@ -139,7 +139,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
         ),
         'lastEmail' => array
         (
-            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['lastEmail'],
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastEmail'],
             'flag'  => 8,
             'sql'   => "int(10) unsigned NOT NULL default '0'",
         ),

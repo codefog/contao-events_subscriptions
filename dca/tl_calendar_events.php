@@ -14,7 +14,7 @@
 /**
  * Add a child table
  */
-$GLOBALS['TL_DCA']['tl_calendar_events']['config']['ctable'][] = 'tl_calendar_events_subscriptions';
+$GLOBALS['TL_DCA']['tl_calendar_events']['config']['ctable'][] = 'tl_calendar_events_subscription';
 
 /**
  * Register global callbacks
@@ -29,7 +29,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback'][] = [
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptions'] = [
     'label'           => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'],
-    'href'            => 'table=tl_calendar_events_subscriptions',
+    'href'            => 'table=tl_calendar_events_subscription',
     'icon'            => 'mgroup.gif',
     'button_callback' => ['Codefog\EventsSubscriptions\DataContainer\EventsContainer', 'getSubscriptionsButton'],
 ];

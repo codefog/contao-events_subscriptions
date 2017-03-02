@@ -86,7 +86,7 @@ class Automator
 
             // Update the database
             Database::getInstance()->prepare(
-                "UPDATE tl_calendar_events_subscriptions SET lastEmail=? WHERE pid=? AND member=?"
+                "UPDATE tl_calendar_events_subscription SET lastEmail=? WHERE pid=? AND member=?"
             )->execute(time(), $event['id'], $member->id);
 
             // Bump the counter
@@ -123,7 +123,7 @@ class Automator
         $where = (count($where) ? " AND (".implode(" OR ", $where).")" : "");
 
         return Database::getInstance()->prepare(
-            "SELECT e.*, es.member FROM tl_calendar_events_subscriptions es JOIN tl_calendar_events e ON e.id=es.pid WHERE e.pid=?".$where
+            "SELECT e.*, es.member FROM tl_calendar_events_subscription es JOIN tl_calendar_events e ON e.id=es.pid WHERE e.pid=?".$where
         )
             ->execute($calendar->id)
             ->fetchAllAssoc();

@@ -16,7 +16,12 @@ class EventsContainer
      */
     public function extendPalette(DataContainer $dc)
     {
-        if (!$dc->id || !$this->isSubscriptionEnabled($dc->id)) {
+        if (!$dc->id || CURRENT_ID === $dc->id) {
+            return;
+        }
+
+        // Return if the subscription is not enabled
+        if (!$this->isSubscriptionEnabled($dc->id)) {
             return;
         }
 
@@ -63,12 +68,8 @@ class EventsContainer
      */
     private function isSubscriptionEnabled($id)
     {
-        try {
-            new EventConfig($id);
-        } catch (\InvalidArgumentException $e) {
-            return false;
-        }
+        $config = EventConfig::create($id);
 
-        return true;
+        return $config->canSubscribe();
     }
 }

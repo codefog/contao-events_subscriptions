@@ -20,7 +20,7 @@
 /**
  * Add a back end table to calendar
  */
-$GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_subscriptions';
+$GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_subscription';
 
 /**
  * Add front end modules
@@ -32,7 +32,7 @@ $GLOBALS['FE_MOD']['events']['eventsubscriptions'] = 'Codefog\EventsSubscription
 /**
  * Models
  */
-$GLOBALS['TL_MODELS']['tl_calendar_events_subscriptions'] = 'Codefog\EventsSubscriptions\Model\SubscriptionModel';
+$GLOBALS['TL_MODELS']['tl_calendar_events_subscription'] = 'Codefog\EventsSubscriptions\Model\SubscriptionModel';
 
 /**
  * Cron jobs
