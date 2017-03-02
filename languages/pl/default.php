@@ -11,7 +11,6 @@
  * @license LGPL
  */
 
-
 /**
  * Miscellaneous
  */
@@ -19,7 +18,6 @@ $GLOBALS['TL_LANG']['MSC']['eventSubscribe']    = 'Zapisz się';
 $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe']  = 'Wypisz się';
 $GLOBALS['TL_LANG']['MSC']['eventSubscribed']   = 'Zapisałeś się na to wydarzenie.';
 $GLOBALS['TL_LANG']['MSC']['eventUnsubscribed'] = 'Wypisałeś się z tego wydarzenia.';
-
 
 /**
  * Errors

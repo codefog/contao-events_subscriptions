@@ -11,137 +11,115 @@
  * @license LGPL
  */
 
-
 /**
  * Table tl_calendar_events_subscription
  */
-$GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = array
-(
+$GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
 
     // Config
-    'config'   => array
-    (
+    'config'   => [
         'dataContainer'   => 'Table',
         'ptable'          => 'tl_calendar_events',
         'onload_callback' => [
             ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'displaySummary'],
         ],
-        'sql'             => array
-        (
-            'keys' => array
-            (
+        'sql'             => [
+            'keys' => [
                 'id'     => 'primary',
                 'pid'    => 'index',
                 'member' => 'index',
-            ),
-        ),
-    ),
+            ],
+        ],
+    ],
 
     // List
-    'list'     => array
-    (
-        'sorting'           => array
-        (
+    'list'     => [
+        'sorting'           => [
             'mode'                  => 4,
             'disableGrouping'       => true,
-            'headerFields'          => array('title', 'startDate', 'startTime', 'endDate', 'endTime', 'published'),
-            'child_record_callback' => array(
+            'headerFields'          => ['title', 'startDate', 'startTime', 'endDate', 'endTime', 'published'],
+            'child_record_callback' => [
                 'Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer',
                 'listMembers',
-            ),
-        ),
-        'global_operations' => array
-        (
-            'all' => array
-            (
+            ],
+        ],
+        'global_operations' => [
+            'all' => [
                 'label'      => &$GLOBALS['TL_LANG']['MSC']['all'],
                 'href'       => 'act=select',
                 'class'      => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
-            ),
-        ),
-        'operations'        => array
-        (
-            'edit'   => array
-            (
+            ],
+        ],
+        'operations'        => [
+            'edit'   => [
                 'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['edit'],
                 'href'  => 'act=edit',
                 'icon'  => 'edit.gif',
-            ),
-            'delete' => array
-            (
+            ],
+            'delete' => [
                 'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['delete'],
                 'href'       => 'act=delete',
                 'icon'       => 'delete.gif',
                 'attributes' => 'onclick="if(!confirm(\''.$GLOBALS['TL_LANG']['MSC']['deleteConfirm'].'\'))return false;Backend.getScrollOffset()"',
-            ),
-            'show'   => array
-            (
+            ],
+            'show'   => [
                 'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['show'],
                 'href'  => 'act=show',
                 'icon'  => 'show.gif',
-            ),
-        ),
-    ),
+            ],
+        ],
+    ],
 
     // Palettes
-    'palettes' => array
-    (
+    'palettes' => [
         'default' => '{member_legend},member,addedBy',
-    ),
+    ],
 
     // Fields
-    'fields'   => array
-    (
-        'id'        => array
-        (
+    'fields'   => [
+        'id'        => [
             'sql' => "int(10) unsigned NOT NULL auto_increment",
-        ),
-        'pid'       => array
-        (
+        ],
+        'pid'       => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
-        ),
-        'tstamp'    => array
-        (
+        ],
+        'tstamp'    => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
-        ),
-        'member'    => array
-        (
+        ],
+        'member'    => [
             'label'            => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member'],
             'exclude'          => true,
             'inputType'        => 'select',
             'foreignKey'       => 'tl_member.username',
-            'options_callback' => array(
+            'options_callback' => [
                 'Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer',
                 'getMembers',
-            ),
-            'eval'             => array(
+            ],
+            'eval'             => [
                 'mandatory'          => true,
                 'includeBlankOption' => true,
                 'chosen'             => true,
                 'tl_class'           => 'w50',
-            ),
-            'save_callback'    => array
-            (
-                array('Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'checkIfAlreadyExists'),
-            ),
+            ],
+            'save_callback'    => [
+                ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'checkIfAlreadyExists'],
+            ],
             'sql'              => "int(10) unsigned NOT NULL default '0'",
-        ),
-        'addedBy'   => array
-        (
+        ],
+        'addedBy'   => [
             'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['addedBy'],
             'default'    => \Contao\BackendUser::getInstance()->id,
             'exclude'    => true,
             'inputType'  => 'select',
             'foreignKey' => 'tl_user.name',
-            'eval'       => array('includeBlankOption' => true, 'tl_class' => 'w50'),
+            'eval'       => ['includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql'        => "int(10) unsigned NOT NULL default '0'",
-        ),
-        'lastEmail' => array
-        (
+        ],
+        'lastEmail' => [
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastEmail'],
             'flag'  => 8,
             'sql'   => "int(10) unsigned NOT NULL default '0'",
-        ),
-    ),
-);
+        ],
+    ],
+];

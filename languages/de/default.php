@@ -11,7 +11,6 @@
  * @license LGPL
  */
 
-
 /**
  * Miscellaneous
  */
@@ -19,7 +18,6 @@ $GLOBALS['TL_LANG']['MSC']['eventSubscribe']    = 'Anmelden';
 $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe']  = 'Absagen';
 $GLOBALS['TL_LANG']['MSC']['eventSubscribed']   = 'Sie haben sich für den Anlass angemeldet.';
 $GLOBALS['TL_LANG']['MSC']['eventUnsubscribed'] = 'Sie haben Ihre Teilnahme am Anlass abgesagt.';
-
 
 /**
  * Errors

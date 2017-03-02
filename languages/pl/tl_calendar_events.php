@@ -11,8 +11,10 @@
  * @license LGPL
  */
 
-
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_calendar_events']['members'] = array('Zapisani użytkownicy', 'Pokaż zapisanych użytkowników na wydarzenie ID %s');
+$GLOBALS['TL_LANG']['tl_calendar_events']['members'] = [
+    'Zapisani użytkownicy',
+    'Pokaż zapisanych użytkowników na wydarzenie ID %s',
+];

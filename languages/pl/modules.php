@@ -11,9 +11,14 @@
  * @license LGPL
  */
 
-
 /**
  * Front end modules
  */
-$GLOBALS['TL_LANG']['FMD']['eventsubscribe']     = array('Formularz zapisania na wydarzenie', 'Dodaje formularz do zapisania się na wydarzenie.');
-$GLOBALS['TL_LANG']['FMD']['eventlistsubscribe'] = array('Lista wydarzeń do zapisania', 'Dodaje listę wydarzeń na które można się zapisać.');
+$GLOBALS['TL_LANG']['FMD']['eventsubscribe']     = [
+    'Formularz zapisania na wydarzenie',
+    'Dodaje formularz do zapisania się na wydarzenie.',
+];
+$GLOBALS['TL_LANG']['FMD']['eventlistsubscribe'] = [
+    'Lista wydarzeń do zapisania',
+    'Dodaje listę wydarzeń na które można się zapisać.',
+];
