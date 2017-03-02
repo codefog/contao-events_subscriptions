@@ -53,7 +53,7 @@ class Subscriber
      * @param int $eventId
      * @param int $memberId
      *
-     * @return bool
+     * @return SubscriptionModel
      */
     public function unsubscribeMember($eventId, $memberId)
     {
@@ -68,7 +68,8 @@ class Subscriber
         }
 
         $model = SubscriptionModel::findOneBy(['pid=? AND member=?'], [$eventId, $memberId]);
+        $model->delete();
 
-        return $model->delete() ? true : false;
+        return $model;
     }
 }

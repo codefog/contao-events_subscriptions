@@ -13,9 +13,11 @@
 
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
+use Codefog\EventsSubscriptions\EventConfig;
+use Codefog\EventsSubscriptions\Subscriber;
+use Codefog\EventsSubscriptions\SubscriptionValidator;
 use Contao\Date;
 use Contao\Environment;
-use Codefog\EventsSubscriptions\EventsSubscriptions;
 use Contao\FrontendUser;
 
 class SubscribeModule extends \Module
@@ -94,10 +96,12 @@ class SubscribeModule extends \Module
         }
 
         $user         = FrontendUser::getInstance();
-        $isSubscribed = EventsSubscriptions::isSubscribed($objEvent->id, $user->id);
+        $config       = EventConfig::create($objEvent->id);
+        $validator    = new SubscriptionValidator();
+        $isSubscribed = $validator->isMemberSubscribed($config, $user->id);
 
         // Return if the user can't subscribe to the event
-        if (!EventsSubscriptions::canSubscribe($objEvent->id, $user->id) && !$isSubscribed) {
+        if (!$validator->canMemberSubscribe($config, $user->id) && !$isSubscribed) {
             $this->Template->showForm = false;
 
             return;
@@ -117,24 +121,26 @@ class SubscribeModule extends \Module
                 $this->jumpToOrReload($this->jumpTo_login);
             }
 
+            $subscriber = new Subscriber();
+
             // Subscribe user
             if (!$isSubscribed) {
-                if (EventsSubscriptions::subscribeMember($objEvent->id, $user->id)) {
-                    if (!$this->jumpTo_subscribe) {
-                        $_SESSION['EVENT_SUBSCRIBE_MESSAGE'] = $GLOBALS['TL_LANG']['MSC']['eventSubscribed'];
-                    }
+                $subscriber->subscribeMember($objEvent->id, $user->id);
 
-                    $this->jumpToOrReload($this->jumpTo_subscribe);
+                if (!$this->jumpTo_subscribe) {
+                    $_SESSION['EVENT_SUBSCRIBE_MESSAGE'] = $GLOBALS['TL_LANG']['MSC']['eventSubscribed'];
                 }
-            } // Unsubscribe user
-            else {
-                if (EventsSubscriptions::unsubscribeMember($objEvent->id, $user->id)) {
-                    if (!$this->jumpTo_unsubscribe) {
-                        $_SESSION['EVENT_SUBSCRIBE_MESSAGE'] = $GLOBALS['TL_LANG']['MSC']['eventUnsubscribed'];
-                    }
 
-                    $this->jumpToOrReload($this->jumpTo_unsubscribe);
+                $this->jumpToOrReload($this->jumpTo_subscribe);
+            } else {
+                // Unsubscribe user
+                $subscriber->unsubscribeMember($objEvent->id, $user->id);
+
+                if (!$this->jumpTo_unsubscribe) {
+                    $_SESSION['EVENT_SUBSCRIBE_MESSAGE'] = $GLOBALS['TL_LANG']['MSC']['eventUnsubscribed'];
                 }
+
+                $this->jumpToOrReload($this->jumpTo_unsubscribe);
             }
         }
     }

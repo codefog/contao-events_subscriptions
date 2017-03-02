@@ -13,9 +13,11 @@
 
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
+use Codefog\EventsSubscriptions\EventConfig;
+use Codefog\EventsSubscriptions\Subscriber;
+use Codefog\EventsSubscriptions\SubscriptionValidator;
 use Contao\Date;
 use Contao\Environment;
-use Codefog\EventsSubscriptions\EventsSubscriptions;
 use Contao\FrontendUser;
 use Contao\Pagination;
 
@@ -146,13 +148,18 @@ class EventListModule extends \Events
             }
         }
 
+        $subscriber = new Subscriber();
+        $validator  = new SubscriptionValidator();
+
         // Parse events
         for ($i = $offset; $i < $limit; $i++) {
-            $arrEvent     = $arrAllEvents[$i];
+            $arrEvent  = $arrAllEvents[$i];
+            $strFormId = 'event_subscribe_'.$this->id.'_'.$arrEvent['id'];
+
             $user         = FrontendUser::getInstance();
-            $canSubscribe = EventsSubscriptions::canSubscribe($arrEvent['id'], $user->id);
-            $isSubscribed = EventsSubscriptions::isSubscribed($arrEvent['id'], $user->id);
-            $strFormId    = 'event_subscribe_'.$this->id.'_'.$arrEvent['id'];
+            $config       = EventConfig::create($arrEvent['id']);
+            $canSubscribe = $validator->canMemberSubscribe($config, $user->id);
+            $isSubscribed = $validator->isMemberSubscribed($config, $user->id);
 
             // Process the form
             if (($canSubscribe || $isSubscribed) && \Input::post('FORM_SUBMIT') == $strFormId) {
@@ -162,22 +169,22 @@ class EventListModule extends \Events
 
                 // Subscribe user
                 if ($canSubscribe) {
-                    if (EventsSubscriptions::subscribeMember($arrEvent['id'], $user->id)) {
-                        if (!$this->jumpTo_subscribe) {
-                            $_SESSION['EVENT_SUBSCRIBE_MESSAGE'][$arrEvent['id']] = $GLOBALS['TL_LANG']['MSC']['eventSubscribed'];
-                        }
+                    $subscriber->subscribeMember($arrEvent['id'], $user->id);
 
-                        $this->jumpToOrReload($this->jumpTo_subscribe);
+                    if (!$this->jumpTo_subscribe) {
+                        $_SESSION['EVENT_SUBSCRIBE_MESSAGE'][$arrEvent['id']] = $GLOBALS['TL_LANG']['MSC']['eventSubscribed'];
                     }
-                } // Unsubscribe user
-                else {
-                    if (EventsSubscriptions::unsubscribeMember($arrEvent['id'], $user->id)) {
-                        if (!$this->jumpTo_unsubscribe) {
-                            $_SESSION['EVENT_SUBSCRIBE_MESSAGE'][$arrEvent['id']] = $GLOBALS['TL_LANG']['MSC']['eventUnsubscribed'];
-                        }
 
-                        $this->jumpToOrReload($this->jumpTo_unsubscribe);
+                    $this->jumpToOrReload($this->jumpTo_subscribe);
+                } else {
+                    // Unsubscribe user
+                    $subscriber->unsubscribeMember($arrEvent['id'], $user->id);
+
+                    if (!$this->jumpTo_unsubscribe) {
+                        $_SESSION['EVENT_SUBSCRIBE_MESSAGE'][$arrEvent['id']] = $GLOBALS['TL_LANG']['MSC']['eventUnsubscribed'];
                     }
+
+                    $this->jumpToOrReload($this->jumpTo_unsubscribe);
                 }
             }
 

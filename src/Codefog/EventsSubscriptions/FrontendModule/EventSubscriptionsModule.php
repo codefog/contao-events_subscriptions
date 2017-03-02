@@ -13,7 +13,9 @@
 
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
-use Codefog\EventsSubscriptions\EventsSubscriptions;
+use Codefog\EventsSubscriptions\EventConfig;
+use Codefog\EventsSubscriptions\Subscriber;
+use Codefog\EventsSubscriptions\SubscriptionValidator;
 use Contao\BackendTemplate;
 use Contao\Config;
 use Contao\Controller;
@@ -148,6 +150,8 @@ class EventSubscriptionsModule extends Events
         $user      = FrontendUser::getInstance();
         $arrEvents = array();
 
+        $validator = new SubscriptionValidator();
+
         // Remove events outside the scope
         foreach ($arrAllEvents as $key => $days) {
             foreach ($days as $day => $events) {
@@ -163,7 +167,7 @@ class EventSubscriptionsModule extends Events
                     }
 
                     // The user is not subscribed to the event
-                    if (!EventsSubscriptions::isSubscribed($event['id'], $user->id)) {
+                    if (!$validator->isMemberSubscribed(EventConfig::create($event['id']), $user->id)) {
                         continue;
                     }
 
@@ -228,6 +232,7 @@ class EventSubscriptionsModule extends Events
         }
 
         $time = time();
+        $subscriber = new Subscriber();
 
         // Parse events
         for ($i = $offset; $i < $limit; $i++) {
@@ -237,10 +242,8 @@ class EventSubscriptionsModule extends Events
 
             // Process the form
             if (\Input::post('FORM_SUBMIT') === $formId && $canUnsubscribe) {
-                if (EventsSubscriptions::unsubscribeMember($event['id'], $user->id)) {
-                    Message::addConfirmation($GLOBALS['TL_LANG']['MSC']['eventUnsubscribed']);
-                }
-
+                $subscriber->unsubscribeMember($event['id'], $user->id);
+                Message::addConfirmation($GLOBALS['TL_LANG']['MSC']['eventUnsubscribed']);
                 Controller::reload();
             }
 
