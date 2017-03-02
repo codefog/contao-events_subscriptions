@@ -25,9 +25,9 @@ $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_subs
 /**
  * Add front end modules
  */
-$GLOBALS['FE_MOD']['events']['eventsubscribe']     = 'Codefog\EventsSubscriptions\FrontendModule\SubscribeModule';
-$GLOBALS['FE_MOD']['events']['eventlistsubscribe'] = 'Codefog\EventsSubscriptions\FrontendModule\EventListModule';
-$GLOBALS['FE_MOD']['events']['eventsubscriptions'] = 'Codefog\EventsSubscriptions\FrontendModule\EventSubscriptionsModule';
+$GLOBALS['FE_MOD']['events']['event_list_subscribe'] = 'Codefog\EventsSubscriptions\FrontendModule\EventListModule';
+$GLOBALS['FE_MOD']['events']['event_subscribe']      = 'Codefog\EventsSubscriptions\FrontendModule\SubscribeModule';
+$GLOBALS['FE_MOD']['events']['event_subscriptions']  = 'Codefog\EventsSubscriptions\FrontendModule\EventSubscriptionsModule';
 
 /**
  * Models

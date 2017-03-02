@@ -14,12 +14,15 @@
 /**
  * Front end modules
  */
-$GLOBALS['TL_LANG']['FMD']['eventsubscribe']     = ['Subscribe event form', 'Adds a subscribe event form to the page.'];
-$GLOBALS['TL_LANG']['FMD']['eventlistsubscribe'] = [
+$GLOBALS['TL_LANG']['FMD']['event_list_subscribe'] = [
     'Event list subscribe',
     'Adds a list of subscribable events to the page.',
 ];
-$GLOBALS['TL_LANG']['FMD']['eventsubscriptions'] = [
+$GLOBALS['TL_LANG']['FMD']['event_subscribe']      = [
+    'Subscribe event form',
+    'Adds a subscribe event form to the page.',
+];
+$GLOBALS['TL_LANG']['FMD']['event_subscriptions']  = [
     'User event subscriptions',
     'Adds a list of events that the current user is subscribed to.',
 ];

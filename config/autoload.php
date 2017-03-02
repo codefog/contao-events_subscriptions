@@ -23,9 +23,12 @@ if (class_exists('NamespaceClassLoader')) {
  */
 TemplateLoader::addFiles(
     [
-        'event_list_subscribe'   => 'system/modules/events_subscriptions/templates/events',
-        'mod_eventsubscribe'     => 'system/modules/events_subscriptions/templates/modules',
-        'mod_eventlistsubscribe' => 'system/modules/events_subscriptions/templates/modules',
-        'mod_eventsubscriptions' => 'system/modules/events_subscriptions/templates/modules',
+        // Events
+        'event_list_subscribe'     => 'system/modules/events_subscriptions/templates/events',
+
+        // Frontend modules
+        'mod_event_list_subscribe' => 'system/modules/events_subscriptions/templates/modules',
+        'mod_event_subscribe'      => 'system/modules/events_subscriptions/templates/modules',
+        'mod_event_subscriptions'  => 'system/modules/events_subscriptions/templates/modules',
     ]
 );

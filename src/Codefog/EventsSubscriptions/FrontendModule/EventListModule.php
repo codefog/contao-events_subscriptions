@@ -29,7 +29,7 @@ class EventListModule extends \Events
      * Template
      * @var string
      */
-    protected $strTemplate = 'mod_eventlistsubscribe';
+    protected $strTemplate = 'mod_event_list_subscribe';
 
     /**
      * Display a wildcard in the back end
@@ -40,7 +40,7 @@ class EventListModule extends \Events
         if (TL_MODE == 'BE') {
             $objTemplate = new \BackendTemplate('be_wildcard');
 
-            $objTemplate->wildcard = '### EVENT LIST SUBSCRIBE ###';
+            $objTemplate->wildcard = '### '.utf8_strtoupper($GLOBALS['TL_LANG']['FMD']['eventlistsubscribe'][0]).' ###';
             $objTemplate->title    = $this->headline;
             $objTemplate->id       = $this->id;
             $objTemplate->link     = $this->name;

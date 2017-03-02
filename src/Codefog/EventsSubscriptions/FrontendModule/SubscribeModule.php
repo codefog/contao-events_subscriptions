@@ -27,7 +27,7 @@ class SubscribeModule extends \Module
      * Template
      * @var string
      */
-    protected $strTemplate = 'mod_eventsubscribe';
+    protected $strTemplate = 'mod_event_subscribe';
 
     /**
      * Display a wildcard in the back end
@@ -38,7 +38,7 @@ class SubscribeModule extends \Module
         if (TL_MODE == 'BE') {
             $objTemplate = new \BackendTemplate('be_wildcard');
 
-            $objTemplate->wildcard = '### EVENT SUBSCRIBE FORM ###';
+            $objTemplate->wildcard = '### '.utf8_strtoupper($GLOBALS['TL_LANG']['FMD']['eventsubscribe'][0]).' ###';
             $objTemplate->title    = $this->headline;
             $objTemplate->id       = $this->id;
             $objTemplate->link     = $this->name;

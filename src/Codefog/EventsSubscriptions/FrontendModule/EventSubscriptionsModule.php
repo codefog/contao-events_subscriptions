@@ -30,7 +30,7 @@ class EventSubscriptionsModule extends Events
      * Template
      * @var string
      */
-    protected $strTemplate = 'mod_eventsubscriptions';
+    protected $strTemplate = 'mod_event_subscriptions';
 
     /**
      * Display a wildcard in the back end
@@ -42,7 +42,7 @@ class EventSubscriptionsModule extends Events
         if (TL_MODE === 'BE') {
             $objTemplate = new BackendTemplate('be_wildcard');
 
-            $objTemplate->wildcard = '### '.utf8_strtoupper($GLOBALS['TL_LANG']['FMD']['eventlist'][0]).' ###';
+            $objTemplate->wildcard = '### '.utf8_strtoupper($GLOBALS['TL_LANG']['FMD']['eventsubscriptions'][0]).' ###';
             $objTemplate->title    = $this->headline;
             $objTemplate->id       = $this->id;
             $objTemplate->link     = $this->name;
