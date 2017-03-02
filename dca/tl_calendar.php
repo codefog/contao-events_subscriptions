@@ -12,27 +12,47 @@
  */
 
 /**
- * Add palettes to tl_calendar
+ * Load tl_calendar_events data container
  */
+\Contao\Controller::loadDataContainer('tl_calendar_events');
+\Contao\System::loadLanguageFile('tl_calendar_events');
+
+/**
+ * Add palettes
+ */
+$GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_enable';
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_reminders';
 
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default'] = str_replace(
     'jumpTo;',
-    'jumpTo;{subscription_legend:hide},subscription_reminders;',
+    'jumpTo;{subscription_legend:hide},subscription_enable,subscription_reminders;',
     $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default']
 );
 
+$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']    = 'subscription_maximum,subscription_lastDay';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_reminders'] = 'subscription_time,subscription_days,subscription_notification';
 
 /**
- * Add fields to tl_calendar
+ * Add fields
  */
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_enable'] = [
+    'label'     => &$GLOBALS['TL_LANG']['tl_calendar']['subscription_enable'],
+    'exclude'   => true,
+    'filter'    => true,
+    'inputType' => 'checkbox',
+    'eval'      => ['submitOnChange' => true, 'tl_class' => 'clr'],
+    'sql'       => "char(1) NOT NULL default ''",
+];
+
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_maximum'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_maximum'];
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_lastDay'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_lastDay'];
+
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_reminders'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_calendar']['subscription_reminders'],
     'exclude'   => true,
     'filter'    => true,
     'inputType' => 'checkbox',
-    'eval'      => ['submitOnChange' => true],
+    'eval'      => ['submitOnChange' => true, 'tl_class'=> 'clr'],
     'sql'       => "char(1) NOT NULL default ''",
 ];
 

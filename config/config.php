@@ -30,6 +30,11 @@ $GLOBALS['FE_MOD']['events']['eventlistsubscribe'] = 'Codefog\EventsSubscription
 $GLOBALS['FE_MOD']['events']['eventsubscriptions'] = 'Codefog\EventsSubscriptions\FrontendModule\EventSubscriptionsModule';
 
 /**
+ * Models
+ */
+$GLOBALS['TL_MODELS']['tl_calendar_events_subscriptions'] = 'Codefog\EventsSubscriptions\Model\SubscriptionModel';
+
+/**
  * Cron jobs
  */
 $GLOBALS['TL_CRON']['hourly'][] = ['Codefog\EventsSubscriptions\EventListener\CronListener', 'onHourlyJob'];

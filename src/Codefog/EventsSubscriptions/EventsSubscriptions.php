@@ -13,9 +13,6 @@
 
 namespace Codefog\EventsSubscriptions;
 
-use Contao\CalendarEventsModel;
-use Contao\Database;
-
 class EventsSubscriptions
 {
     /**
@@ -28,64 +25,9 @@ class EventsSubscriptions
      */
     public static function canSubscribe($eventId, $memberId)
     {
-        if (($event = CalendarEventsModel::findByPk($eventId)) === null) {
-            return false;
-        }
+        $validator = new SubscriptionValidator();
 
-        // Already subscribed to the event
-        if (static::isSubscribed($eventId, $memberId)) {
-            return false;
-        }
-
-        // Validate maximum number of subscriptions
-        if (!static::validateMaximumSubscriptions($event)) {
-            return false;
-        }
-
-        // Validate subscription last day
-        if (!static::validateSubscriptionLastDay($event)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Validate the maximum number of subscriptions
-     *
-     * @param CalendarEventsModel $event
-     *
-     * @return bool
-     */
-    private static function validateMaximumSubscriptions(CalendarEventsModel $event)
-    {
-        if (!$event->subscription_maximum) {
-            return true;
-        }
-
-        $total = Database::getInstance()->prepare(
-            "SELECT COUNT(*) AS total FROM tl_calendar_events_subscriptions WHERE pid=?"
-        )
-            ->execute($event->id)
-            ->total;
-
-        return $total < $event->subscription_maximum;
-    }
-
-    /**
-     * Validate the subscription last day
-     *
-     * @param CalendarEventsModel $event
-     *
-     * @return bool
-     */
-    private static function validateSubscriptionLastDay(CalendarEventsModel $event)
-    {
-        if (!$event->subscription_lastDay) {
-            return true;
-        }
-
-        return $event->subscription_lastDay > time();
+        return $validator->canMemberSubscribe(EventConfig::create($eventId), $memberId);
     }
 
     /**
@@ -98,19 +40,10 @@ class EventsSubscriptions
      */
     public static function subscribeMember($eventId, $memberId)
     {
-        if (!static::isSubscribed($memberId, $memberId)) {
-            $insertId = Database::getInstance()->prepare(
-                "INSERT INTO tl_calendar_events_subscriptions (tstamp, pid, member) VALUES (?, ?, ?)"
-            )
-                ->execute(time(), $eventId, $memberId)
-                ->insertId;
+        $subscriber = new Subscriber();
+        $subscriber->subscribeMember($eventId, $memberId);
 
-            if ($insertId) {
-                return true;
-            }
-        }
-
-        return false;
+        return true;
     }
 
     /**
@@ -123,19 +56,9 @@ class EventsSubscriptions
      */
     public static function unsubscribeMember($eventId, $memberId)
     {
-        if (static::isSubscribed($eventId, $memberId)) {
-            $affectedRows = Database::getInstance()->prepare(
-                "DELETE FROM tl_calendar_events_subscriptions WHERE pid=? AND member=?"
-            )
-                ->execute($eventId, $memberId)
-                ->affectedRows;
+        $subscriber = new Subscriber();
 
-            if ($affectedRows) {
-                return true;
-            }
-        }
-
-        return false;
+        return $subscriber->unsubscribeMember($eventId, $memberId);
     }
 
     /**
@@ -148,12 +71,8 @@ class EventsSubscriptions
      */
     public static function isSubscribed($eventId, $memberId)
     {
-        $subscription = Database::getInstance()->prepare(
-            "SELECT id FROM tl_calendar_events_subscriptions WHERE pid=? AND member=?"
-        )
-            ->limit(1)
-            ->execute($eventId, $memberId);
+        $validator = new SubscriptionValidator();
 
-        return $subscription->numRows ? true : false;
+        return $validator->isMemberSubscribed(EventConfig::create($eventId), $memberId);
     }
 }

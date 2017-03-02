@@ -12,7 +12,7 @@
  */
 
 /**
- * Add a child table to tl_calendar_events
+ * Add a child table
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['config']['ctable'][] = 'tl_calendar_events_subscriptions';
 
@@ -25,17 +25,33 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback'][] = [
 ];
 
 /**
- * Add a new button to tl_calendar_events
+ * Add list operations
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptions'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'],
-    'href'  => 'table=tl_calendar_events_subscriptions',
-    'icon'  => 'mgroup.gif',
+    'label'           => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'],
+    'href'            => 'table=tl_calendar_events_subscriptions',
+    'icon'            => 'mgroup.gif',
+    'button_callback' => ['Codefog\EventsSubscriptions\DataContainer\EventsContainer', 'getSubscriptionsButton'],
 ];
+
+/**
+ * Add palettes
+ */
+$GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][]           = 'subscription_override';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override'] = 'subscription_maximum,subscription_lastDay';
 
 /**
  * Add fields
  */
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_override'] = [
+    'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_override'],
+    'exclude'   => true,
+    'filter'    => true,
+    'inputType' => 'checkbox',
+    'eval'      => ['submitOnChange' => true],
+    'sql'       => "char(1) NOT NULL default ''",
+];
+
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_maximum'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_maximum'],
     'exclude'   => true,

@@ -14,6 +14,10 @@
 /**
  * Fields
  */
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_enable']       = [
+    'Enable the subscriptions',
+    'Allow the users to subscribe to the events of this calendar.',
+];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_reminders']    = [
     'Enable reminders',
     'Enable the e-mail reminders for events in the calendar.',
