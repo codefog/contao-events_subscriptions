@@ -24,7 +24,7 @@ class SubscriptionValidator
             return false;
         }
 
-        if (!$this->validateLastTime($config)) {
+        if (!$this->validateEndTime($config)) {
             return false;
         }
 
@@ -69,23 +69,18 @@ class SubscriptionValidator
     }
 
     /**
-     * Validate the last time of subscription
+     * Validate the subscribe end time
      *
      * @param EventConfig $config
      *
      * @return bool
      */
-    public function validateLastTime(EventConfig $config)
+    public function validateEndTime(EventConfig $config)
     {
         if (!$config->canSubscribe()) {
             return false;
         }
 
-        // Value is not set, no last time to subscribe
-        if (!($last = $config->getLastTime())) {
-            return true;
-        }
-
-        return $last > time();
+        return $config->getSubscribeEndTime() > time();
     }
 }

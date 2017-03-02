@@ -23,13 +23,13 @@ use Contao\Pagination;
 
 class EventListModule extends \Events
 {
+    use SubscriptionTrait;
 
     /**
      * Template
      * @var string
      */
     protected $strTemplate = 'mod_eventlistsubscribe';
-
 
     /**
      * Display a wildcard in the back end
@@ -58,7 +58,6 @@ class EventListModule extends \Events
 
         return parent::generate();
     }
-
 
     /**
      * Generate the module
@@ -202,11 +201,10 @@ class EventListModule extends \Events
             $objTemplate->startDate   = Date::parse($GLOBALS['objPage']->dateFormat, $arrEvent['startDate']);
             $objTemplate->endTime     = Date::parse($GLOBALS['objPage']->timeFormat, $arrEvent['endTime']);
             $objTemplate->endDate     = Date::parse($GLOBALS['objPage']->dateFormat, $arrEvent['endDate']);
-            $objTemplate->lastDay     = Date::parse(
-                $GLOBALS['objPage']->datimFormat,
-                $arrEvent['subscription_lastDay']
-            );
             $objTemplate->addImage    = false;
+
+            $objTemplate->canSubscribe     = $canSubscribe;
+            $objTemplate->subscribeEndTime = $this->getSubscribeEndTime($config);
 
             // Add image
             if ($arrEvent['addImage'] && is_file(TL_ROOT.'/'.$arrEvent['singleSRC'])) {

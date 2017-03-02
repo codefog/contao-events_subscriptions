@@ -11,6 +11,10 @@
         <?php echo $this->details; ?>
     </div>
 
+    <?php if ($this->canSubscribe): ?>
+        <p>Can subscribe until: <?= $this->subscribeEndTime['date'] ?></p>
+    <?php endif; ?>
+
     <div class="subscribe_form">
         <?php if ($this->message): ?>
             <p class="confirm"><?php echo $this->message; ?></p>

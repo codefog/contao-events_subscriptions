@@ -70,17 +70,24 @@ class EventConfig
      */
     public function getMaximumSubscriptions()
     {
-        return (int) $this->get('subscription_maximum');
+        return (int)$this->get('subscription_maximum');
     }
 
     /**
      * Get the last possible time of subscription
      *
-     * @return int
+     * @return array|null
      */
-    public function getLastTime()
+    public function getSubscribeEndTime()
     {
-        return (int) $this->get('subscription_lastDay');
+        $time = $this->event->startTime;
+        $data = deserialize($this->get('subscription_subscribeEndTime'), true);
+
+        if ($data['value']) {
+            $time = strtotime(sprintf('-%s %s', $data['value'], $data['unit']), $time);
+        }
+
+        return $time;
     }
 
     /**

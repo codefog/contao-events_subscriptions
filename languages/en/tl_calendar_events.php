@@ -14,17 +14,17 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_override'] = [
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_override']         = [
     'Override subscription settings',
     'Override the subscription settings set in the calendar settings.',
 ];
-$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_maximum']  = [
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_maximum']          = [
     'Maximum number of subscriptions',
     'Here you can set the maximum number of subscriptions. Leave 0 to allow unlimited subscriptions.',
 ];
-$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_lastDay']  = [
-    'Last day of subscription',
-    'Here you can set the last allowed day to subscribe. Leave empty to not limit the subscription time.',
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_subscribeEndTime'] = [
+    'Subscribe end time',
+    'Here you can set the time offset before start of the event when the subscription closes. Leave empty to not limit the time to subscribe.',
 ];
 
 /**
@@ -38,4 +38,17 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_legend'] = 'Subscription
 $GLOBALS['TL_LANG']['tl_calendar_events']['members'] = [
     'Subscribed members',
     'Show the subscribed members to event ID %s',
+];
+
+/**
+ * Reference
+ */
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'] = [
+    'seconds' => 'second(s)',
+    'minutes' => 'minute(s)',
+    'hours'   => 'hour(s)',
+    'days'    => 'day(s)',
+    'weeks'   => 'week(s)',
+    'months'  => 'month(s)',
+    'years'   => 'year(s)',
 ];

@@ -38,7 +38,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptions'] 
  * Add palettes
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][]           = 'subscription_override';
-$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override'] = 'subscription_maximum,subscription_lastDay';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override'] = 'subscription_maximum,subscription_subscribeEndTime';
 
 /**
  * Add fields
@@ -60,10 +60,12 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_maximum'] = [
     'sql'       => "smallint(5) unsigned NOT NULL default '0'",
 ];
 
-$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_lastDay'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_lastDay'],
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_subscribeEndTime'] = [
+    'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_subscribeEndTime'],
     'exclude'   => true,
-    'inputType' => 'text',
-    'eval'      => ['datepicker' => true, 'rgxp' => 'datim', 'tl_class' => 'w50 wizard'],
-    'sql'       => "varchar(10) NOT NULL default ''",
+    'inputType' => 'timePeriod',
+    'options'   => ['seconds', 'minutes', 'hours', 'days', 'weeks', 'months', 'years'],
+    'reference' => &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_timeRef'],
+    'eval'      => ['rgxp' => 'natural', 'minval' => 1, 'tl_class' => 'w50'],
+    'sql'       => "varchar(64) NOT NULL default ''",
 ];

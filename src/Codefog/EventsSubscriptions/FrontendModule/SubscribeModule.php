@@ -16,19 +16,18 @@ namespace Codefog\EventsSubscriptions\FrontendModule;
 use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\Subscriber;
 use Codefog\EventsSubscriptions\SubscriptionValidator;
-use Contao\Date;
 use Contao\Environment;
 use Contao\FrontendUser;
 
 class SubscribeModule extends \Module
 {
+    use SubscriptionTrait;
 
     /**
      * Template
      * @var string
      */
     protected $strTemplate = 'mod_eventsubscribe';
-
 
     /**
      * Display a wildcard in the back end
@@ -60,7 +59,6 @@ class SubscribeModule extends \Module
 
         return parent::generate();
     }
-
 
     /**
      * Generate the module
@@ -109,11 +107,11 @@ class SubscribeModule extends \Module
 
         $strFormId = 'event_subscribe_'.$this->id;
 
-        $this->Template->lastDay    = Date::parse($GLOBALS['objPage']->datimFormat, $objEvent->subscription_lastDay);
-        $this->Template->subscribed = $isSubscribed;
-        $this->Template->formId     = $strFormId;
-        $this->Template->action     = Environment::get('request');
-        $this->Template->submit     = !$isSubscribed ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'];
+        $this->Template->subscribeEndTime = $this->getSubscribeEndTime($config);
+        $this->Template->subscribed       = $isSubscribed;
+        $this->Template->formId           = $strFormId;
+        $this->Template->action           = Environment::get('request');
+        $this->Template->submit           = !$isSubscribed ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'];
 
         // Process the form
         if (\Input::post('FORM_SUBMIT') == $strFormId) {
