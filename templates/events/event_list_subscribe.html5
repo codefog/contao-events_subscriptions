@@ -1,8 +1,6 @@
 <div class="event layout_list<?php echo $this->classList; ?>">
     <h2><a href="<?php echo $this->href; ?>"
-           title="<?php echo $this->title; ?> (<?php if ($this->day): echo $this->day; ?>, <?php endif;
-           echo $this->date;
-           if ($this->time): ?>, <?php echo $this->time; endif; ?>)"<?php echo $this->target; ?>><?php echo $this->link; ?></a>
+           title="<?php echo $this->title; ?> (<?php if ($this->day): echo $this->day; ?>, <?php endif; echo $this->date; if ($this->time): ?>, <?php echo $this->time; endif; ?>)"<?php echo $this->target; ?>><?php echo $this->link; ?></a>
     </h2>
     <?php if ($this->time || $this->span): ?>
         <p class="time"><?php echo $this->time.$this->span; ?></p>
@@ -11,8 +9,14 @@
         <?php echo $this->details; ?>
     </div>
 
+    <p class="date">Event start: <?= $this->date ?></p>
+
     <?php if ($this->canSubscribe): ?>
         <p>Can subscribe until: <?= $this->subscribeEndTime['date'] ?></p>
+    <?php endif; ?>
+
+    <?php if ($this->canUnsubscribe): ?>
+        <p>Can unsubscribe until: <?= $this->unsubscribeEndTime['date'] ?></p>
     <?php endif; ?>
 
     <div class="subscribe_form">
@@ -28,8 +32,14 @@
                     <input type="submit" class="submit" value="<?php echo $this->submit; ?>">
                 </div>
             </form>
-        <?php else: ?>
-            <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventSubscriptionNotAllowed'] ?></p>
+        <?php elseif (!$this->isEventPast): ?>
+            <?php if (!$this->canSubscribe): ?>
+                <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventSubscriptionNotAllowed'] ?></p>
+            <?php endif; ?>
+
+            <?php if (!$this->canUnsubscribe): ?>
+                <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventUnsubscriptionNotAllowed'] ?></p>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
 </div>

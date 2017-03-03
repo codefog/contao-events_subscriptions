@@ -14,17 +14,21 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_override']         = [
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_override']           = [
     'Override subscription settings',
     'Override the subscription settings set in the calendar settings.',
 ];
-$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_maximum']          = [
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_maximum']            = [
     'Maximum number of subscriptions',
     'Here you can set the maximum number of subscriptions. Leave 0 to allow unlimited subscriptions.',
 ];
-$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_subscribeEndTime'] = [
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_subscribeEndTime']   = [
     'Subscribe end time',
     'Here you can set the time offset before start of the event when the subscription closes. Leave empty to not limit the time to subscribe.',
+];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_unsubscribeEndTime'] = [
+    'Unsubscribe end time',
+    'Here you can set the time offset before start of the event when the unsubscription closes. Leave empty to not limit the time to unsubscribe.',
 ];
 
 /**

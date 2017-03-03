@@ -29,7 +29,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default'] = str_replace(
     $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default']
 );
 
-$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']    = 'subscription_maximum,subscription_subscribeEndTime';
+$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']    = 'subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_reminders'] = 'subscription_time,subscription_days,subscription_notification';
 
 /**
@@ -44,15 +44,16 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_enable'] = [
     'sql'       => "char(1) NOT NULL default ''",
 ];
 
-$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_maximum'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_maximum'];
-$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_subscribeEndTime'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_subscribeEndTime'];
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_maximum']            = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_maximum'];
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_subscribeEndTime']   = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_subscribeEndTime'];
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_unsubscribeEndTime'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_unsubscribeEndTime'];
 
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_reminders'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_calendar']['subscription_reminders'],
     'exclude'   => true,
     'filter'    => true,
     'inputType' => 'checkbox',
-    'eval'      => ['submitOnChange' => true, 'tl_class'=> 'clr'],
+    'eval'      => ['submitOnChange' => true, 'tl_class' => 'clr'],
     'sql'       => "char(1) NOT NULL default ''",
 ];
 

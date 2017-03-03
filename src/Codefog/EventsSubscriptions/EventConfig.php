@@ -76,15 +76,37 @@ class EventConfig
     /**
      * Get the last possible time of subscription
      *
-     * @return array|null
+     * @return int
      */
     public function getSubscribeEndTime()
     {
-        $time = $this->event->startTime;
-        $data = deserialize($this->get('subscription_subscribeEndTime'), true);
+        return $this->calculateTimeOffset($this->event->startTime, $this->get('subscription_subscribeEndTime'));
+    }
+
+    /**
+     * Get the last possible time of unsubscription
+     *
+     * @return int
+     */
+    public function getUnsubscribeEndTime()
+    {
+        return $this->calculateTimeOffset($this->event->startTime, $this->get('subscription_unsubscribeEndTime'));
+    }
+
+    /**
+     * Calculate the time offset
+     *
+     * @param int    $time
+     * @param string $data
+     *
+     * @return int
+     */
+    private function calculateTimeOffset($time, $data)
+    {
+        $data = deserialize($data, true);
 
         if ($data['value']) {
-            $time = strtotime(sprintf('-%s %s', $data['value'], $data['unit']), $time);
+            $time = (int)strtotime(sprintf('-%s %s', $data['value'], $data['unit']), $time);
         }
 
         return $time;

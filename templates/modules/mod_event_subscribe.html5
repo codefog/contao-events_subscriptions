@@ -12,8 +12,14 @@
         <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
         <input type="submit" class="submit" value="<?php echo $this->submit; ?>">
     </form>
-<?php else: ?>
-    <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventSubscriptionNotAllowed'] ?></p>
+<?php elseif (!$this->isEventPast): ?>
+    <?php if (!$this->canSubscribe): ?>
+        <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventSubscriptionNotAllowed'] ?></p>
+    <?php endif; ?>
+
+    <?php if (!$this->canUnsubscribe): ?>
+        <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventUnsubscriptionNotAllowed'] ?></p>
+    <?php endif; ?>
 <?php endif; ?>
 
 <?php $this->endblock(); ?>

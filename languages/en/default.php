@@ -14,11 +14,12 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC']['eventSubscribe']              = 'Subscribe';
-$GLOBALS['TL_LANG']['MSC']['eventUnsubscribe']            = 'Unsubscribe';
-$GLOBALS['TL_LANG']['MSC']['eventSubscribed']             = 'You have subscribed to the event.';
-$GLOBALS['TL_LANG']['MSC']['eventUnsubscribed']           = 'You have unsubscribed from the event.';
-$GLOBALS['TL_LANG']['MSC']['eventSubscriptionNotAllowed'] = 'It is no longer possible to subscribe to this event.';
+$GLOBALS['TL_LANG']['MSC']['eventSubscribe']                = 'Subscribe';
+$GLOBALS['TL_LANG']['MSC']['eventUnsubscribe']              = 'Unsubscribe';
+$GLOBALS['TL_LANG']['MSC']['eventSubscribed']               = 'You have subscribed to the event.';
+$GLOBALS['TL_LANG']['MSC']['eventUnsubscribed']             = 'You have unsubscribed from the event.';
+$GLOBALS['TL_LANG']['MSC']['eventSubscriptionNotAllowed']   = 'It is no longer possible to subscribe to this event.';
+$GLOBALS['TL_LANG']['MSC']['eventUnsubscriptionNotAllowed'] = 'It is no longer possible to unsubscribe from this event.';
 
 /**
  * Errors

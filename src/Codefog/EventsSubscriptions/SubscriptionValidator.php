@@ -24,7 +24,28 @@ class SubscriptionValidator
             return false;
         }
 
-        if (!$this->validateEndTime($config)) {
+        if (!$this->validateSubscribeEndTime($config)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Return true if the member can unsubscribe from the event
+     *
+     * @param EventConfig $config
+     * @param int         $memberId
+     *
+     * @return bool
+     */
+    public function canMemberUnsubscribe(EventConfig $config, $memberId)
+    {
+        if (!$this->isMemberSubscribed($config, $memberId)) {
+            return false;
+        }
+
+        if (!$this->validateUnsubscribeEndTime($config)) {
             return false;
         }
 
@@ -75,12 +96,28 @@ class SubscriptionValidator
      *
      * @return bool
      */
-    public function validateEndTime(EventConfig $config)
+    public function validateSubscribeEndTime(EventConfig $config)
     {
         if (!$config->canSubscribe()) {
             return false;
         }
 
         return $config->getSubscribeEndTime() > time();
+    }
+
+    /**
+     * Validate the unsubscribe end time
+     *
+     * @param EventConfig $config
+     *
+     * @return bool
+     */
+    public function validateUnsubscribeEndTime(EventConfig $config)
+    {
+        if (!$config->canSubscribe()) {
+            return false;
+        }
+
+        return $config->getUnsubscribeEndTime() > time();
     }
 }

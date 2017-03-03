@@ -93,10 +93,12 @@ class SubscribeModule extends \Module
             unset($_SESSION['EVENT_SUBSCRIBE_MESSAGE']);
         }
 
-        $user         = FrontendUser::getInstance();
-        $config       = EventConfig::create($objEvent->id);
-        $validator    = new SubscriptionValidator();
-        $isSubscribed = $validator->isMemberSubscribed($config, $user->id);
+        $user           = FrontendUser::getInstance();
+        $config         = EventConfig::create($objEvent->id);
+        $validator      = new SubscriptionValidator();
+        $canSubscribe   = $validator->canMemberSubscribe($config, $user->id);
+        $canUnsubscribe = $validator->canMemberUnsubscribe($config, $user->id);
+        $isSubscribed   = $validator->isMemberSubscribed($config, $user->id);
 
         // Return if the user can't subscribe to the event
         if (!$validator->canMemberSubscribe($config, $user->id) && !$isSubscribed) {
@@ -107,14 +109,19 @@ class SubscribeModule extends \Module
 
         $strFormId = 'event_subscribe_'.$this->id;
 
-        $this->Template->subscribeEndTime = $this->getSubscribeEndTime($config);
-        $this->Template->subscribed       = $isSubscribed;
-        $this->Template->formId           = $strFormId;
-        $this->Template->action           = Environment::get('request');
-        $this->Template->submit           = !$isSubscribed ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'];
+        $this->Template->isEventPast        = $objEvent->startTime < time();
+        $this->Template->canSubscribe       = $canSubscribe;
+        $this->Template->canUnsubscribe     = $canUnsubscribe;
+        $this->Template->subscribeEndTime   = $this->getSubscribeEndTime($config);
+        $this->Template->unsubscribeEndTime = $this->getUnsubscribeEndTime($config);
+
+        $this->Template->subscribed = $isSubscribed;
+        $this->Template->formId     = $strFormId;
+        $this->Template->action     = Environment::get('request');
+        $this->Template->submit     = !$isSubscribed ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'];
 
         // Process the form
-        if (\Input::post('FORM_SUBMIT') == $strFormId) {
+        if (\Input::post('FORM_SUBMIT') === $strFormId) {
             if (!FE_USER_LOGGED_IN) {
                 $this->jumpToOrReload($this->jumpTo_login);
             }
@@ -122,7 +129,7 @@ class SubscribeModule extends \Module
             $subscriber = new Subscriber();
 
             // Subscribe user
-            if (!$isSubscribed) {
+            if ($canSubscribe) {
                 $subscriber->subscribeMember($objEvent->id, $user->id);
 
                 if (!$this->jumpTo_subscribe) {
@@ -130,7 +137,7 @@ class SubscribeModule extends \Module
                 }
 
                 $this->jumpToOrReload($this->jumpTo_subscribe);
-            } else {
+            } elseif ($canUnsubscribe) {
                 // Unsubscribe user
                 $subscriber->unsubscribeMember($objEvent->id, $user->id);
 

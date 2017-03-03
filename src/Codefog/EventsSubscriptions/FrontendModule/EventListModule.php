@@ -147,6 +147,7 @@ class EventListModule extends \Events
             }
         }
 
+        $time       = time();
         $subscriber = new Subscriber();
         $validator  = new SubscriptionValidator();
 
@@ -155,13 +156,14 @@ class EventListModule extends \Events
             $arrEvent  = $arrAllEvents[$i];
             $strFormId = 'event_subscribe_'.$this->id.'_'.$arrEvent['id'];
 
-            $user         = FrontendUser::getInstance();
-            $config       = EventConfig::create($arrEvent['id']);
-            $canSubscribe = $validator->canMemberSubscribe($config, $user->id);
-            $isSubscribed = $validator->isMemberSubscribed($config, $user->id);
+            $user           = FrontendUser::getInstance();
+            $config         = EventConfig::create($arrEvent['id']);
+            $canSubscribe   = $validator->canMemberSubscribe($config, $user->id);
+            $canUnsubscribe = $validator->canMemberUnsubscribe($config, $user->id);
+            $isSubscribed   = $validator->isMemberSubscribed($config, $user->id);
 
             // Process the form
-            if (($canSubscribe || $isSubscribed) && \Input::post('FORM_SUBMIT') == $strFormId) {
+            if (\Input::post('FORM_SUBMIT') === $strFormId) {
                 if (!FE_USER_LOGGED_IN) {
                     $this->jumpToOrReload($this->jumpTo_login);
                 }
@@ -175,7 +177,7 @@ class EventListModule extends \Events
                     }
 
                     $this->jumpToOrReload($this->jumpTo_subscribe);
-                } else {
+                } elseif ($canUnsubscribe) {
                     // Unsubscribe user
                     $subscriber->unsubscribeMember($arrEvent['id'], $user->id);
 
@@ -203,8 +205,11 @@ class EventListModule extends \Events
             $objTemplate->endDate     = Date::parse($GLOBALS['objPage']->dateFormat, $arrEvent['endDate']);
             $objTemplate->addImage    = false;
 
-            $objTemplate->canSubscribe     = $canSubscribe;
-            $objTemplate->subscribeEndTime = $this->getSubscribeEndTime($config);
+            $objTemplate->isEventPast        = $arrEvent['startTime'] < $time;
+            $objTemplate->canSubscribe       = $canSubscribe;
+            $objTemplate->canUnsubscribe     = $canUnsubscribe;
+            $objTemplate->subscribeEndTime   = $this->getSubscribeEndTime($config);
+            $objTemplate->unsubscribeEndTime = $this->getUnsubscribeEndTime($config);
 
             // Add image
             if ($arrEvent['addImage'] && is_file(TL_ROOT.'/'.$arrEvent['singleSRC'])) {
@@ -232,7 +237,7 @@ class EventListModule extends \Events
             }
 
             // Add form
-            if ($canSubscribe || $isSubscribed) {
+            if ($canSubscribe || $canUnsubscribe) {
                 $objTemplate->subscribed = $isSubscribed;
                 $objTemplate->formId     = $strFormId;
                 $objTemplate->action     = Environment::get('request');

@@ -147,9 +147,8 @@ class EventSubscriptionsModule extends Events
             $sort($arrAllEvents[$key]);
         }
 
-        $user      = FrontendUser::getInstance();
         $arrEvents = array();
-
+        $user      = FrontendUser::getInstance();
         $validator = new SubscriptionValidator();
 
         // Remove events outside the scope
@@ -166,8 +165,10 @@ class EventSubscriptionsModule extends Events
                         continue;
                     }
 
+                    $event['subscription_config'] = EventConfig::create($event['id']);
+
                     // The user is not subscribed to the event
-                    if (!$validator->isMemberSubscribed(EventConfig::create($event['id']), $user->id)) {
+                    if (!$validator->isMemberSubscribed($event['subscription_config'], $user->id)) {
                         continue;
                     }
 
@@ -231,14 +232,13 @@ class EventSubscriptionsModule extends Events
             }
         }
 
-        $time = time();
         $subscriber = new Subscriber();
 
         // Parse events
         for ($i = $offset; $i < $limit; $i++) {
             $event          = $arrEvents[$i];
             $formId         = 'event_unsubscribe_'.$this->id.'_'.$event['id'];
-            $canUnsubscribe = $time < $event['startTime'];
+            $canUnsubscribe = $validator->canMemberUnsubscribe($event['subscription_config'], $user->id);
 
             // Process the form
             if (\Input::post('FORM_SUBMIT') === $formId && $canUnsubscribe) {
