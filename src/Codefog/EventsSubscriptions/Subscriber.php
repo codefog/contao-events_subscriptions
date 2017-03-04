@@ -2,10 +2,17 @@
 
 namespace Codefog\EventsSubscriptions;
 
+use Codefog\EventsSubscriptions\Event\SubscribeEvent;
+use Codefog\EventsSubscriptions\Event\UnsubscribeEvent;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 
 class Subscriber
 {
+    /**
+     * @var EventDispatcher
+     */
+    private $eventDispatcher;
+
     /**
      * @var SubscriptionValidator
      */
@@ -14,11 +21,13 @@ class Subscriber
     /**
      * Subscriber constructor.
      *
+     * @param EventDispatcher       $eventDispatcher
      * @param SubscriptionValidator $validator
      */
-    public function __construct(SubscriptionValidator $validator)
+    public function __construct(EventDispatcher $eventDispatcher, SubscriptionValidator $validator)
     {
-        $this->validator = $validator;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->validator       = $validator;
     }
 
     /**
@@ -45,8 +54,12 @@ class Subscriber
         $model->tstamp = time();
         $model->pid    = $eventId;
         $model->member = $memberId;
+        $model->save();
 
-        return $model->save();
+        // Dispatch the event
+        $this->eventDispatcher->dispatch(EventDispatcher::EVENT_ON_SUBSCRIBE, new SubscribeEvent($model));
+
+        return $model;
     }
 
     /**
@@ -71,6 +84,9 @@ class Subscriber
 
         $model = SubscriptionModel::findOneBy(['pid=? AND member=?'], [$eventId, $memberId]);
         $model->delete();
+
+        // Dispatch the event
+        $this->eventDispatcher->dispatch(EventDispatcher::EVENT_ON_UNSUBSCRIBE, new UnsubscribeEvent($model));
 
         return $model;
     }

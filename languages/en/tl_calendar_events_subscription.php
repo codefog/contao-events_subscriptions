@@ -14,15 +14,15 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member']    = [
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member']       = [
     'Member',
     'Please choose the member you want to subscribe to the event.',
 ];
-$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['addedBy']   = [
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['addedBy']      = [
     'Added by',
     'Here you can choose who subscribed this member.',
 ];
-$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastEmail'] = ['Last reminder sent'];
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastReminder'] = ['Last reminder sent'];
 
 /**
  * Legends

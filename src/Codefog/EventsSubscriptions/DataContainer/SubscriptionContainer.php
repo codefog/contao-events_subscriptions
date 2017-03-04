@@ -2,7 +2,10 @@
 
 namespace Codefog\EventsSubscriptions\DataContainer;
 
-use Codefog\EventsSubscriptions\EventConfig;
+use Codefog\EventsSubscriptions\Event\SubscribeEvent;
+use Codefog\EventsSubscriptions\Event\UnsubscribeEvent;
+use Codefog\EventsSubscriptions\EventDispatcher;
+use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
 use Contao\Database;
 use Contao\DataContainer;
@@ -48,6 +51,40 @@ class SubscriptionContainer
     }
 
     /**
+     * Dispatch the subscribe event
+     *
+     * @param DataContainer $dc
+     */
+    public function dispatchSubscribeEvent(DataContainer $dc)
+    {
+        if ($dc->activeRecord->tstamp || ($subscription = SubscriptionModel::findByPk($dc->id)) === null) {
+            return;
+        }
+
+        Services::getEventDispatcher()->dispatch(
+            EventDispatcher::EVENT_ON_SUBSCRIBE,
+            new SubscribeEvent($subscription)
+        );
+    }
+
+    /**
+     * Dispatch the unsubscribe event
+     *
+     * @param DataContainer $dc
+     */
+    public function dispatchUnsubscribeEvent(DataContainer $dc)
+    {
+        if (($subscription = SubscriptionModel::findByPk($dc->id)) === null) {
+            return;
+        }
+
+        Services::getEventDispatcher()->dispatch(
+            EventDispatcher::EVENT_ON_UNSUBSCRIBE,
+            new UnsubscribeEvent($subscription)
+        );
+    }
+
+    /**
      * List all subscribed members
      *
      * @param array $row
@@ -75,10 +112,10 @@ class SubscriptionContainer
     public function getMembers()
     {
         $members = [];
-        $records = Database::getInstance()->execute("SELECT * FROM tl_member");
+        $records = Database::getInstance()->execute("SELECT * FROM tl_member ORDER BY lastname, firstname, username");
 
         while ($records->next()) {
-            $members[$records->id] = $records->firstname.' '.$records->lastname.' ('.$records->username.')';
+            $members[$records->id] = $records->lastname.' '.$records->firstname.' ('.$records->username.')';
         }
 
         return $members;
@@ -96,9 +133,9 @@ class SubscriptionContainer
      */
     public function checkIfAlreadyExists($value, DataContainer $dc)
     {
-        $validator = Services::getSubscriptionValidator();
+        $model = SubscriptionModel::findOneBy(['pid=? AND member=?'], [$dc->activeRecord->pid, $value]);
 
-        if ($value && $validator->isMemberSubscribed(EventConfig::create($dc->activeRecord->pid), $value)) {
+        if ($value && $model !== null && (int)$model->id !== (int)$dc->id) {
             throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['memberAlreadySubscribed'], $value));
         }
 

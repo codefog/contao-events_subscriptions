@@ -11,6 +11,36 @@ class Services
     private static $instances = [];
 
     /**
+     * Get the automator
+     *
+     * @return Automator
+     */
+    public static function getAutomator()
+    {
+        return static::get(
+            'automator',
+            function () {
+                return new Automator(static::getNotificationSender());
+            }
+        );
+    }
+
+    /**
+     * Get the event dispatcher
+     *
+     * @return EventDispatcher
+     */
+    public static function getEventDispatcher()
+    {
+        return static::get(
+            'event-dispatcher',
+            function () {
+                return new EventDispatcher();
+            }
+        );
+    }
+
+    /**
      * Get the flash message
      *
      * @return FlashMessage
@@ -26,6 +56,21 @@ class Services
     }
 
     /**
+     * Get the notification sender
+     *
+     * @return NotificationSender
+     */
+    public static function getNotificationSender()
+    {
+        return static::get(
+            'notification-sender',
+            function () {
+                return new NotificationSender();
+            }
+        );
+    }
+
+    /**
      * Get the subscriber
      *
      * @return Subscriber
@@ -35,7 +80,7 @@ class Services
         return static::get(
             'subscriber',
             function () {
-                return new Subscriber(static::getSubscriptionValidator());
+                return new Subscriber(static::getEventDispatcher(), static::getSubscriptionValidator());
             }
         );
     }

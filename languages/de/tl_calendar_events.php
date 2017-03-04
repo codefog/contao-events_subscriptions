@@ -14,7 +14,7 @@
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_calendar_events']['members'] = [
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'] = [
     'Angemeldete Teilnehmer',
     'Zeigt die Teilnehmer, die sich für den Anlass ID %s angemeldet haben.',
 ];

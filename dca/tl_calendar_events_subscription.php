@@ -18,12 +18,18 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
 
     // Config
     'config'   => [
-        'dataContainer'   => 'Table',
-        'ptable'          => 'tl_calendar_events',
-        'onload_callback' => [
+        'dataContainer'     => 'Table',
+        'ptable'            => 'tl_calendar_events',
+        'onload_callback'   => [
             ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'displaySummary'],
         ],
-        'sql'             => [
+        'onsubmit_callback' => [
+            ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'dispatchSubscribeEvent'],
+        ],
+        'ondelete_callback' => [
+            ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'dispatchUnsubscribeEvent'],
+        ],
+        'sql'               => [
             'keys' => [
                 'id'     => 'primary',
                 'pid'    => 'index',
@@ -78,16 +84,16 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
 
     // Fields
     'fields'   => [
-        'id'        => [
+        'id'           => [
             'sql' => "int(10) unsigned NOT NULL auto_increment",
         ],
-        'pid'       => [
+        'pid'          => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
         ],
-        'tstamp'    => [
+        'tstamp'       => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
         ],
-        'member'    => [
+        'member'       => [
             'label'            => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member'],
             'exclude'          => true,
             'inputType'        => 'select',
@@ -107,7 +113,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             ],
             'sql'              => "int(10) unsigned NOT NULL default '0'",
         ],
-        'addedBy'   => [
+        'addedBy'      => [
             'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['addedBy'],
             'default'    => \Contao\BackendUser::getInstance()->id,
             'exclude'    => true,
@@ -116,8 +122,8 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'eval'       => ['includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql'        => "int(10) unsigned NOT NULL default '0'",
         ],
-        'lastEmail' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastEmail'],
+        'lastReminder' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastReminder'],
             'flag'  => 8,
             'sql'   => "int(10) unsigned NOT NULL default '0'",
         ],

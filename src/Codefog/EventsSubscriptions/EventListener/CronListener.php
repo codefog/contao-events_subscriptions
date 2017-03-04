@@ -3,16 +3,30 @@
 namespace Codefog\EventsSubscriptions\EventListener;
 
 use Codefog\EventsSubscriptions\Automator;
+use Codefog\EventsSubscriptions\Services;
 use Contao\System;
 
 class CronListener
 {
     /**
+     * @var Automator
+     */
+    private $automator;
+
+    /**
+     * CronListener constructor.
+     */
+    public function __construct()
+    {
+        $this->automator = Services::getAutomator();
+    }
+
+    /**
      * Execute the tasks on hourly job
      */
     public function onHourlyJob()
     {
-        $remindersSent = Automator::sendEmailReminders();
+        $remindersSent = $this->automator->sendReminders();
 
         if ($remindersSent > 0) {
             System::log(

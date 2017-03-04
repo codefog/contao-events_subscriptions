@@ -39,9 +39,9 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_legend'] = 'Subscription
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_calendar_events']['members'] = [
-    'Subscribed members',
-    'Show the subscribed members to event ID %s',
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'] = [
+    'Subscriptions',
+    'Show the subscriptions of event ID %s',
 ];
 
 /**
