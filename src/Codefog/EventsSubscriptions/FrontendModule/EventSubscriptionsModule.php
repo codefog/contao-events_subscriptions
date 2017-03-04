@@ -14,18 +14,18 @@
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
 use Codefog\EventsSubscriptions\EventConfig;
-use Codefog\EventsSubscriptions\Subscriber;
-use Codefog\EventsSubscriptions\SubscriptionValidator;
+use Codefog\EventsSubscriptions\Services;
 use Contao\BackendTemplate;
 use Contao\Config;
 use Contao\Controller;
-use Contao\Environment;
 use Contao\Events;
 use Contao\FrontendUser;
 use Contao\Message;
 
 class EventSubscriptionsModule extends Events
 {
+    use SubscriptionTrait;
+
     /**
      * Template
      * @var string
@@ -42,7 +42,7 @@ class EventSubscriptionsModule extends Events
         if (TL_MODE === 'BE') {
             $objTemplate = new BackendTemplate('be_wildcard');
 
-            $objTemplate->wildcard = '### '.utf8_strtoupper($GLOBALS['TL_LANG']['FMD']['eventsubscriptions'][0]).' ###';
+            $objTemplate->wildcard = '### '.utf8_strtoupper($GLOBALS['TL_LANG']['FMD']['event_subscriptions'][0]).' ###';
             $objTemplate->title    = $this->headline;
             $objTemplate->id       = $this->id;
             $objTemplate->link     = $this->name;
@@ -149,7 +149,7 @@ class EventSubscriptionsModule extends Events
 
         $arrEvents = array();
         $user      = FrontendUser::getInstance();
-        $validator = new SubscriptionValidator();
+        $validator = Services::getSubscriptionValidator();
 
         // Remove events outside the scope
         foreach ($arrAllEvents as $key => $days) {
@@ -232,19 +232,31 @@ class EventSubscriptionsModule extends Events
             }
         }
 
-        $subscriber = new Subscriber();
-
         // Parse events
         for ($i = $offset; $i < $limit; $i++) {
-            $event          = $arrEvents[$i];
-            $formId         = 'event_unsubscribe_'.$this->id.'_'.$event['id'];
-            $canUnsubscribe = $validator->canMemberUnsubscribe($event['subscription_config'], $user->id);
+            $event = $arrEvents[$i];
 
-            // Process the form
-            if (\Input::post('FORM_SUBMIT') === $formId && $canUnsubscribe) {
-                $subscriber->unsubscribeMember($event['id'], $user->id);
-                Message::addConfirmation($GLOBALS['TL_LANG']['MSC']['eventUnsubscribed']);
-                Controller::reload();
+            /** @var \FrontendTemplate|object $objTemplate */
+            $objTemplate = new \FrontendTemplate($this->cal_template);
+            $objTemplate->setData($event);
+
+            $subscriptionConfig = EventConfig::create($event['id']);
+            $subscriptionData   = $this->getSubscriptionBasicData($subscriptionConfig);
+
+            // Add the subscription form
+            if ($subscriptionData['canUnsubscribe']) {
+                $form = $this->createSubscriptionForm('event-subscription-'.$this->id);
+
+                if ($form->validate()) {
+                    $this->processSubscriptionForm($subscriptionConfig, $this->arrData);
+                }
+
+                $objTemplate->subscriptionForm = $form->getHelperObject();
+            }
+
+            // Add the subscription data to the template
+            foreach ($subscriptionData as $k => $v) {
+                $objTemplate->$k = $v;
             }
 
             $blnIsLastEvent = false;
@@ -253,10 +265,6 @@ class EventSubscriptionsModule extends Events
             if (($i + 1) == $limit || !isset($arrEvents[($i + 1)]['firstDate']) || $event['firstDate'] != $arrEvents[($i + 1)]['firstDate']) {
                 $blnIsLastEvent = true;
             }
-
-            /** @var \FrontendTemplate|object $objTemplate */
-            $objTemplate = new \FrontendTemplate($this->cal_template);
-            $objTemplate->setData($event);
 
             // Month header
             if ($strMonth != $event['month']) {
@@ -323,11 +331,6 @@ class EventSubscriptionsModule extends Events
             if ($event['addEnclosure']) {
                 Controller::addEnclosuresToTemplate($objTemplate, $event);
             }
-
-            $objTemplate->showForm = $canUnsubscribe;
-            $objTemplate->formId   = $formId;
-            $objTemplate->action   = Environment::get('request');
-            $objTemplate->submit   = $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'];
 
             $strEvents .= $objTemplate->parse();
 

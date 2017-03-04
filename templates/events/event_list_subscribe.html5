@@ -12,34 +12,14 @@
     <p class="date">Event start: <?= $this->date ?></p>
 
     <?php if ($this->canSubscribe): ?>
-        <p>Can subscribe until: <?= $this->subscribeEndTime['date'] ?></p>
+        <p>You can subscribe until: <?= $this->subscribeEndTime['date'] ?></p>
     <?php endif; ?>
 
     <?php if ($this->canUnsubscribe): ?>
-        <p>Can unsubscribe until: <?= $this->unsubscribeEndTime['date'] ?></p>
+        <p>You can unsubscribe until: <?= $this->unsubscribeEndTime['date'] ?></p>
     <?php endif; ?>
 
     <div class="subscribe_form">
-        <?php if ($this->message): ?>
-            <p class="confirm"><?php echo $this->message; ?></p>
-        <?php endif; ?>
-
-        <?php if ($this->showForm): ?>
-            <form id="<?php echo $this->formId; ?>" action="<?php echo $this->action; ?>" method="post">
-                <div class="formbody">
-                    <input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formId; ?>">
-                    <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
-                    <input type="submit" class="submit" value="<?php echo $this->submit; ?>">
-                </div>
-            </form>
-        <?php elseif (!$this->isEventPast): ?>
-            <?php if (!$this->canSubscribe): ?>
-                <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventSubscriptionNotAllowed'] ?></p>
-            <?php endif; ?>
-
-            <?php if (!$this->canUnsubscribe): ?>
-                <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventUnsubscriptionNotAllowed'] ?></p>
-            <?php endif; ?>
-        <?php endif; ?>
+        <?php $this->insert('eventsubscription_form', $this->getData()) ?>
     </div>
 </div>

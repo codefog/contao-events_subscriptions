@@ -2,24 +2,6 @@
 
 <?php $this->block('content'); ?>
 
-<?php if ($this->message): ?>
-    <p class="confirm"><?php echo $this->message; ?></p>
-<?php endif; ?>
-
-<?php if ($this->showForm): ?>
-    <form id="<?php echo $this->formId; ?>" action="<?php echo $this->action; ?>" method="post">
-        <input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formId; ?>">
-        <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
-        <input type="submit" class="submit" value="<?php echo $this->submit; ?>">
-    </form>
-<?php elseif (!$this->isEventPast): ?>
-    <?php if (!$this->canSubscribe): ?>
-        <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventSubscriptionNotAllowed'] ?></p>
-    <?php endif; ?>
-
-    <?php if (!$this->canUnsubscribe): ?>
-        <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventUnsubscriptionNotAllowed'] ?></p>
-    <?php endif; ?>
-<?php endif; ?>
+<?php $this->insert('eventsubscription_form', $this->getData()) ?>
 
 <?php $this->endblock(); ?>

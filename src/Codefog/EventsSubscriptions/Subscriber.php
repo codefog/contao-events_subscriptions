@@ -13,10 +13,12 @@ class Subscriber
 
     /**
      * Subscriber constructor.
+     *
+     * @param SubscriptionValidator $validator
      */
-    public function __construct()
+    public function __construct(SubscriptionValidator $validator)
     {
-        $this->validator = new SubscriptionValidator();
+        $this->validator = $validator;
     }
 
     /**

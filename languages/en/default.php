@@ -14,6 +14,7 @@
 /**
  * Miscellaneous
  */
+$GLOBALS['TL_LANG']['MSC']['eventSubscribeLogin']           = 'Login to subscribe';
 $GLOBALS['TL_LANG']['MSC']['eventSubscribe']                = 'Subscribe';
 $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe']              = 'Unsubscribe';
 $GLOBALS['TL_LANG']['MSC']['eventSubscribed']               = 'You have subscribed to the event.';

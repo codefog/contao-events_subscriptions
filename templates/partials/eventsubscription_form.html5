@@ -1,0 +1,21 @@
+<?php if ($this->subscribeMessage): ?>
+    <p class="confirm"><?= $this->subscribeMessage ?></p>
+<?php endif; ?>
+
+<?php if (!$this->isEventPast && !$this->isSubscribed && !$this->canSubscribe): ?>
+    <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventSubscriptionNotAllowed'] ?></p>
+<?php endif; ?>
+
+<?php if (!$this->isEventPast && $this->isSubscribed && !$this->canUnsubscribe): ?>
+    <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventUnsubscriptionNotAllowed'] ?></p>
+<?php endif; ?>
+
+<?php if ($this->subscriptionForm): ?>
+    <form id="<?= $this->subscriptionForm->formId ?>" action="<?= $this->subscriptionForm->action ?>" method="<?= $this->subscriptionForm->method ?>" enctype="<?= $this->subscriptionForm->enctype ?>">
+        <?= $this->subscriptionForm->hidden ?>
+
+        <div class="submit_container">
+            <button type="submit" class="submit"><?= $this->canSubscribe ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'] ?></button>
+        </div>
+    </form>
+<?php endif; ?>

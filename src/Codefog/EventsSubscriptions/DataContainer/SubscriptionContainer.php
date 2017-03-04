@@ -3,7 +3,7 @@
 namespace Codefog\EventsSubscriptions\DataContainer;
 
 use Codefog\EventsSubscriptions\EventConfig;
-use Codefog\EventsSubscriptions\SubscriptionValidator;
+use Codefog\EventsSubscriptions\Services;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\Input;
@@ -96,7 +96,7 @@ class SubscriptionContainer
      */
     public function checkIfAlreadyExists($value, DataContainer $dc)
     {
-        $validator = new SubscriptionValidator();
+        $validator = Services::getSubscriptionValidator();
 
         if ($value && $validator->isMemberSubscribed(EventConfig::create($dc->activeRecord->pid), $value)) {
             throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['memberAlreadySubscribed'], $value));

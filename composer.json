@@ -14,7 +14,7 @@
         "php": ">=5.4.0",
         "contao/core": ">=3.5",
         "contao-community-alliance/composer-plugin": "2.*",
-        "codefog/contao-haste": "~4.15",
+        "codefog/contao-haste": "~4.16",
         "terminal42/notification_center": "~1.3"
     },
     "autoload":{

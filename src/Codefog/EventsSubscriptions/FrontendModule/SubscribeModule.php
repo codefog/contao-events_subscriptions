@@ -14,10 +14,10 @@
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
 use Codefog\EventsSubscriptions\EventConfig;
-use Codefog\EventsSubscriptions\Subscriber;
-use Codefog\EventsSubscriptions\SubscriptionValidator;
-use Contao\Environment;
-use Contao\FrontendUser;
+use Contao\BackendTemplate;
+use Contao\CalendarEventsModel;
+use Contao\CalendarModel;
+use Haste\Input\Input;
 
 class SubscribeModule extends \Module
 {
@@ -30,15 +30,21 @@ class SubscribeModule extends \Module
     protected $strTemplate = 'mod_event_subscribe';
 
     /**
+     * Current event
+     * @var CalendarEventsModel
+     */
+    protected $event;
+
+    /**
      * Display a wildcard in the back end
      * @return string
      */
     public function generate()
     {
-        if (TL_MODE == 'BE') {
-            $objTemplate = new \BackendTemplate('be_wildcard');
+        if (TL_MODE === 'BE') {
+            $objTemplate = new BackendTemplate('be_wildcard');
 
-            $objTemplate->wildcard = '### '.utf8_strtoupper($GLOBALS['TL_LANG']['FMD']['eventsubscribe'][0]).' ###';
+            $objTemplate->wildcard = '### '.utf8_strtoupper($GLOBALS['TL_LANG']['FMD']['event_subscribe'][0]).' ###';
             $objTemplate->title    = $this->headline;
             $objTemplate->id       = $this->id;
             $objTemplate->link     = $this->name;
@@ -47,13 +53,7 @@ class SubscribeModule extends \Module
             return $objTemplate->parse();
         }
 
-        // Set the item from the auto_item parameter
-        if ($GLOBALS['TL_CONFIG']['useAutoItem'] && isset($_GET['auto_item'])) {
-            \Input::setGet('events', \Input::get('auto_item'));
-        }
-
-        // Return if there is no logged user or no event provided
-        if (!\Input::get('events')) {
+        if (($this->event = $this->getEvent()) === null) {
             return '';
         }
 
@@ -61,92 +61,44 @@ class SubscribeModule extends \Module
     }
 
     /**
+     * Get the event
+     *
+     * @return CalendarEventsModel|null
+     */
+    protected function getEvent()
+    {
+        if (($calendars = CalendarModel::findAll()) === null) {
+            return null;
+        }
+
+        return CalendarEventsModel::findPublishedByParentAndIdOrAlias(
+            Input::getAutoItem('events'),
+            $calendars->fetchEach('id')
+        );
+    }
+
+    /**
      * Generate the module
      */
     protected function compile()
     {
-        $this->Template->showForm = true;
-        $time                     = time();
-        $objEvent                 = $this->Database->prepare(
-            "SELECT id FROM tl_calendar_events WHERE (id=? OR alias=?)".(!BE_USER_LOGGED_IN ? " AND (start='' OR start<?) AND (stop='' OR stop>?) AND published=1" : "")
-        )
-            ->limit(1)
-            ->execute(
-                (is_numeric(\Input::get('events')) ? \Input::get('events') : 0),
-                \Input::get('events'),
-                $time,
-                $time
-            );
+        $config = EventConfig::create($this->event->id);
+        $data   = $this->getSubscriptionBasicData($config);
 
-        // Return if the event was not found
-        if (!$objEvent->numRows) {
-            $this->Template->showForm = false;
+        // Add the subscription form
+        if ($data['canSubscribe'] || $data['canUnsubscribe']) {
+            $form = $this->createSubscriptionForm('event-subscription-'.$this->id);
 
-            return;
-        }
-
-        $this->Template->message = '';
-
-        // Display the message
-        if ($_SESSION['EVENT_SUBSCRIBE_MESSAGE'] != '') {
-            $this->Template->message = $_SESSION['EVENT_SUBSCRIBE_MESSAGE'];
-            unset($_SESSION['EVENT_SUBSCRIBE_MESSAGE']);
-        }
-
-        $user           = FrontendUser::getInstance();
-        $config         = EventConfig::create($objEvent->id);
-        $validator      = new SubscriptionValidator();
-        $canSubscribe   = $validator->canMemberSubscribe($config, $user->id);
-        $canUnsubscribe = $validator->canMemberUnsubscribe($config, $user->id);
-        $isSubscribed   = $validator->isMemberSubscribed($config, $user->id);
-
-        // Return if the user can't subscribe to the event
-        if (!$validator->canMemberSubscribe($config, $user->id) && !$isSubscribed) {
-            $this->Template->showForm = false;
-
-            return;
-        }
-
-        $strFormId = 'event_subscribe_'.$this->id;
-
-        $this->Template->isEventPast        = $objEvent->startTime < time();
-        $this->Template->canSubscribe       = $canSubscribe;
-        $this->Template->canUnsubscribe     = $canUnsubscribe;
-        $this->Template->subscribeEndTime   = $this->getSubscribeEndTime($config);
-        $this->Template->unsubscribeEndTime = $this->getUnsubscribeEndTime($config);
-
-        $this->Template->subscribed = $isSubscribed;
-        $this->Template->formId     = $strFormId;
-        $this->Template->action     = Environment::get('request');
-        $this->Template->submit     = !$isSubscribed ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'];
-
-        // Process the form
-        if (\Input::post('FORM_SUBMIT') === $strFormId) {
-            if (!FE_USER_LOGGED_IN) {
-                $this->jumpToOrReload($this->jumpTo_login);
+            if ($form->validate()) {
+                $this->processSubscriptionForm($config, $this->arrData);
             }
 
-            $subscriber = new Subscriber();
+            $this->Template->subscriptionForm = $form->getHelperObject();
+        }
 
-            // Subscribe user
-            if ($canSubscribe) {
-                $subscriber->subscribeMember($objEvent->id, $user->id);
-
-                if (!$this->jumpTo_subscribe) {
-                    $_SESSION['EVENT_SUBSCRIBE_MESSAGE'] = $GLOBALS['TL_LANG']['MSC']['eventSubscribed'];
-                }
-
-                $this->jumpToOrReload($this->jumpTo_subscribe);
-            } elseif ($canUnsubscribe) {
-                // Unsubscribe user
-                $subscriber->unsubscribeMember($objEvent->id, $user->id);
-
-                if (!$this->jumpTo_unsubscribe) {
-                    $_SESSION['EVENT_SUBSCRIBE_MESSAGE'] = $GLOBALS['TL_LANG']['MSC']['eventUnsubscribed'];
-                }
-
-                $this->jumpToOrReload($this->jumpTo_unsubscribe);
-            }
+        // Add the subscription data to the template
+        foreach ($data as $k => $v) {
+            $this->Template->$k = $v;
         }
     }
 }
