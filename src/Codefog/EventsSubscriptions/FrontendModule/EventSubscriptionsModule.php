@@ -14,6 +14,7 @@
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
 use Codefog\EventsSubscriptions\EventConfig;
+use Codefog\EventsSubscriptions\MemberConfig;
 use Codefog\EventsSubscriptions\Services;
 use Contao\BackendTemplate;
 use Contao\Config;
@@ -42,7 +43,9 @@ class EventSubscriptionsModule extends Events
         if (TL_MODE === 'BE') {
             $objTemplate = new BackendTemplate('be_wildcard');
 
-            $objTemplate->wildcard = '### '.utf8_strtoupper($GLOBALS['TL_LANG']['FMD']['event_subscriptions'][0]).' ###';
+            $objTemplate->wildcard = '### '.utf8_strtoupper(
+                    $GLOBALS['TL_LANG']['FMD']['event_subscriptions'][0]
+                ).' ###';
             $objTemplate->title    = $this->headline;
             $objTemplate->id       = $this->id;
             $objTemplate->link     = $this->name;
@@ -147,9 +150,9 @@ class EventSubscriptionsModule extends Events
             $sort($arrAllEvents[$key]);
         }
 
-        $arrEvents = array();
-        $user      = FrontendUser::getInstance();
-        $validator = Services::getSubscriptionValidator();
+        $arrEvents    = array();
+        $memberConfig = MemberConfig::create(FrontendUser::getInstance()->id);
+        $validator    = Services::getSubscriptionValidator();
 
         // Remove events outside the scope
         foreach ($arrAllEvents as $key => $days) {
@@ -168,7 +171,7 @@ class EventSubscriptionsModule extends Events
                     $event['subscription_config'] = EventConfig::create($event['id']);
 
                     // The user is not subscribed to the event
-                    if (!$validator->isMemberSubscribed($event['subscription_config'], $user->id)) {
+                    if (!$validator->isMemberSubscribed($event['subscription_config'], $memberConfig)) {
                         continue;
                     }
 

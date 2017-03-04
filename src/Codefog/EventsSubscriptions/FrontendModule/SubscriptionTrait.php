@@ -3,6 +3,7 @@
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
 use Codefog\EventsSubscriptions\EventConfig;
+use Codefog\EventsSubscriptions\MemberConfig;
 use Codefog\EventsSubscriptions\Services;
 use Contao\Controller;
 use Contao\Date;
@@ -23,16 +24,16 @@ trait SubscriptionTrait
     protected function getSubscriptionBasicData(EventConfig $config)
     {
         $validator = Services::getSubscriptionValidator();
-        $user      = FrontendUser::getInstance();
+        $member    = MemberConfig::create(FrontendUser::getInstance()->id);
 
         return [
             'subscribeMessage'   => Services::getFlashMessage()->puke($config->getEvent()->id),
             'isEventPast'        => $this->event->startTime < time(),
-            'isSubscribed'       => $validator->isMemberSubscribed($config, $user->id),
+            'isSubscribed'       => $validator->isMemberSubscribed($config, $member),
             'subscribeEndTime'   => $this->getSubscribeEndTime($config),
             'unsubscribeEndTime' => $this->getUnsubscribeEndTime($config),
-            'canSubscribe'       => $validator->canMemberSubscribe($config, $user->id),
-            'canUnsubscribe'     => $validator->canMemberUnsubscribe($config, $user->id),
+            'canSubscribe'       => $validator->canMemberSubscribe($config, $member),
+            'canUnsubscribe'     => $validator->canMemberUnsubscribe($config, $member),
         ];
     }
 
@@ -72,16 +73,17 @@ trait SubscriptionTrait
             $this->handleRedirect($data['jumpTo_login'], $GLOBALS['TL_LANG']['MSC']['eventSubscribeLogin'], $event->id);
         }
 
-        $user = FrontendUser::getInstance();
+        $user   = FrontendUser::getInstance();
+        $member = MemberConfig::create($user->id);
 
         // Subscribe user
-        if (Services::getSubscriptionValidator()->canMemberSubscribe($config, $user->id)) {
+        if (Services::getSubscriptionValidator()->canMemberSubscribe($config, $member)) {
             Services::getSubscriber()->subscribeMember($event->id, $user->id);
             $this->handleRedirect($data['jumpTo_subscribe'], $GLOBALS['TL_LANG']['MSC']['eventSubscribed'], $event->id);
         }
 
         // Unsubscribe user
-        if (Services::getSubscriptionValidator()->canMemberUnsubscribe($config, $user->id)) {
+        if (Services::getSubscriptionValidator()->canMemberUnsubscribe($config, $member)) {
             Services::getSubscriber()->unsubscribeMember($event->id, $user->id);
             $this->handleRedirect(
                 $data['jumpTo_unsubscribe'],

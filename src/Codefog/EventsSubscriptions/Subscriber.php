@@ -40,7 +40,7 @@ class Subscriber
      */
     public function subscribeMember($eventId, $memberId)
     {
-        if (!$this->validator->canMemberSubscribe(EventConfig::create($eventId), $memberId)) {
+        if (!$this->validator->canMemberSubscribe(EventConfig::create($eventId), MemberConfig::create($memberId))) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'The member ID "%s" cannot be subscribed to event ID "%s"',
@@ -72,7 +72,7 @@ class Subscriber
      */
     public function unsubscribeMember($eventId, $memberId)
     {
-        if (!$this->validator->isMemberSubscribed(EventConfig::create($eventId), $memberId)) {
+        if (!$this->validator->isMemberSubscribed(EventConfig::create($eventId), MemberConfig::create($memberId))) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'The member ID "%s" is not subscribed to event ID "%s"',

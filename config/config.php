@@ -41,6 +41,11 @@ $GLOBALS['TL_HOOKS'][\Codefog\EventsSubscriptions\EventDispatcher::EVENT_ON_UNSU
     'onUnsubscribe',
 ];
 
+$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = [
+    'Codefog\EventsSubscriptions\EventListener\InsertTagsListener',
+    'onReplace',
+];
+
 /**
  * Models
  */

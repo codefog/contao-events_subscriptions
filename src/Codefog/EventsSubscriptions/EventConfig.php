@@ -46,7 +46,7 @@ class EventConfig
     /**
      * Get the event model
      *
-     * @return \CalendarEventsModel|CalendarEventsModel|null
+     * @return CalendarEventsModel|null
      */
     public function getEvent()
     {
@@ -118,6 +118,8 @@ class EventConfig
      * @param int $eventId
      *
      * @return EventConfig
+     *
+     * @throws \InvalidArgumentException
      */
     public static function create($eventId)
     {
