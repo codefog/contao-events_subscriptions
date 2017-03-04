@@ -156,7 +156,7 @@ class EventListModule extends \Events
 
             // Add the subscription form
             if ($subscriptionData['canSubscribe'] || $subscriptionData['canUnsubscribe']) {
-                $form = $this->createSubscriptionForm('event-subscription-'.$this->id);
+                $form = $this->createSubscriptionForm('event-subscription-'.$arrEvent['id']);
 
                 if ($form->validate()) {
                     $this->processSubscriptionForm($subscriptionConfig, $this->arrData);
