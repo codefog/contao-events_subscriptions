@@ -67,6 +67,7 @@ class Automator
 
         return CalendarModel::findBy(
             [
+                'subscription_enable=1',
                 'subscription_reminders=1',
                 '(subscription_time >= ?)',
                 '(subscription_time <= ?)',
