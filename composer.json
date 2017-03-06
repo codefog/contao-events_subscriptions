@@ -32,7 +32,10 @@
         "contao": {
             "sources": {
                 "": "system/modules/events_subscriptions"
-            }
+            },
+            "runonce": [
+                "system/modules/events_subscriptions/config/upgrade.php"
+            ]
         }
     }
 }

@@ -40,6 +40,14 @@ installation in `system/modules/events_subscriptions`. You must also download an
 install [`codefog/contao-haste`][4] and [`terminal42/contao-notification_center`][5].
 
 
+## Upgrading from 1.x to 2.x
+
+Quite a few things has changed since version 1.x of the extension but most of them will
+be handled automatically by the script. However the thing you must manually adjust is the
+notification reminder which has to be created in the Notification Center module. For more
+information on how to do it please read the documentation.
+
+
 
 [1]: https://getcomposer.org
 [2]: https://docs.contao.org/books/manual/3.5/en/05-system-administration/extensions.html
