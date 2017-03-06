@@ -14,16 +14,26 @@
 
 Here is a list of available insert tags for this extension.
 
-`{{events_subscriptions::total_limit}}` – displays the total events limit of the currently logged in user.
+1. `{{events_subscriptions::total_limit}}` 
+    
+   Displays the total events limit of the currently logged in user.
 
-`{{events_subscriptions::total_limit_left}}` – displays the events left of the currently logged in user.
+2. `{{events_subscriptions::total_limit_left}}`
+   
+   Displays the events left of the currently logged in user.
 
-`{{events_subscriptions::period_limit::value}}` – displays the value of period limit of the currently logged in user. 
+3. `{{events_subscriptions::period_limit::value}}`
 
-`{{events_subscriptions::period_limit::unit}}` – displays the unit of period limit of the currently logged in user.
+   Displays the value of period limit of the currently logged in user. 
 
-`{{events_subscriptions::period_limit_left::value}}` – displays the value of events left for the current period 
-of the currently logged in user (e.g. `3`).
+4. `{{events_subscriptions::period_limit::unit}}` 
+    
+   Displays the unit of period limit of the currently logged in user.
 
-`{{events_subscriptions::period_limit_left::unit}}` – displays the unit of events left for the current period 
-of the currently logged in user (e.g. `month`).
+5. `{{events_subscriptions::period_limit_left::value}}`
+
+   Displays the value of events left for the current period of the currently logged in user (e.g. `3`).
+
+6. `{{events_subscriptions::period_limit_left::unit}}`
+
+   Displays the unit of events left for the current period of the currently logged in user (e.g. `month`).

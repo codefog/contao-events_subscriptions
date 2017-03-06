@@ -20,7 +20,7 @@ The event is triggered when the member is subscribed to the event. The argument 
 of the `Codefog\EventsSubscriptions\Event\SubscribeEvent` object.
 
 ```php
-$GLOBALS['TL_HOOKS'][\Codefog\EventsSubscriptions\EventDispatcher::EVENT_ON_SUBSCRIBE][]   = ['MyClass', 'onSubscribe'];
+$GLOBALS['TL_HOOKS'][\Codefog\EventsSubscriptions\EventDispatcher::EVENT_ON_SUBSCRIBE][] = ['MyClass', 'onSubscribe'];
 ```
 
 ### onUnsubscribe
@@ -29,5 +29,5 @@ The event is triggered when the member is unsubscribed from the event. The argum
 of the `Codefog\EventsSubscriptions\Event\UnsubscribeEvent` object.
 
 ```php
-$GLOBALS['TL_HOOKS'][\Codefog\EventsSubscriptions\EventDispatcher::EVENT_ON_UNSUBSCRIBE][]   = ['MyClass', 'onUnsubscribe'];
+$GLOBALS['TL_HOOKS'][\Codefog\EventsSubscriptions\EventDispatcher::EVENT_ON_UNSUBSCRIBE][] = ['MyClass', 'onUnsubscribe'];
 ```

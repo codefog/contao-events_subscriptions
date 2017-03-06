@@ -15,28 +15,44 @@
 The notifications are handled by the 
 [Notification Center](https://github.com/terminal42/contao-notification_center) extension.
 
-**Event reminder** – this notification type is used to send the reminders about the event.
+1. **Event reminder** 
+   
+   This notification type is used to send the reminders about the event.
 
-**Event subscribe** – this notification type is used to confirm the member subscribed to the event.
-Note: this notification is also sent when the user is subscribed to the event in the backend!
+2. **Event subscribe** 
 
-**Event unsubscribe** – this notification type is used to confirm the member unsubscribed from the event.
-Note: this notification is also sent when the user is unsubscribed from the event in the backend!
+   This notification type is used to confirm the member subscribed to the event.
+   **Note:** this notification is also sent when the user is subscribed to the event in the backend!
+
+3. **Event unsubscribe** 
+
+   This notification type is used to confirm the member unsubscribed from the event.
+   **Note:** this notification is also sent when the user is unsubscribed from the event in the backend!
 
 
 ## Available tokens
 
 The list of available tokens in every notification:
 
-`admin_email` – the e-mail address of administrator.
+1. `admin_email` 
+    
+   The e-mail address of administrator.
 
-`member_email` – the e-mail address of the subscribed member.
+2. `member_email` 
 
-`member_*` – all data of the subscribed member. Enter the field name in place of asterisk to get
-the desired data, e.g. `member_firstname` to get the member's firstname.
+   The e-mail address of the subscribed member.
 
-`event_*` – all data of the event. Enter the field name in place of asterisk to get
-the desired data, e.g. `event_startDate` to get the event's start date.
+3. `member_*`
 
-`calendar_*` – all data of the event's calendar. Enter the field name in place of asterisk to get
-the desired data, e.g. `calendar_title` to get the calendar's title.
+   All data of the subscribed member. Enter the field name in place of asterisk to get
+   the desired data, e.g. `member_firstname` to get the member's firstname.
+
+4. `event_*` 
+
+   All data of the event. Enter the field name in place of asterisk to get
+   the desired data, e.g. `event_startDate` to get the event's start date.
+
+5. `calendar_*` 
+
+   All data of the event's calendar. Enter the field name in place of asterisk to get
+   the desired data, e.g. `calendar_title` to get the calendar's title.
