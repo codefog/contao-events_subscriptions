@@ -29,7 +29,7 @@ overview/history for the currently logged in user. Since it is based on the genu
 it offers all features as it's ancestor.
 
 
-## Event template
+## Note on `event_` template
 
 You may need to adjust some of the `event_` templates to enable the extra data and subscription form.
 The extension comes by default with the `event_list_subscribe` template which works as an example

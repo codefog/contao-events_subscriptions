@@ -18,7 +18,7 @@ settings and check the appropriate box under the `Subscription settings` legend:
 ![](images/basics-enable.png)
 
 Here you can also configure the default subscription settings for all events in this calendar. The
-details on every setting is describes in the [Advanced configuration](03-advanced.md) section
+details on every setting is described in the [Advanced configuration](03-advanced.md) section
 of the documentation.
  
 > It is still possible to override each setting individually per event (see below)!

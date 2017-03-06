@@ -24,11 +24,11 @@ Here is a list of available insert tags for this extension.
 
 3. `{{events_subscriptions::period_limit::value}}`
 
-   Displays the value of period limit of the currently logged in user. 
+   Displays the value of period limit of the currently logged in user (e.g. `5`).
 
 4. `{{events_subscriptions::period_limit::unit}}` 
     
-   Displays the unit of period limit of the currently logged in user.
+   Displays the unit of period limit of the currently logged in user (e.g. `month`).
 
 5. `{{events_subscriptions::period_limit_left::value}}`
 
