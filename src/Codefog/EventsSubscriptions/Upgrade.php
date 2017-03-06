@@ -21,6 +21,11 @@ class Upgrade
     private $db;
 
     /**
+     * @var bool
+     */
+    private $migrateData = false;
+
+    /**
      * Upgrade constructor.
      */
     public function __construct()
@@ -35,7 +40,10 @@ class Upgrade
     {
         $this->renameTables();
         $this->renameColumns();
-        $this->migrateData();
+
+        if ($this->migrateData) {
+            $this->migrateData();
+        }
     }
 
     /**
@@ -44,6 +52,7 @@ class Upgrade
     private function renameTables()
     {
         if ($this->db->tableExists('tl_calendar_events_subscriptions')) {
+            $this->migrateData = true;
             $this->db->query('RENAME TABLE `tl_calendar_events_subscriptions` TO `tl_calendar_events_subscription`');
         }
     }
