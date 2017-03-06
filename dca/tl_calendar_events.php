@@ -54,7 +54,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_maximum'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_maximum'],
     'exclude'   => true,
     'inputType' => 'text',
-    'eval'      => ['rgxp' => 'digit', 'tl_class' => 'w50'],
+    'eval'      => ['rgxp' => 'digit', 'tl_class' => 'clr'],
     'sql'       => "smallint(5) unsigned NOT NULL default '0'",
 ];
 

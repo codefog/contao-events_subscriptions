@@ -23,11 +23,11 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_
 
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default'] = str_replace(
     'jumpTo;',
-    'jumpTo;{subscription_legend:hide},subscription_enable,subscription_reminders;',
+    'jumpTo;{subscription_legend:hide},subscription_enable;',
     $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default']
 );
 
-$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']    = 'subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime';
+$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']    = 'subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_reminders';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_reminders'] = 'subscription_time,subscription_days,subscription_notification';
 
 /**
