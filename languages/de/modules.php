@@ -3,12 +3,10 @@
 /**
  * events_subscriptions extension for Contao Open Source CMS
  *
- * Copyright (C) 2013 Codefog
- *
- * @package events_subscriptions
- * @author  Codefog <http://codefog.pl>
- * @author  Kamil Kuzminski <kamil.kuzminski@codefog.pl>
- * @license LGPL
+ * @copyright Copyright (c) 2011-2017, Codefog
+ * @author    Codefog <https://codefog.pl>
+ * @license   http://opensource.org/licenses/lgpl-3.0.html LGPL
+ * @link      http://github.com/codefog/contao-events_subscriptions
  */
 
 /**
