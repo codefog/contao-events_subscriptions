@@ -32,18 +32,26 @@ trait SubscriptionTrait
      */
     protected function getSubscriptionBasicData(EventConfig $config)
     {
-        $validator = Services::getSubscriptionValidator();
-        $member    = MemberConfig::create(FrontendUser::getInstance()->id);
-
-        return [
+        $data = [
             'subscribeMessage'   => Services::getFlashMessage()->puke($config->getEvent()->id),
             'isEventPast'        => $this->event->startTime < time(),
-            'isSubscribed'       => $validator->isMemberSubscribed($config, $member),
+            'isSubscribed'       => false,
             'subscribeEndTime'   => $this->getSubscribeEndTime($config),
             'unsubscribeEndTime' => $this->getUnsubscribeEndTime($config),
-            'canSubscribe'       => $validator->canMemberSubscribe($config, $member),
-            'canUnsubscribe'     => $validator->canMemberUnsubscribe($config, $member),
+            'canSubscribe'       => false,
+            'canUnsubscribe'     => false,
         ];
+
+        if (FE_USER_LOGGED_IN) {
+            $validator = Services::getSubscriptionValidator();
+            $member    = MemberConfig::create(FrontendUser::getInstance()->id);
+
+            $data['isSubscribed']   = $validator->isMemberSubscribed($config, $member);
+            $data['canSubscribe']   = $validator->canMemberSubscribe($config, $member);
+            $data['canUnsubscribe'] = $validator->canMemberUnsubscribe($config, $member);
+        }
+
+        return $data;
     }
 
     /**
@@ -79,7 +87,11 @@ trait SubscriptionTrait
         $event = $config->getEvent();
 
         if (!FE_USER_LOGGED_IN) {
-            $this->handleRedirect($data['jumpTo_login'], $GLOBALS['TL_LANG']['MSC']['events_subscriptions.login'], $event->id);
+            $this->handleRedirect(
+                $data['jumpTo_login'],
+                $GLOBALS['TL_LANG']['MSC']['events_subscriptions.login'],
+                $event->id
+            );
         }
 
         $user   = FrontendUser::getInstance();
@@ -88,7 +100,11 @@ trait SubscriptionTrait
         // Subscribe user
         if (Services::getSubscriptionValidator()->canMemberSubscribe($config, $member)) {
             Services::getSubscriber()->subscribeMember($event->id, $user->id);
-            $this->handleRedirect($data['jumpTo_subscribe'], $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation'], $event->id);
+            $this->handleRedirect(
+                $data['jumpTo_subscribe'],
+                $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation'],
+                $event->id
+            );
         }
 
         // Unsubscribe user
