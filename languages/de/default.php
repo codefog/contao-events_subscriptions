@@ -12,12 +12,12 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC']['eventSubscribe']    = 'Anmelden';
-$GLOBALS['TL_LANG']['MSC']['eventUnsubscribe']  = 'Absagen';
-$GLOBALS['TL_LANG']['MSC']['eventSubscribed']   = 'Sie haben sich für den Anlass angemeldet.';
-$GLOBALS['TL_LANG']['MSC']['eventUnsubscribed'] = 'Sie haben Ihre Teilnahme am Anlass abgesagt.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe']               = 'Anmelden';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe']             = 'Absagen';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation']   = 'Sie haben sich für den Anlass angemeldet.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeConfirmation'] = 'Sie haben Ihre Teilnahme am Anlass abgesagt.';
 
 /**
  * Errors
  */
-$GLOBALS['TL_LANG']['ERR']['memberAlreadySubscribed'] = 'Teilnehmer ID %s ist für den Anlass bereits angemeldet!';
+$GLOBALS['TL_LANG']['ERR']['events_subscriptions.memberAlreadySubscribed'] = 'Teilnehmer ID %s ist für den Anlass bereits angemeldet!';

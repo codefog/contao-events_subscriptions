@@ -12,12 +12,12 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC']['eventSubscribe']    = 'Zapisz się';
-$GLOBALS['TL_LANG']['MSC']['eventUnsubscribe']  = 'Wypisz się';
-$GLOBALS['TL_LANG']['MSC']['eventSubscribed']   = 'Zapisałeś się na to wydarzenie.';
-$GLOBALS['TL_LANG']['MSC']['eventUnsubscribed'] = 'Wypisałeś się z tego wydarzenia.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe']               = 'Zapisz się';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe']             = 'Wypisz się';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation']   = 'Zapisałeś się na to wydarzenie.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeConfirmation'] = 'Wypisałeś się z tego wydarzenia.';
 
 /**
  * Errors
  */
-$GLOBALS['TL_LANG']['ERR']['memberAlreadySubscribed'] = 'Użytkownik ID %s jest już zapisany na to wydarzenie!';
+$GLOBALS['TL_LANG']['ERR']['events_subscriptions.memberAlreadySubscribed'] = 'Użytkownik ID %s jest już zapisany na to wydarzenie!';

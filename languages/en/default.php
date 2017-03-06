@@ -12,15 +12,15 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC']['eventSubscribeLogin']           = 'Login to subscribe';
-$GLOBALS['TL_LANG']['MSC']['eventSubscribe']                = 'Subscribe';
-$GLOBALS['TL_LANG']['MSC']['eventUnsubscribe']              = 'Unsubscribe';
-$GLOBALS['TL_LANG']['MSC']['eventSubscribed']               = 'You have subscribed to the event.';
-$GLOBALS['TL_LANG']['MSC']['eventUnsubscribed']             = 'You have unsubscribed from the event.';
-$GLOBALS['TL_LANG']['MSC']['eventSubscriptionNotAllowed']   = 'It is no longer possible to subscribe to this event.';
-$GLOBALS['TL_LANG']['MSC']['eventUnsubscriptionNotAllowed'] = 'It is no longer possible to unsubscribe from this event.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.login']                   = 'Login to subscribe';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe']               = 'Subscribe';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe']             = 'Unsubscribe';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation']   = 'You have subscribed to the event.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeConfirmation'] = 'You have unsubscribed from the event.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeNotAllowed']     = 'It is no longer possible to subscribe to this event.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeNotAllowed']   = 'It is no longer possible to unsubscribe from this event.';
 
 /**
  * Errors
  */
-$GLOBALS['TL_LANG']['ERR']['memberAlreadySubscribed'] = 'Member ID %s is already subscribed to this event!';
+$GLOBALS['TL_LANG']['ERR']['events_subscriptions.memberAlreadySubscribed'] = 'Member ID %s is already subscribed to this event!';

@@ -79,7 +79,7 @@ trait SubscriptionTrait
         $event = $config->getEvent();
 
         if (!FE_USER_LOGGED_IN) {
-            $this->handleRedirect($data['jumpTo_login'], $GLOBALS['TL_LANG']['MSC']['eventSubscribeLogin'], $event->id);
+            $this->handleRedirect($data['jumpTo_login'], $GLOBALS['TL_LANG']['MSC']['events_subscriptions.login'], $event->id);
         }
 
         $user   = FrontendUser::getInstance();
@@ -88,7 +88,7 @@ trait SubscriptionTrait
         // Subscribe user
         if (Services::getSubscriptionValidator()->canMemberSubscribe($config, $member)) {
             Services::getSubscriber()->subscribeMember($event->id, $user->id);
-            $this->handleRedirect($data['jumpTo_subscribe'], $GLOBALS['TL_LANG']['MSC']['eventSubscribed'], $event->id);
+            $this->handleRedirect($data['jumpTo_subscribe'], $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation'], $event->id);
         }
 
         // Unsubscribe user
@@ -96,7 +96,7 @@ trait SubscriptionTrait
             Services::getSubscriber()->unsubscribeMember($event->id, $user->id);
             $this->handleRedirect(
                 $data['jumpTo_unsubscribe'],
-                $GLOBALS['TL_LANG']['MSC']['eventUnsubscribed'],
+                $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeConfirmation'],
                 $event->id
             );
         }

@@ -145,7 +145,7 @@ class SubscriptionContainer
         $model = SubscriptionModel::findOneBy(['pid=? AND member=?'], [$dc->activeRecord->pid, $value]);
 
         if ($value && $model !== null && (int)$model->id !== (int)$dc->id) {
-            throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['memberAlreadySubscribed'], $value));
+            throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['events_subscriptions.memberAlreadySubscribed'], $value));
         }
 
         return $value;

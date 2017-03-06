@@ -3,11 +3,11 @@
 <?php endif; ?>
 
 <?php if (!$this->isEventPast && !$this->isSubscribed && !$this->canSubscribe): ?>
-    <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventSubscriptionNotAllowed'] ?></p>
+    <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeNotAllowed'] ?></p>
 <?php endif; ?>
 
 <?php if (!$this->isEventPast && $this->isSubscribed && !$this->canUnsubscribe): ?>
-    <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['eventUnsubscriptionNotAllowed'] ?></p>
+    <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeNotAllowed'] ?></p>
 <?php endif; ?>
 
 <?php if ($this->subscriptionForm): ?>
@@ -15,7 +15,7 @@
         <?= $this->subscriptionForm->hidden ?>
 
         <div class="submit_container">
-            <button type="submit" class="submit"><?= $this->canSubscribe ? $GLOBALS['TL_LANG']['MSC']['eventSubscribe'] : $GLOBALS['TL_LANG']['MSC']['eventUnsubscribe'] ?></button>
+            <button type="submit" class="submit"><?= $this->canSubscribe ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe'] ?></button>
         </div>
     </form>
 <?php endif; ?>
