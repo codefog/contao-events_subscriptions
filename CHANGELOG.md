@@ -5,10 +5,14 @@ Version 2.0.0 stable (????-??-??)
 ---------------------------------
 
 ### Improved
+- Allow to limit the subscription events per member and member group
+- Added global subscription settings to the calendar which can be overridden per event
+- Send the notification when user subscribes or unsubscribes
 - Added support for notification_center
 - Display the summary of subscriptions in the list view
 - Allow to set the maximum number of subscriptions per event
-- Allow to set the last day of subscription per event
+- Allow to set the subscribe end time per event
+- Allow to set the unsubscribe end time per event
 - Added the frontend module that displays current user event subscriptions
 
 
