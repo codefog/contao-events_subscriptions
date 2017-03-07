@@ -15,7 +15,7 @@
         "contao/core-bundle":"~3.5 || ~4.1",
         "contao-community-alliance/composer-plugin":"^2.4.1 || ~3.0",
         "codefog/contao-haste": "~4.16",
-        "terminal42/notification_center": "~1.3"
+        "terminal42/notification_center": "~1.4"
     },
     "conflict": {
         "contao-legacy/events_subscriptions": "*"

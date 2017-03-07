@@ -16,7 +16,7 @@ Minimum requirements:
 
  - Contao 3.5 or Contao 4.1
  - Haste 4.16
- - NotifcationCenter 1.3
+ - Notifcation Center 1.4
 
 
 ### Install using Composer (recommended)
