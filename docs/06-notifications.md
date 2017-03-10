@@ -17,16 +17,19 @@ The notifications are handled by the
 
 1. **Event reminder** 
    
-   This notification type is used to send the reminders about the event.
+   This notification type is used to send the reminders about the event. You must choose it in the
+   calendar settings if you have enabled the reminders.
 
 2. **Event subscribe** 
 
-   This notification type is used to confirm the member subscribed to the event.
+   This notification type is used to confirm the member subscribed to the event. This notification
+   does not need to be chosen anywhere, all of this notification types will be sent upon subscirption.
    **Note:** this notification is also sent when the user is subscribed to the event in the backend!
 
 3. **Event unsubscribe** 
 
-   This notification type is used to confirm the member unsubscribed from the event.
+   This notification type is used to confirm the member unsubscribed from the event. This notification
+   does not need to be chosen anywhere, all of this notification types will be sent upon unsubscirption.
    **Note:** this notification is also sent when the user is unsubscribed from the event in the backend!
 
 
