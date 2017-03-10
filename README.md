@@ -19,9 +19,9 @@ for members subscribed to the events that will be sent a certain amount of days 
 3. [Advanced configuration](docs/03-advanced.md)
 4. [Backend interface](docs/04-backend.md)
 5. [Frontend modules](docs/05-frontend-modules.md)
-6. [Notifications](06-notifications.md)
-7. [Insert tags](07-insert-tags.md)
-8. [Developers](08-developers.md)
+6. [Notifications](docs/06-notifications.md)
+7. [Insert tags](docs/07-insert-tags.md)
+8. [Developers](docs/08-developers.md)
 
 ## Copyright
 
