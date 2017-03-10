@@ -50,6 +50,21 @@ class Services
     }
 
     /**
+     * Get the exporter
+     *
+     * @return Exporter
+     */
+    public static function getExporter()
+    {
+        return static::get(
+            'exporter',
+            function () {
+                return new Exporter(static::getEventDispatcher());
+            }
+        );
+    }
+
+    /**
      * Get the flash message
      *
      * @return FlashMessage

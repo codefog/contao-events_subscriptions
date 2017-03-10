@@ -14,6 +14,15 @@
 
 The extension comes with several hooks for flexibility.
 
+### onExport
+
+The event is triggered when the subscriptions are being exported. The argument passed on is the instance
+of the `Codefog\EventsSubscriptions\Event\ExportEvent` object.
+
+```php
+$GLOBALS['TL_HOOKS'][\Codefog\EventsSubscriptions\EventDispatcher::EVENT_ON_EXPORT][] = ['MyClass', 'onExport'];
+```
+
 ### onSubscribe
 
 The event is triggered when the member is subscribed to the event. The argument passed on is the instance

@@ -25,3 +25,10 @@ there is also displayed an information about the total number of subscription to
 the note about limit, if any.
 
 ![](images/backend-subscriptions.png)
+
+### Export subscriptions
+
+The subscriptions of each event can be exported to the CSV file. Fore more information on how to alter 
+the exported data please check the [Developers](08-developers.md) section. 
+
+![](images/backend-subscriptions-export.png)

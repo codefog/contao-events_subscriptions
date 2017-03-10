@@ -12,7 +12,11 @@
 /**
  * Add a back end table to calendar
  */
-$GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_subscription';
+$GLOBALS['BE_MOD']['content']['calendar']['tables'][]             = 'tl_calendar_events_subscription';
+$GLOBALS['BE_MOD']['content']['calendar']['subscriptions_export'] = [
+    'Codefog\EventsSubscriptions\Backend\ExportController',
+    'run',
+];
 
 /**
  * Add front end modules

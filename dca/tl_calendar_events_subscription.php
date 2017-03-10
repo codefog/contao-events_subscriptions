@@ -48,7 +48,13 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             ],
         ],
         'global_operations' => [
-            'all' => [
+            'export' => [
+                'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export'],
+                'href'       => 'key=subscriptions_export',
+                'icon'       => 'system/modules/events_subscriptions/assets/export.png',
+                'attributes' => 'onclick="Backend.getScrollOffset()"',
+            ],
+            'all'    => [
                 'label'      => &$GLOBALS['TL_LANG']['MSC']['all'],
                 'href'       => 'act=select',
                 'class'      => 'header_edit_all',

@@ -24,3 +24,16 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeNotAllowed']   = 'It
  * Errors
  */
 $GLOBALS['TL_LANG']['ERR']['events_subscriptions.memberAlreadySubscribed'] = 'Member ID %s is already subscribed to this event!';
+
+/* Export */
+$GLOBALS['TL_LANG']['ERR']['events_subscriptions.exportHeaderFields'] = [
+    'Event ID',
+    'Event title',
+    'Event start',
+    'Event end',
+    'Member ID',
+    'Member firstname',
+    'Member lastname',
+    'Member e-mail',
+    'Member username',
+];

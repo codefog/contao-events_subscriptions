@@ -15,6 +15,7 @@ use Contao\System;
 
 class EventDispatcher
 {
+    const EVENT_ON_EXPORT = 'eventsSubscriptions_onExport';
     const EVENT_ON_SUBSCRIBE = 'eventsSubscriptions_onSubscribe';
     const EVENT_ON_UNSUBSCRIBE = 'eventsSubscriptions_onUnsubscribe';
 
