@@ -18,7 +18,7 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_override']           = [
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_maximum']            = [
     'Maximum number of subscriptions',
-    'Here you can set the maximum number of subscriptions. Leave 0 to allow unlimited subscriptions.',
+    'Here you can set the maximum number of subscriptions per event. Leave 0 to allow unlimited subscriptions.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_subscribeEndTime']   = [
     'Subscribe end time',
