@@ -15,6 +15,7 @@ use Codefog\EventsSubscriptions\EventConfig;
 use Contao\Backend;
 use Contao\DataContainer;
 use Contao\Image;
+use Haste\Dca\PaletteManipulator;
 
 class EventsContainer
 {
@@ -34,11 +35,10 @@ class EventsContainer
             return;
         }
 
-        $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default'] = str_replace(
-            'author;',
-            'author;{subscription_legend:hide},subscription_override;',
-            $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['default']
-        );
+        PaletteManipulator::create()
+            ->addLegend('subscription_legend', 'title_legend', \Haste\Dca\PaletteManipulator::POSITION_AFTER, true)
+            ->addField('subscription_override', 'subscription_legend', \Haste\Dca\PaletteManipulator::POSITION_APPEND)
+            ->applyToPalette('default', 'tl_calendar_events');
     }
 
     /**

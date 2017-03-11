@@ -20,11 +20,10 @@
  */
 $GLOBALS['TL_DCA']['tl_member']['palettes']['__selector__'][] = 'subscription_enableLimit';
 
-$GLOBALS['TL_DCA']['tl_member']['palettes']['default'] = str_replace(
-    'groups;',
-    'groups;{events_subscription_legend},subscription_enableLimit;',
-    $GLOBALS['TL_DCA']['tl_member']['palettes']['default']
-);
+\Haste\Dca\PaletteManipulator::create()
+    ->addLegend('events_subscription_legend', 'groups_legend', \Haste\Dca\PaletteManipulator::POSITION_AFTER, true)
+    ->addField('subscription_enableLimit', 'events_subscription_legend', \Haste\Dca\PaletteManipulator::POSITION_APPEND)
+    ->applyToPalette('default', 'tl_member');
 
 $GLOBALS['TL_DCA']['tl_member']['subpalettes']['subscription_enableLimit'] = 'subscription_totalLimit,subscription_periodLimit';
 

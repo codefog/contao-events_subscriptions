@@ -21,11 +21,10 @@
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_enable';
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_reminders';
 
-$GLOBALS['TL_DCA']['tl_calendar']['palettes']['default'] = str_replace(
-    'jumpTo;',
-    'jumpTo;{subscription_legend:hide},subscription_enable;',
-    $GLOBALS['TL_DCA']['tl_calendar']['palettes']['default']
-);
+\Haste\Dca\PaletteManipulator::create()
+    ->addLegend('subscription_legend', 'title_legend', \Haste\Dca\PaletteManipulator::POSITION_AFTER, true)
+    ->addField('subscription_enable', 'subscription_legend', \Haste\Dca\PaletteManipulator::POSITION_APPEND)
+    ->applyToPalette('default', 'tl_calendar');
 
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']    = 'subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_reminders';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_reminders'] = 'subscription_time,subscription_days,subscription_notification';

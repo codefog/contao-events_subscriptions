@@ -14,11 +14,10 @@
  */
 $GLOBALS['TL_DCA']['tl_member_group']['palettes']['__selector__'][] = 'subscription_enableLimit';
 
-$GLOBALS['TL_DCA']['tl_member_group']['palettes']['default'] = str_replace(
-    'redirect;',
-    'redirect;{events_subscription_legend},subscription_enableLimit;',
-    $GLOBALS['TL_DCA']['tl_member_group']['palettes']['default']
-);
+\Haste\Dca\PaletteManipulator::create()
+    ->addLegend('events_subscription_legend', 'redirect_legend', \Haste\Dca\PaletteManipulator::POSITION_AFTER, true)
+    ->addField('subscription_enableLimit', 'events_subscription_legend', \Haste\Dca\PaletteManipulator::POSITION_APPEND)
+    ->applyToPalette('default', 'tl_member_group');
 
 $GLOBALS['TL_DCA']['tl_member_group']['subpalettes']['subscription_enableLimit'] = 'subscription_totalLimit,subscription_periodLimit';
 
