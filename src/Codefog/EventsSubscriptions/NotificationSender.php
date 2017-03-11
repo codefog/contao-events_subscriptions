@@ -14,7 +14,10 @@ namespace Codefog\EventsSubscriptions;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Contao\CalendarModel;
 use Contao\Config;
+use Contao\Controller;
+use Contao\Model;
 use Contao\Model\Collection;
+use Contao\System;
 use Haste\Util\Format;
 use NotificationCenter\Model\Notification;
 
@@ -66,23 +69,48 @@ class NotificationSender
 
         // Generate event tokens
         if (($event = $subscription->getEvent()) !== null) {
-            foreach ($event->row() as $k => $v) {
-                $tokens['event_'.$k] = Format::dcaValue($event::getTable(), $k, $v);
-            }
+            $tokens = array_merge($tokens, $this->getModelTokens($event, 'event_'));
 
             // Generate calendar tokens
             if (($calendar = CalendarModel::findByPk($event->pid)) !== null) {
-                foreach ($calendar->row() as $k => $v) {
-                    $tokens['calendar_'.$k] = Format::dcaValue($calendar::getTable(), $k, $v);
-                }
+                $tokens = array_merge($tokens, $this->getModelTokens($calendar, 'calendar_'));
             }
         }
 
         // Generate member tokens
         if (($member = $subscription->getMember()) !== null) {
-            foreach ($member->row() as $k => $v) {
-                $tokens['member_'.$k] = Format::dcaValue($member::getTable(), $k, $v);
+            $tokens = array_merge($tokens, $this->getModelTokens($member, 'member_'));
+        }
+
+        return $tokens;
+    }
+
+    /**
+     * Get the model tokens
+     *
+     * @param Model  $model
+     * @param string $prefix
+     *
+     * @return array
+     */
+    private function getModelTokens(Model $model, $prefix)
+    {
+        $tokens = [];
+        $dc     = new DataContainerMock($model);
+        $table  = $model::getTable();
+
+        // Load the data container
+        Controller::loadDataContainer($table);
+
+        foreach ($model->row() as $k => $v) {
+            $field = $GLOBALS['TL_DCA'][$table]['fields'][$k];
+
+            // Avoid the potential SQL error
+            if ($field['foreignKey'] && !$v) {
+                $v = 0;
             }
+
+            $tokens[$prefix.$k] = Format::dcaValue($table, $k, $v, $dc);
         }
 
         return $tokens;
