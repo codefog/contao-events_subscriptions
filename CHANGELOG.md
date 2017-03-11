@@ -5,6 +5,7 @@ Version 2.0.0 stable (????-??-??)
 ---------------------------------
 
 ### Improved
+- Added the export of subscriptions in the backend
 - Allow to limit the subscription events per member and member group
 - Added global subscription settings to the calendar which can be overridden per event
 - Send the notification when user subscribes or unsubscribes
