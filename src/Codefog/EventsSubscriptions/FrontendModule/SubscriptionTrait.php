@@ -13,11 +13,13 @@ namespace Codefog\EventsSubscriptions\FrontendModule;
 
 use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\MemberConfig;
+use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
 use Contao\Controller;
 use Contao\Date;
 use Contao\FrontendUser;
 use Contao\Input;
+use Contao\Model\Collection;
 use Contao\PageModel;
 use Haste\Form\Form;
 
@@ -38,6 +40,7 @@ trait SubscriptionTrait
             'isSubscribed'       => false,
             'subscribeEndTime'   => $this->getSubscribeEndTime($config),
             'unsubscribeEndTime' => $this->getUnsubscribeEndTime($config),
+            'subscribers'        => $this->generateEventSubscribers($config),
             'canSubscribe'       => false,
             'canUnsubscribe'     => false,
         ];
@@ -52,6 +55,36 @@ trait SubscriptionTrait
         }
 
         return $data;
+    }
+
+    /**
+     * Generate the event subscribers
+     *
+     * @param EventConfig $config
+     *
+     * @return array
+     */
+    protected function generateEventSubscribers(EventConfig $config)
+    {
+        if (($subscriptions = SubscriptionModel::findBy('pid', $config->getEvent()->id)) === null) {
+            return [];
+        }
+
+        $subscribers = [];
+
+        /**
+         * @var Collection        $subscriptions
+         * @var SubscriptionModel $subscription
+         */
+        foreach ($subscriptions as $subscription) {
+            if (($member = $subscription->getMember()) === null) {
+                continue;
+            }
+
+            $subscribers[] = $member->row();
+        }
+
+        return $subscribers;
     }
 
     /**

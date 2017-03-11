@@ -19,6 +19,16 @@
         <p>You can unsubscribe until: <?= $this->unsubscribeEndTime['date'] ?></p>
     <?php endif; ?>
 
+    <?php if ($this->subscribers): ?>
+        <h4>Subscribers</h4>
+
+        <ul>
+            <?php foreach ($this->subscribers as $subscriber): ?>
+                <li><?= $subscriber['firstname'] ?> <?= $subscriber['lastname'] ?> (<?= $subscriber['username'] ?>)</li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
     <div class="subscribe_form">
         <?php $this->insert('eventsubscription_form', $this->getData()) ?>
     </div>
