@@ -15,7 +15,7 @@
         <?= $this->subscriptionForm->hidden ?>
 
         <div class="submit_container">
-            <button type="submit" class="submit"><?= $this->canSubscribe ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe'] ?></button>
+            <button type="submit" class="submit <?php if ($this->canSubscribe): ?>subscribe<?php else: ?>unsubscribe<?php endif; ?>"><?= $this->canSubscribe ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe'] ?></button>
         </div>
     </form>
 <?php endif; ?>
