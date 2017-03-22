@@ -12,18 +12,14 @@
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
 use Codefog\EventsSubscriptions\EventConfig;
+use Contao\Controller;
 use Contao\Date;
-use Contao\Pagination;
+use Contao\Message;
+use Contao\ModuleEventlist;
 
-class EventListModule extends \Events
+class EventListModule extends ModuleEventlist
 {
     use SubscriptionTrait;
-
-    /**
-     * Template
-     * @var string
-     */
-    protected $strTemplate = 'mod_event_list_subscribe';
 
     /**
      * Display a wildcard in the back end
@@ -31,7 +27,7 @@ class EventListModule extends \Events
      */
     public function generate()
     {
-        if (TL_MODE == 'BE') {
+        if (TL_MODE === 'BE') {
             $objTemplate = new \BackendTemplate('be_wildcard');
 
             $objTemplate->wildcard = '### '.utf8_strtoupper(
@@ -45,13 +41,6 @@ class EventListModule extends \Events
             return $objTemplate->parse();
         }
 
-        $this->cal_calendar = $this->sortOutProtected(deserialize($this->cal_calendar, true));
-
-        // Return if there are no calendars
-        if (!is_array($this->cal_calendar) || empty($this->cal_calendar)) {
-            return '';
-        }
-
         return parent::generate();
     }
 
@@ -60,45 +49,106 @@ class EventListModule extends \Events
      */
     protected function compile()
     {
-        list($strBegin, $strEnd, $strEmpty) = $this->getDatesFromFormat(new \Date(), 'next_all');
-        $arrFutureEvents         = $this->getAllEvents($this->cal_calendar, $strBegin, $strEnd);
-        $this->Template->message = '';
+        /** @var \PageModel $objPage */
+        global $objPage;
 
-        // Return if there are no events
-        if (empty($arrFutureEvents)) {
-            $this->Template->message = $strEmpty;
+        $blnClearInput = false;
 
-            return;
+        $intYear  = \Input::get('year');
+        $intMonth = \Input::get('month');
+        $intDay   = \Input::get('day');
+
+        // Jump to the current period
+        if (!isset($_GET['year']) && !isset($_GET['month']) && !isset($_GET['day'])) {
+            switch ($this->cal_format) {
+                case 'cal_year':
+                    $intYear = date('Y');
+                    break;
+
+                case 'cal_month':
+                    $intMonth = date('Ym');
+                    break;
+
+                case 'cal_day':
+                    $intDay = date('Ymd');
+                    break;
+            }
+
+            $blnClearInput = true;
         }
 
-        $sort = ($this->cal_order == 'descending') ? 'krsort' : 'ksort';
-        $sort($arrFutureEvents);
+        $blnDynamicFormat = (!$this->cal_ignoreDynamic && in_array(
+                $this->cal_format,
+                array('cal_day', 'cal_month', 'cal_year')
+            ));
+
+        // Create the date object
+        try {
+            if ($blnDynamicFormat && $intYear) {
+                $this->Date       = new Date($intYear, 'Y');
+                $this->cal_format = 'cal_year';
+                $this->headline .= ' '.date('Y', $this->Date->tstamp);
+            } elseif ($blnDynamicFormat && $intMonth) {
+                $this->Date       = new Date($intMonth, 'Ym');
+                $this->cal_format = 'cal_month';
+                $this->headline .= ' '.Date::parse('F Y', $this->Date->tstamp);
+            } elseif ($blnDynamicFormat && $intDay) {
+                $this->Date       = new Date($intDay, 'Ymd');
+                $this->cal_format = 'cal_day';
+                $this->headline .= ' '.Date::parse($objPage->dateFormat, $this->Date->tstamp);
+            } else {
+                $this->Date = new Date();
+            }
+        } catch (\OutOfBoundsException $e) {
+            /** @var \PageError404 $objHandler */
+            $objHandler = new $GLOBALS['TL_PTY']['error_404']();
+            $objHandler->generate($objPage->id);
+        }
+
+        list($intStart, $intEnd, $strEmpty) = $this->getDatesFromFormat($this->Date, $this->cal_format);
+
+        // Get all events
+        $arrAllEvents = $this->getAllEvents($this->cal_calendar, $intStart, $intEnd);
+        $sort         = ($this->cal_order === 'descending') ? 'krsort' : 'ksort';
+
+        // Sort the days
+        $sort($arrAllEvents);
 
         // Sort the events
-        foreach (array_keys($arrFutureEvents) as $key) {
-            $sort($arrFutureEvents[$key]);
+        foreach (array_keys($arrAllEvents) as $key) {
+            $sort($arrAllEvents[$key]);
         }
 
-        $arrAllEvents = array();
+        $arrEvents = array();
 
         // Remove events outside the scope
-        foreach ($arrFutureEvents as $days) {
+        foreach ($arrAllEvents as $days) {
             foreach ($days as $day => $events) {
                 foreach ($events as $event) {
+                    // Use repeatEnd if > 0 (see #8447)
+                    if (($event['repeatEnd'] ?: $event['endTime']) < $intStart || $event['startTime'] > $intEnd) {
+                        continue;
+                    }
+
+                    // Skip occurrences in the past but show running events (see #8497)
+                    if ($event['repeatEnd'] && strtotime($event['datetime']) < $intStart) {
+                        continue;
+                    }
+
                     $event['firstDay']  = $GLOBALS['TL_LANG']['DAYS'][date('w', $day)];
                     $event['firstDate'] = Date::parse($GLOBALS['objPage']->dateFormat, $day);
                     $event['datetime']  = date('Y-m-d', $day);
 
-                    $arrAllEvents[$event['id']] = $event;
+                    $arrEvents[$event['id']] = $event;
                 }
             }
         }
 
-        unset($arrFutureEvents);
-        $arrAllEvents = array_values($arrAllEvents);
-        $total        = count($arrAllEvents);
-        $limit        = $total;
-        $offset       = 0;
+        unset($arrAllEvents);
+        $arrEvents = array_values($arrEvents);
+        $total     = count($arrEvents);
+        $limit     = $total;
+        $offset    = 0;
 
         // Overall limit
         if ($this->cal_limit > 0) {
@@ -109,52 +159,56 @@ class EventListModule extends \Events
         // Pagination
         if ($this->perPage > 0) {
             $id   = 'page_e'.$this->id;
-            $page = \Input::get('page') ?: 1;
+            $page = (\Input::get($id) !== null) ? \Input::get($id) : 1;
 
             // Do not index or cache the page if the page number is outside the range
             if ($page < 1 || $page > max(ceil($total / $this->perPage), 1)) {
-                global $objPage;
-                $objPage->noSearch = 1;
-                $objPage->cache    = 0;
-
-                // Send a 404 header
-                header('HTTP/1.1 404 Not Found');
-
-                return;
+                /** @var \PageError404 $objHandler */
+                $objHandler = new $GLOBALS['TL_PTY']['error_404']();
+                $objHandler->generate($objPage->id);
             }
 
             $offset = ($page - 1) * $this->perPage;
             $limit  = min($this->perPage + $offset, $total);
 
-            $objPagination              = new Pagination($total, $this->perPage, 7, $id);
+            $objPagination              = new \Pagination(
+                $total,
+                $this->perPage,
+                \Config::get('maxPaginationLinks'),
+                $id
+            );
             $this->Template->pagination = $objPagination->generate("\n  ");
         }
 
-        $arrEvents = array();
-        $intEvents = 0;
-        $imgSize   = false;
+        $strMonth    = '';
+        $strDate     = '';
+        $strEvents   = '';
+        $dayCount    = 0;
+        $eventCount  = 0;
+        $headerCount = 0;
+        $imgSize     = false;
 
         // Override the default image size
         if ($this->imgSize != '') {
             $size = deserialize($this->imgSize);
 
-            if ($size[0] > 0 || $size[1] > 0) {
+            if ($size[0] > 0 || $size[1] > 0 || is_numeric($size[2])) {
                 $imgSize = $this->imgSize;
             }
         }
 
         // Parse events
         for ($i = $offset; $i < $limit; $i++) {
-            $arrEvent    = $arrAllEvents[$i];
+            $event       = $arrEvents[$i];
             $objTemplate = new \FrontendTemplate($this->cal_template);
-            $objTemplate->setData($arrEvent);
+            $objTemplate->setData($event);
 
-            $subscriptionConfig = EventConfig::create($arrEvent['id']);
+            $subscriptionConfig = EventConfig::create($event['id']);
             $subscriptionData   = $this->getSubscriptionBasicData($subscriptionConfig);
 
             // Add the subscription form
             if ($subscriptionData['canSubscribe'] || $subscriptionData['canUnsubscribe']) {
-                $form = $this->createSubscriptionForm('event-subscription-'.$arrEvent['id']);
+                $form = $this->createSubscriptionForm('event-subscription-'.$event['id']);
 
                 if ($form->validate()) {
                     $this->processSubscriptionForm($subscriptionConfig, $this->arrData);
@@ -168,39 +222,103 @@ class EventListModule extends \Events
                 $objTemplate->$k = $v;
             }
 
-            $objTemplate->classList   = $arrEvent['class'].((($intEvents % 2) == 0) ? ' even' : ' odd').(($intEvents == 0) ? ' first' : '').((++$intEvents == $limit) ? ' last' : '').' cal_'.$arrEvent['parent'];
-            $objTemplate->readMore    = specialchars(
-                sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $arrEvent['title'])
+            $blnIsLastEvent = false;
+
+            // Last event on the current day
+            if (($i + 1) == $limit || !isset($arrEvents[($i + 1)]['firstDate']) || $event['firstDate'] != $arrEvents[($i + 1)]['firstDate']) {
+                $blnIsLastEvent = true;
+            }
+
+            // Month header
+            if ($strMonth != $event['month']) {
+                $objTemplate->newMonth = true;
+                $strMonth              = $event['month'];
+            }
+
+            // Day header
+            if ($strDate != $event['firstDate']) {
+                $headerCount              = 0;
+                $objTemplate->header      = true;
+                $objTemplate->classHeader = ((($dayCount % 2) == 0) ? ' even' : ' odd').(($dayCount == 0) ? ' first' : '').(($event['firstDate'] == $arrEvents[($limit - 1)]['firstDate']) ? ' last' : '');
+                $strDate                  = $event['firstDate'];
+
+                ++$dayCount;
+            }
+
+            // Show the teaser text of redirect events (see #6315)
+            if (is_bool($event['details'])) {
+                $objTemplate->hasDetails = false;
+            }
+
+            // Add the template variables
+            $objTemplate->classList     = $event['class'].((($headerCount % 2) == 0) ? ' even' : ' odd').(($headerCount == 0) ? ' first' : '').($blnIsLastEvent ? ' last' : '').' cal_'.$event['parent'];
+            $objTemplate->classUpcoming = $event['class'].((($eventCount % 2) == 0) ? ' even' : ' odd').(($eventCount == 0) ? ' first' : '').((($offset + $eventCount + 1) >= $limit) ? ' last' : '').' cal_'.$event['parent'];
+            $objTemplate->readMore      = specialchars(
+                sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $event['title'])
             );
-            $objTemplate->more        = $GLOBALS['TL_LANG']['MSC']['more'];
-            $objTemplate->startTstamp = $arrEvent['startTime'];
-            $objTemplate->endTstamp   = $arrEvent['endTime'];
-            $objTemplate->startTime   = Date::parse($GLOBALS['objPage']->timeFormat, $arrEvent['startTime']);
-            $objTemplate->startDate   = Date::parse($GLOBALS['objPage']->dateFormat, $arrEvent['startDate']);
-            $objTemplate->endTime     = Date::parse($GLOBALS['objPage']->timeFormat, $arrEvent['endTime']);
-            $objTemplate->endDate     = Date::parse($GLOBALS['objPage']->dateFormat, $arrEvent['endDate']);
-            $objTemplate->addImage    = false;
+            $objTemplate->more          = $GLOBALS['TL_LANG']['MSC']['more'];
+            $objTemplate->locationLabel = $GLOBALS['TL_LANG']['MSC']['location'];
 
-            // Add image
-            if ($arrEvent['addImage'] && is_file(TL_ROOT.'/'.$arrEvent['singleSRC'])) {
-                if ($imgSize) {
-                    $arrEvent['size'] = $imgSize;
+            $objTemplate->formattedStart = $this->getFormattedTimes($event['startTime']);
+            $objTemplate->formattedEnd   = $this->getFormattedTimes($event['endTime']);
+
+            // Short view
+            if ($this->cal_noSpan) {
+                $objTemplate->day  = $event['day'];
+                $objTemplate->date = $event['date'];
+            } else {
+                $objTemplate->day  = $event['firstDay'];
+                $objTemplate->date = $event['firstDate'];
+            }
+
+            $objTemplate->addImage = false;
+
+            // Add an image
+            if ($event['addImage'] && $event['singleSRC'] != '') {
+                $objModel = \FilesModel::findByUuid($event['singleSRC']);
+
+                if ($objModel === null) {
+                    if (!\Validator::isUuid($event['singleSRC'])) {
+                        $objTemplate->text = '<p class="error">'.$GLOBALS['TL_LANG']['ERR']['version2format'].'</p>';
+                    }
+                } elseif (is_file(TL_ROOT.'/'.$objModel->path)) {
+                    if ($imgSize) {
+                        $event['size'] = $imgSize;
+                    }
+
+                    $event['singleSRC'] = $objModel->path;
+                    Controller::addImageToTemplate($objTemplate, $event);
                 }
-
-                static::addImageToTemplate($objTemplate, $arrEvent);
-                $objTemplate->href = $arrEvent['href'];
             }
 
             $objTemplate->enclosure = array();
 
             // Add enclosure
-            if ($arrEvent['addEnclosure']) {
-                static::addEnclosuresToTemplate($objTemplate, $arrEvent);
+            if ($event['addEnclosure']) {
+                Controller::addEnclosuresToTemplate($objTemplate, $event);
             }
 
-            $arrEvents[] = $objTemplate->parse();
+            $strEvents .= $objTemplate->parse();
+
+            ++$eventCount;
+            ++$headerCount;
         }
 
-        $this->Template->events = $arrEvents;
+        // No events found
+        if ($strEvents == '') {
+            $strEvents = "\n".'<div class="empty">'.$strEmpty.'</div>'."\n";
+        }
+
+        // See #3672
+        $this->Template->headline = $this->headline;
+        $this->Template->events   = $strEvents;
+        $this->Template->message  = Message::generate();
+
+        // Clear the $_GET array (see #2445)
+        if ($blnClearInput) {
+            \Input::setGet('year', null);
+            \Input::setGet('month', null);
+            \Input::setGet('day', null);
+        }
     }
 }

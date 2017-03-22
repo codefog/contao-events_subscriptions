@@ -12,8 +12,8 @@
 
 ## Event list subscribe
 
-Based on the genuine event list module enhanced with the subscription functionality. It shows
-all future events only, as you cannot subscribe to the past events.
+Based on the genuine event list module enhanced with the subscription functionality. Since it is based 
+on the genuine event list module it offers the same features as it's ancestor.
 
 
 ## Subscribe event form
@@ -25,8 +25,8 @@ a subscription form for the current event.
 ## User event subscriptions
 
 This module will display the events that the user is subscribed to. Works great as a subscription
-overview/history for the currently logged in user. Since it is based on the genuine event list modules
-it offers all features as it's ancestor.
+overview/history for the currently logged in user. Since it is based on the genuine event list module
+it offers the same features as it's ancestor.
 
 
 ## Note on `event_` template

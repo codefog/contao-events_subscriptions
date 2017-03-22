@@ -15,21 +15,13 @@ use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\MemberConfig;
 use Codefog\EventsSubscriptions\Services;
 use Contao\BackendTemplate;
-use Contao\Config;
 use Contao\Controller;
-use Contao\Events;
 use Contao\FrontendUser;
 use Contao\Message;
 
-class EventSubscriptionsModule extends Events
+class EventSubscriptionsModule extends EventListModule
 {
     use SubscriptionTrait;
-
-    /**
-     * Template
-     * @var string
-     */
-    protected $strTemplate = 'mod_event_subscriptions';
 
     /**
      * Display a wildcard in the back end
@@ -54,20 +46,6 @@ class EventSubscriptionsModule extends Events
 
         if (!FE_USER_LOGGED_IN) {
             return '';
-        }
-
-        $this->cal_calendar = $this->sortOutProtected(deserialize($this->cal_calendar, true));
-
-        // Return if there are no calendars
-        if (!is_array($this->cal_calendar) || empty($this->cal_calendar)) {
-            return '';
-        }
-
-        // Show the event reader if an item has been selected
-        if ($this->cal_readerModule > 0
-            && (isset($_GET['events']) || (Config::get('useAutoItem') && isset($_GET['auto_item'])))
-        ) {
-            return Controller::getFrontendModule($this->cal_readerModule, $this->strColumn);
         }
 
         return parent::generate();
@@ -296,6 +274,9 @@ class EventSubscriptionsModule extends Events
             );
             $objTemplate->more          = $GLOBALS['TL_LANG']['MSC']['more'];
             $objTemplate->locationLabel = $GLOBALS['TL_LANG']['MSC']['location'];
+
+            $objTemplate->formattedStart = $this->getFormattedTimes($event['startTime']);
+            $objTemplate->formattedEnd   = $this->getFormattedTimes($event['endTime']);
 
             // Short view
             if ($this->cal_noSpan) {
