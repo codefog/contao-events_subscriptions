@@ -18,8 +18,9 @@ use Contao\BackendTemplate;
 use Contao\Controller;
 use Contao\FrontendUser;
 use Contao\Message;
+use Contao\ModuleEventlist;
 
-class EventSubscriptionsModule extends EventListModule
+class EventSubscriptionsModule extends ModuleEventlist
 {
     use SubscriptionTrait;
 
