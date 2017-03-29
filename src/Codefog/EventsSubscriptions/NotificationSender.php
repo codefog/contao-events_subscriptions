@@ -14,10 +14,8 @@ namespace Codefog\EventsSubscriptions;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Contao\CalendarModel;
 use Contao\Config;
-use Contao\Controller;
 use Contao\Model;
 use Contao\Model\Collection;
-use Contao\System;
 use Haste\Util\Format;
 use NotificationCenter\Model\Notification;
 
@@ -96,21 +94,10 @@ class NotificationSender
     private function getModelTokens(Model $model, $prefix)
     {
         $tokens = [];
-        $dc     = new DataContainerMock($model);
         $table  = $model::getTable();
 
-        // Load the data container
-        Controller::loadDataContainer($table);
-
         foreach ($model->row() as $k => $v) {
-            $field = $GLOBALS['TL_DCA'][$table]['fields'][$k];
-
-            // Avoid the potential SQL error
-            if ($field['foreignKey'] && !$v) {
-                $v = 0;
-            }
-
-            $tokens[$prefix.$k] = Format::dcaValue($table, $k, $v, $dc);
+            $tokens[$prefix.$k] = Format::dcaValue($table, $k, $v);
         }
 
         return $tokens;
