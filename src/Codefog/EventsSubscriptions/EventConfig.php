@@ -73,6 +73,16 @@ class EventConfig
     }
 
     /**
+     * Get the allowed subscription types
+     *
+     * @return array
+     */
+    public function getAllowedSubscriptionTypes()
+    {
+        return deserialize($this->get('subscription_types'), true);
+    }
+
+    /**
      * Get the maximum subscriptions
      *
      * @return int

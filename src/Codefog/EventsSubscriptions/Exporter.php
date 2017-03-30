@@ -4,11 +4,15 @@ namespace Codefog\EventsSubscriptions;
 
 use Codefog\EventsSubscriptions\Event\ExportEvent;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
+use Codefog\EventsSubscriptions\Subscription\ExportAwareInterface;
+use Codefog\EventsSubscriptions\Subscription\SubscriptionInterface;
 use Contao\CalendarEventsModel;
 use Contao\Config;
+use Contao\Controller;
 use Contao\Date;
 use Contao\File;
 use Contao\Model\Collection;
+use Contao\System;
 use Haste\IO\Reader\ArrayReader;
 use Haste\IO\Writer\CsvFileWriter;
 
@@ -20,13 +24,20 @@ class Exporter
     private $eventDispatcher;
 
     /**
+     * @var SubscriptionFactory
+     */
+    private $factory;
+
+    /**
      * Exporter constructor.
      *
-     * @param EventDispatcher $eventDispatcher
+     * @param EventDispatcher     $eventDispatcher
+     * @param SubscriptionFactory $factory
      */
-    public function __construct(EventDispatcher $eventDispatcher)
+    public function __construct(EventDispatcher $eventDispatcher, SubscriptionFactory $factory)
     {
         $this->eventDispatcher = $eventDispatcher;
+        $this->factory         = $factory;
     }
 
     /**
@@ -40,26 +51,41 @@ class Exporter
      */
     public function exportByEvent(CalendarEventsModel $event)
     {
-        return $this->export(SubscriptionModel::findBy('pid', $event->id));
+        return $this->export($event, SubscriptionModel::findBy('pid', $event->id));
     }
 
     /**
      * Export the subscriptions to a file
      *
-     * @param Collection $subscriptions
+     * @param CalendarEventsModel $event
+     * @param Collection          $models
      *
      * @return File
      */
-    private function export(Collection $subscriptions = null)
+    private function export($event, Collection $models = null)
     {
-        $data   = ($subscriptions !== null) ? $this->prepareData($subscriptions) : [];
-        $reader = $this->getFileReader($data);
+        $subscriptions = [];
+
+        // Create the subscription instances
+        if ($models !== null) {
+            /** @var SubscriptionModel $model */
+            foreach ($models as $model) {
+                $subscription = $this->factory->createFromModel($model);
+
+                // Only the export aware subscriptions
+                if ($subscription instanceof ExportAwareInterface) {
+                    $subscriptions[] = $subscription;
+                }
+            }
+        }
+
+        $reader = $this->getFileReader($event, $subscriptions);
         $writer = $this->getFileWriter();
 
         // Dispatch the event
         $this->eventDispatcher->dispatch(
             EventDispatcher::EVENT_ON_EXPORT,
-            new ExportEvent($reader, $writer, $subscriptions)
+            new ExportEvent($reader, $writer, $event, $subscriptions)
         );
 
         $writer->writeFrom($reader);
@@ -70,14 +96,16 @@ class Exporter
     /**
      * Get the file reader
      *
-     * @param array $data
+     * @param CalendarEventsModel $event
+     * @param array               $subscriptions
      *
      * @return ArrayReader
      */
-    private function getFileReader(array $data)
+    private function getFileReader(CalendarEventsModel $event, array $subscriptions)
     {
-        $reader = new ArrayReader($data);
-        $reader->setHeaderFields($GLOBALS['TL_LANG']['ERR']['events_subscriptions.exportHeaderFields']);
+        $columns = $this->getColumns($subscriptions);
+        $reader  = new ArrayReader($this->prepareData($event, $subscriptions, $columns));
+        $reader->setHeaderFields($columns);
 
         return $reader;
     }
@@ -96,32 +124,82 @@ class Exporter
     }
 
     /**
-     * Prepare the data
+     * Get the columns
      *
-     * @param Collection $subscriptions
+     * @param array $subscriptions
      *
      * @return array
      */
-    private function prepareData(Collection $subscriptions)
+    private function getColumns(array $subscriptions)
     {
-        $data = [];
+        $headerFields = $GLOBALS['TL_LANG']['MSC']['events_subscriptions.exportHeaderFields'];
 
-        /** @var SubscriptionModel $subscription */
+        $columns = [
+            'event_id'               => $headerFields['event_id'],
+            'event_title'            => $headerFields['event_title'],
+            'event_start'            => $headerFields['event_start'],
+            'event_end'              => $headerFields['event_end'],
+            'subscription_type'      => $headerFields['subscription_type'],
+            'subscription_firstname' => $headerFields['subscription_firstname'],
+            'subscription_lastname'  => $headerFields['subscription_lastname'],
+            'subscription_email'     => $headerFields['subscription_email'],
+        ];
+
+        /** @var SubscriptionInterface $subscription */
         foreach ($subscriptions as $subscription) {
-            $event  = $subscription->getEvent();
-            $member = $subscription->getMember();
+            foreach ($subscription->getExportColumns() as $name => $label) {
+                if (!array_key_exists($name, $columns)) {
+                    $columns[$name] = $label;
+                }
+            }
+        }
 
-            $data[] = [
-                $event->id,
-                $event->title,
-                Date::parse(Config::get('datimFormat'), $event->startTime),
-                Date::parse(Config::get('datimFormat'), $event->endTime),
-                $member->id,
-                $member->firstname,
-                $member->lastname,
-                $member->email,
-                $member->username,
-            ];
+        return $columns;
+    }
+
+    /**
+     * Prepare the data
+     *
+     * @param CalendarEventsModel $event
+     * @param array               $subscriptions
+     * @param array               $columns
+     *
+     * @return array
+     */
+    private function prepareData(CalendarEventsModel $event, array $subscriptions, array $columns)
+    {
+        Controller::loadDataContainer('tl_calendar_events');
+        System::loadLanguageFile('tl_calendar_events');
+
+        $data      = [];
+        $eventData = [
+            'event_id'    => $event->id,
+            'event_title' => $event->title,
+            'event_start' => Date::parse(Config::get('datimFormat'), $event->startTime),
+            'event_end'   => Date::parse(Config::get('datimFormat'), $event->endTime),
+        ];
+
+        // Get only the columns keys and make sure that values do not contain any data so we don't have
+        // the indexes (after flip) as values upon merge later on
+        $columns = array_map(
+            function () {
+                return '';
+            },
+            array_flip(array_keys($columns))
+        );
+
+        /** @var SubscriptionInterface $subscription */
+        foreach ($subscriptions as $subscription) {
+            $model = $subscription->getSubscriptionModel();
+            $tmp   = array_merge(
+                $subscription->getExportRow(),
+                $eventData,
+                [
+                    'subscription_type' => $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types']['reference'][$model->type],
+                ]
+            );
+
+            $data[] = array_merge($columns, array_intersect_key($tmp, $columns));
         }
 
         return $data;

@@ -80,21 +80,8 @@ class SubscribeModule extends \Module
      */
     protected function compile()
     {
-        $config = EventConfig::create($this->event->id);
-        $data   = $this->getSubscriptionBasicData($config);
+        $data = $this->getSubscriptionTemplateData(EventConfig::create($this->event->id), $this->arrData);
 
-        // Add the subscription form
-        if ($data['canSubscribe'] || $data['canUnsubscribe']) {
-            $form = $this->createSubscriptionForm('event-subscription-'.$this->id);
-
-            if ($form->validate()) {
-                $this->processSubscriptionForm($config, $this->arrData);
-            }
-
-            $this->Template->subscriptionForm = $form->getHelperObject();
-        }
-
-        // Add the subscription data to the template
         foreach ($data as $k => $v) {
             $this->Template->$k = $v;
         }

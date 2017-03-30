@@ -20,7 +20,3 @@ $GLOBALS['TL_LANG']['tl_module']['jumpTo_unsubscribe'] = [
     'Strona anulowania subskrypcji',
     'Wybierz stronę, na którą trafi użytkownik po wypisaniu się z wydarzenia.',
 ];
-$GLOBALS['TL_LANG']['tl_module']['jumpTo_login']       = [
-    'Strona logowania',
-    'Wybierz stronę, na którą trafi użytkownik, gdy nie jest zalogowany.',
-];

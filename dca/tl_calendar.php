@@ -26,7 +26,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_
     ->addField('subscription_enable', 'subscription_legend', \Haste\Dca\PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('default', 'tl_calendar');
 
-$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']    = 'subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_reminders';
+$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']    = 'subscription_types,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_reminders';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_reminders'] = 'subscription_time,subscription_days,subscription_notification';
 
 /**
@@ -41,6 +41,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_enable'] = [
     'sql'       => "char(1) NOT NULL default ''",
 ];
 
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_types']              = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_maximum']            = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_maximum'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_subscribeEndTime']   = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_subscribeEndTime'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_unsubscribeEndTime'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_unsubscribeEndTime'];

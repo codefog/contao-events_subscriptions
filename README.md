@@ -6,9 +6,11 @@
 
 Events Subscriptions is an extension for the [Contao Open Source CMS](https://contao.org).
 
-Contao extension that allows members of your website to subscribe to the events. In the backend there is an overview 
-of members subscribed to each event. Front end comes up with several frontend modules. You can also setup a reminder 
-for members subscribed to the events that will be sent a certain amount of days before event takes place!
+Contao extension that allows users of your website to subscribe to the events. In the backend there is an overview 
+of users subscribed to each event. Front end comes up with several frontend modules. You can also setup a reminder 
+for users subscribed to the events that will be sent a certain amount of days before event takes place!
+
+The extension allows the registered members as well as anonymous users to subscribe.
 
 ![](docs/images/preview.png)
 

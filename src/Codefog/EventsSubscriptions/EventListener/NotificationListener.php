@@ -38,7 +38,7 @@ class NotificationListener
      */
     public function onSubscribe(SubscribeEvent $event)
     {
-        $this->sender->sendByType('events_subscriptions_subscribe', $event->getSubscription());
+        $this->sender->sendByType('events_subscriptions_subscribe', $event->getModel());
     }
 
     /**
@@ -48,6 +48,6 @@ class NotificationListener
      */
     public function onUnsubscribe(UnsubscribeEvent $event)
     {
-        $this->sender->sendByType('events_subscriptions_unsubscribe', $event->getSubscription());
+        $this->sender->sendByType('events_subscriptions_unsubscribe', $event->getModel());
     }
 }

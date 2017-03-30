@@ -19,7 +19,6 @@ use Codefog\EventsSubscriptions\Services;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\Input;
-use Contao\MemberModel;
 use Contao\Message;
 
 class SubscriptionContainer
@@ -72,7 +71,7 @@ class SubscriptionContainer
 
         Services::getEventDispatcher()->dispatch(
             EventDispatcher::EVENT_ON_SUBSCRIBE,
-            new SubscribeEvent($subscription)
+            new SubscribeEvent($subscription, Services::getSubscriptionFactory()->createFromModel($subscription))
         );
     }
 
@@ -89,28 +88,32 @@ class SubscriptionContainer
 
         Services::getEventDispatcher()->dispatch(
             EventDispatcher::EVENT_ON_UNSUBSCRIBE,
-            new UnsubscribeEvent($subscription)
+            new UnsubscribeEvent($subscription, Services::getSubscriptionFactory()->createFromModel($subscription))
         );
     }
 
     /**
-     * List all subscribed members
+     * Generate the label
      *
      * @param array $row
      *
+     * @return string
+     */
+    public function generateLabel(array $row)
+    {
+        $model = SubscriptionModel::findByPk($row['id']);
+
+        return Services::getSubscriptionFactory()->createFromModel($model)->getBackendLabel();
+    }
+
+    /**
+     * Get the types
+     *
      * @return array
      */
-    public function listMembers(array $row)
+    public function getTypes()
     {
-        $member = MemberModel::findByPk($row['member']);
-
-        return sprintf(
-            '<div>%s %s <span style="color:#b3b3b3;padding-left:3px;">[%s - %s]</span></div>',
-            $member->firstname,
-            $member->lastname,
-            $member->username,
-            $member->email
-        );
+        return Services::getSubscriptionFactory()->getAll();
     }
 
     /**
@@ -145,7 +148,9 @@ class SubscriptionContainer
         $model = SubscriptionModel::findOneBy(['pid=? AND member=?'], [$dc->activeRecord->pid, $value]);
 
         if ($value && $model !== null && (int)$model->id !== (int)$dc->id) {
-            throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['events_subscriptions.memberAlreadySubscribed'], $value));
+            throw new \Exception(
+                sprintf($GLOBALS['TL_LANG']['ERR']['events_subscriptions.memberAlreadySubscribed'], $value)
+            );
         }
 
         return $value;

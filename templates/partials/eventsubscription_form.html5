@@ -1,21 +1,34 @@
-<?php if ($this->subscribeMessage): ?>
-    <p class="confirm"><?= $this->subscribeMessage ?></p>
-<?php endif; ?>
+<?php foreach ($this->subscriptionTypes as $name => $type): ?>
+    <div class="type-<?= $type ?>">
+        <?php if ($this->subscribeMessage): ?>
+            <p class="confirm"><?= $this->subscribeMessage ?></p>
+        <?php endif; ?>
 
-<?php if (!$this->isEventPast && !$this->isSubscribed && !$this->canSubscribe): ?>
-    <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeNotAllowed'] ?></p>
-<?php endif; ?>
+        <?php if (!$this->isEventPast && !$type['isSubscribed'] && !$type['canSubscribe']): ?>
+            <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeNotAllowed'] ?></p>
+        <?php endif; ?>
 
-<?php if (!$this->isEventPast && $this->isSubscribed && !$this->canUnsubscribe): ?>
-    <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeNotAllowed'] ?></p>
-<?php endif; ?>
+        <?php if (!$this->isEventPast && $type['isSubscribed'] && !$type['canUnsubscribe']): ?>
+            <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeNotAllowed'] ?></p>
+        <?php endif; ?>
 
-<?php if ($this->subscriptionForm): ?>
-    <form id="<?= $this->subscriptionForm->formId ?>" action="<?= $this->subscriptionForm->action ?>" method="<?= $this->subscriptionForm->method ?>" enctype="<?= $this->subscriptionForm->enctype ?>">
-        <?= $this->subscriptionForm->hidden ?>
+        <?php if ($type['canSubscribe']): ?>
+            <p class="info">You can subscribe until: <?= $this->subscribeEndTime['date'] ?></p>
+        <?php endif; ?>
 
-        <div class="submit_container">
-            <button type="submit" class="submit <?php if ($this->canSubscribe): ?>subscribe<?php else: ?>unsubscribe<?php endif; ?>"><?= $this->canSubscribe ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe'] ?></button>
-        </div>
-    </form>
-<?php endif; ?>
+        <?php if ($type['canUnsubscribe']): ?>
+            <p class="info">You can unsubscribe until: <?= $this->unsubscribeEndTime['date'] ?></p>
+        <?php endif; ?>
+
+        <?php if ($type['form']): ?>
+            <form id="<?= $type['form']->formId ?>" action="<?= $type['form']->action ?>" method="<?= $type['form']->method ?>" enctype="<?= $type['form']->enctype ?>">
+                <?= $type['form']->hidden ?>
+                <?= $type['form']->fields ?>
+
+                <div class="submit_container">
+                    <button type="submit" class="submit <?php if ($type['canUnsubscribe']): ?>unsubscribe<?php else: ?>subscribe<?php endif; ?>"><?= $type['canUnsubscribe'] ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe'] ?></button>
+                </div>
+            </form>
+        <?php endif; ?>
+    </div>
+<?php endforeach; ?>

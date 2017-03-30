@@ -12,46 +12,59 @@
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
 use Codefog\EventsSubscriptions\EventConfig;
-use Codefog\EventsSubscriptions\MemberConfig;
+use Codefog\EventsSubscriptions\Exception\RedirectException;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
 use Contao\Controller;
 use Contao\Date;
-use Contao\FrontendUser;
-use Contao\Input;
 use Contao\Model\Collection;
 use Contao\PageModel;
-use Haste\Form\Form;
 
 trait SubscriptionTrait
 {
     /**
-     * Get the subscription basic data
+     * Get the subscription template data
      *
      * @param EventConfig $config
+     * @param array       $moduleData
      *
      * @return array
      */
-    protected function getSubscriptionBasicData(EventConfig $config)
+    protected function getSubscriptionTemplateData(EventConfig $config, array $moduleData)
     {
         $data = [
             'subscribeMessage'   => Services::getFlashMessage()->puke($config->getEvent()->id),
             'isEventPast'        => $this->event->startTime < time(),
-            'isSubscribed'       => false,
             'subscribeEndTime'   => $this->getSubscribeEndTime($config),
             'unsubscribeEndTime' => $this->getUnsubscribeEndTime($config),
             'subscribers'        => $this->generateEventSubscribers($config),
-            'canSubscribe'       => false,
-            'canUnsubscribe'     => false,
+            'subscriptionTypes'  => [],
         ];
 
-        if (FE_USER_LOGGED_IN) {
-            $validator = Services::getSubscriptionValidator();
-            $member    = MemberConfig::create(FrontendUser::getInstance()->id);
+        $factory = Services::getSubscriptionFactory();
 
-            $data['isSubscribed']   = $validator->isMemberSubscribed($config, $member);
-            $data['canSubscribe']   = $validator->canMemberSubscribe($config, $member);
-            $data['canUnsubscribe'] = $validator->canMemberUnsubscribe($config, $member);
+        foreach ($config->getAllowedSubscriptionTypes() as $type) {
+            $subscription = $factory->create($type);
+            $form         = $subscription->getForm($config);
+
+            if ($form !== null && $form->validate()) {
+                try {
+                    $subscription->processForm($form, $config);
+                } catch (RedirectException $e) {
+                    if ($e->getPage() === null) {
+                        Controller::reload();
+                    } else {
+                        $this->handleRedirect($moduleData['jumpTo_'.$e->getPage()], $e->getMessage(), $e->getEventId());
+                    }
+                }
+            }
+
+            $data['subscriptionTypes'][$type] = [
+                'form'           => ($form !== null) ? $form->getHelperObject() : null,
+                'canSubscribe'   => $subscription->canSubscribe($config),
+                'canUnsubscribe' => $subscription->canUnsubscribe($config),
+                'isSubscribed'   => $subscription->isSubscribed($config),
+            ];
         }
 
         return $data;
@@ -70,87 +83,18 @@ trait SubscriptionTrait
             return [];
         }
 
+        $factory     = Services::getSubscriptionFactory();
         $subscribers = [];
 
         /**
          * @var Collection        $subscriptions
-         * @var SubscriptionModel $subscription
+         * @var SubscriptionModel $model
          */
-        foreach ($subscriptions as $subscription) {
-            if (($member = $subscription->getMember()) === null) {
-                continue;
-            }
-
-            $subscribers[] = $member->row();
+        foreach ($subscriptions as $model) {
+            $subscribers[] = $factory->createFromModel($model)->getFrontendLabel();
         }
 
         return $subscribers;
-    }
-
-    /**
-     * Create the subscription form
-     *
-     * @param string $id
-     *
-     * @return Form
-     */
-    protected function createSubscriptionForm($id)
-    {
-        $form = new Form(
-            $id,
-            'POST',
-            function ($haste) {
-                return Input::post('FORM_SUBMIT') === $haste->getFormId();
-            }
-        );
-
-        $form->addContaoHiddenFields();
-
-        return $form;
-    }
-
-    /**
-     * Process the subscription form
-     *
-     * @param EventConfig $config
-     * @param array       $data
-     */
-    protected function processSubscriptionForm(EventConfig $config, array $data)
-    {
-        $event = $config->getEvent();
-
-        if (!FE_USER_LOGGED_IN) {
-            $this->handleRedirect(
-                $data['jumpTo_login'],
-                $GLOBALS['TL_LANG']['MSC']['events_subscriptions.login'],
-                $event->id
-            );
-        }
-
-        $user   = FrontendUser::getInstance();
-        $member = MemberConfig::create($user->id);
-
-        // Subscribe user
-        if (Services::getSubscriptionValidator()->canMemberSubscribe($config, $member)) {
-            Services::getSubscriber()->subscribeMember($event->id, $user->id);
-            $this->handleRedirect(
-                $data['jumpTo_subscribe'],
-                $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation'],
-                $event->id
-            );
-        }
-
-        // Unsubscribe user
-        if (Services::getSubscriptionValidator()->canMemberUnsubscribe($config, $member)) {
-            Services::getSubscriber()->unsubscribeMember($event->id, $user->id);
-            $this->handleRedirect(
-                $data['jumpTo_unsubscribe'],
-                $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeConfirmation'],
-                $event->id
-            );
-        }
-
-        Controller::reload();
     }
 
     /**

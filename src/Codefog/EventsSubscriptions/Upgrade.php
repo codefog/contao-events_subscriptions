@@ -39,7 +39,7 @@ class Upgrade
     public function run()
     {
         $this->renameTables();
-        $this->renameColumns();
+        $this->adjustColumns();
 
         if ($this->migrateData) {
             $this->migrateData();
@@ -58,14 +58,26 @@ class Upgrade
     }
 
     /**
-     * Rename the columns
+     * Adjust the columns
      */
-    private function renameColumns()
+    private function adjustColumns()
     {
         if ($this->db->fieldExists('lastEmail', 'tl_calendar_events_subscription')) {
             $this->db->query(
                 "ALTER TABLE `tl_calendar_events_subscriptions` CHANGE COLUMN `lastEmail` `lastReminder` int(10) unsigned NOT NULL default '0'"
             );
+        }
+
+        if (!$this->db->fieldExists('subscription_types', 'tl_calendar')) {
+            $this->db->query("ALTER TABLE `tl_calendar` ADD `subscription_types` blob NULL");
+            $this->db->prepare("UPDATE tl_calendar SET subscription_types=?")->execute(serialize(['member']));
+        }
+
+        if (!$this->db->fieldExists('type', 'tl_calendar_events_subscription')) {
+            $this->db->query(
+                "ALTER TABLE `tl_calendar_events_subscription` ADD `type` varchar(32) NOT NULL default ''"
+            );
+            $this->db->query("UPDATE tl_calendar_events_subscription SET type='member'");
         }
     }
 

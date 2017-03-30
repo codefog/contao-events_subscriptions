@@ -12,6 +12,7 @@
 namespace Codefog\EventsSubscriptions\DataContainer;
 
 use Codefog\EventsSubscriptions\EventConfig;
+use Codefog\EventsSubscriptions\Services;
 use Contao\Backend;
 use Contao\DataContainer;
 use Contao\Image;
@@ -66,6 +67,16 @@ class EventsContainer
             $attributes,
             Image::getHtml($icon, $label)
         );
+    }
+
+    /**
+     * Get the types
+     *
+     * @return array
+     */
+    public function getTypes()
+    {
+        return Services::getSubscriptionFactory()->getAll();
     }
 
     /**

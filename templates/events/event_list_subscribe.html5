@@ -11,20 +11,12 @@
 
     <p class="date">Event start: <?= $this->date ?></p>
 
-    <?php if ($this->canSubscribe): ?>
-        <p>You can subscribe until: <?= $this->subscribeEndTime['date'] ?></p>
-    <?php endif; ?>
-
-    <?php if ($this->canUnsubscribe): ?>
-        <p>You can unsubscribe until: <?= $this->unsubscribeEndTime['date'] ?></p>
-    <?php endif; ?>
-
     <?php if ($this->subscribers): ?>
         <h4>Subscribers</h4>
 
         <ul>
             <?php foreach ($this->subscribers as $subscriber): ?>
-                <li><?= $subscriber['firstname'] ?> <?= $subscriber['lastname'] ?> (<?= $subscriber['username'] ?>)</li>
+                <li><?= $subscriber ?></li>
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>

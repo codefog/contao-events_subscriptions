@@ -203,19 +203,7 @@ class EventListModule extends ModuleEventlist
             $objTemplate = new \FrontendTemplate($this->cal_template);
             $objTemplate->setData($event);
 
-            $subscriptionConfig = EventConfig::create($event['id']);
-            $subscriptionData   = $this->getSubscriptionBasicData($subscriptionConfig);
-
-            // Add the subscription form
-            if ($subscriptionData['canSubscribe'] || $subscriptionData['canUnsubscribe']) {
-                $form = $this->createSubscriptionForm('event-subscription-'.$event['id']);
-
-                if ($form->validate()) {
-                    $this->processSubscriptionForm($subscriptionConfig, $this->arrData);
-                }
-
-                $objTemplate->subscriptionForm = $form->getHelperObject();
-            }
+            $subscriptionData = $this->getSubscriptionTemplateData(EventConfig::create($event['id']), $this->arrData);
 
             // Add the subscription data to the template
             foreach ($subscriptionData as $k => $v) {

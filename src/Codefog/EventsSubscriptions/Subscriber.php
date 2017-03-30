@@ -14,6 +14,7 @@ namespace Codefog\EventsSubscriptions;
 use Codefog\EventsSubscriptions\Event\SubscribeEvent;
 use Codefog\EventsSubscriptions\Event\UnsubscribeEvent;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
+use Codefog\EventsSubscriptions\Subscription\SubscriptionInterface;
 
 class Subscriber
 {
@@ -21,6 +22,11 @@ class Subscriber
      * @var EventDispatcher
      */
     private $eventDispatcher;
+
+    /**
+     * @var SubscriptionFactory
+     */
+    private $factory;
 
     /**
      * @var SubscriptionValidator
@@ -31,71 +37,69 @@ class Subscriber
      * Subscriber constructor.
      *
      * @param EventDispatcher       $eventDispatcher
+     * @param SubscriptionFactory   $factory
      * @param SubscriptionValidator $validator
      */
-    public function __construct(EventDispatcher $eventDispatcher, SubscriptionValidator $validator)
-    {
+    public function __construct(
+        EventDispatcher $eventDispatcher,
+        SubscriptionFactory $factory,
+        SubscriptionValidator $validator
+    ) {
         $this->eventDispatcher = $eventDispatcher;
+        $this->factory         = $factory;
         $this->validator       = $validator;
     }
 
     /**
-     * Subscribe member to the event
+     * Subscribe user to the event
      *
-     * @param int $eventId
-     * @param int $memberId
+     * @param EventConfig           $event
+     * @param SubscriptionInterface $subscription
      *
      * @return SubscriptionModel
      */
-    public function subscribeMember($eventId, $memberId)
+    public function subscribe(EventConfig $event, SubscriptionInterface $subscription)
     {
-        if (!$this->validator->canMemberSubscribe(EventConfig::create($eventId), MemberConfig::create($memberId))) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'The member ID "%s" cannot be subscribed to event ID "%s"',
-                    $memberId,
-                    $eventId
-                )
-            );
-        }
+        $model = new SubscriptionModel();
+        $subscription->writeToModel($event, $model);
 
-        $model         = new SubscriptionModel();
+        // Write meta data and save
         $model->tstamp = time();
-        $model->pid    = $eventId;
-        $model->member = $memberId;
+        $model->type   = $this->factory->getType(get_class($subscription));
+        $model->pid    = $event->getEvent()->id;
         $model->save();
 
         // Dispatch the event
-        $this->eventDispatcher->dispatch(EventDispatcher::EVENT_ON_SUBSCRIBE, new SubscribeEvent($model));
+        $this->eventDispatcher->dispatch(
+            EventDispatcher::EVENT_ON_SUBSCRIBE,
+            new SubscribeEvent($model, $subscription)
+        );
 
         return $model;
     }
 
     /**
-     * Unsubscribe member from the event
+     * Unsubscribe user from the event
      *
      * @param int $eventId
      * @param int $memberId
      *
      * @return SubscriptionModel
      */
-    public function unsubscribeMember($eventId, $memberId)
+    public function unsubscribe(EventConfig $event, SubscriptionInterface $subscription)
     {
-        if (!$this->validator->isMemberSubscribed(EventConfig::create($eventId), MemberConfig::create($memberId))) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'The member ID "%s" is not subscribed to event ID "%s"',
-                    $memberId,
-                    $eventId
-                )
-            );
-        }
+        $model = SubscriptionModel::findOneBy(
+            ['pid=? AND type=?'],
+            [$event->getEvent()->id, $this->factory->getType(get_class($subscription))]
+        );
 
-        $model = SubscriptionModel::findOneBy(['pid=? AND member=?'], [$eventId, $memberId]);
         $model->delete();
 
         // Dispatch the event
-        $this->eventDispatcher->dispatch(EventDispatcher::EVENT_ON_UNSUBSCRIBE, new UnsubscribeEvent($model));
+        $this->eventDispatcher->dispatch(
+            EventDispatcher::EVENT_ON_UNSUBSCRIBE,
+            new UnsubscribeEvent($model, $subscription)
+        );
 
         return $model;
     }

@@ -17,19 +17,14 @@ use Contao\Date;
 class SubscriptionValidator
 {
     /**
-     * Return true if the member can subscribe to the event
+     * Return true if the user can subscribe to the event
      *
-     * @param EventConfig  $event
-     * @param MemberConfig $member
+     * @param EventConfig $event
      *
      * @return bool
      */
-    public function canMemberSubscribe(EventConfig $event, MemberConfig $member)
+    public function canSubscribe(EventConfig $event)
     {
-        if ($this->isMemberSubscribed($event, $member)) {
-            return false;
-        }
-
         if (!$this->validateMaximumSubscriptions($event)) {
             return false;
         }
@@ -38,31 +33,18 @@ class SubscriptionValidator
             return false;
         }
 
-        if (!$this->validateMemberTotalLimit($member)) {
-            return false;
-        }
-
-        if (!$this->validateMemberPeriodLimit($event, $member)) {
-            return false;
-        }
-
         return true;
     }
 
     /**
-     * Return true if the member can unsubscribe from the event
+     * Return true if the user can unsubscribe from the event
      *
      * @param EventConfig  $event
-     * @param MemberConfig $member
      *
      * @return bool
      */
-    public function canMemberUnsubscribe(EventConfig $event, MemberConfig $member)
+    public function canUnsubscribe(EventConfig $event)
     {
-        if (!$this->isMemberSubscribed($event, $member)) {
-            return false;
-        }
-
         if (!$this->validateUnsubscribeEndTime($event)) {
             return false;
         }

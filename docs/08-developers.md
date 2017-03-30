@@ -12,7 +12,38 @@
 
 ## Information for developers
 
-The extension comes with several hooks for flexibility.
+This section is dedicated to the developers only!
+
+
+## Subscription types
+
+By default there are two subscription types available: one for the guests (non-logged-in users) and one for the
+members (logged-in users). It is easily possible to add a new subscription type or override the existing one.
+In order to do that simply register your type in the factory:
+
+```php
+// config/config.php
+\Codefog\EventsSubscriptions\Services::getSubscriptionFactory()->add('my_type', 'MyTypeSubscription');
+```
+
+The class must implement the `Codefog\EventsSubscriptions\Subscription\SubscriptionInterface`. It can also
+optionally implement other interfaces such as for the data export or notification sending. For more information
+and examples please check the existing classes.
+
+After adding the type you may also want to update the DCA and language files:
+
+```php
+// dca/tl_calendar_events_subscription.php
+$GLOBALS['TL_DCA']['tl_calendar_events_subscription']['palettes']['my_type'] = '{type_legend},type,addedBy;{my_type_legend},my_type_field1';
+
+// languages/en/tl_calendar_events_subscription.php
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['typeRef']['my_type'] = 'My Type';
+```
+
+
+## Hooks/events
+
+The extension comes with several hooks/events for flexibility.
 
 ### onExport
 

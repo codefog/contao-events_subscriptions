@@ -26,11 +26,11 @@ class ExportController
 
         $fileName = sprintf(
             '%s_%s.%s',
-            $event->title,
-            Date::parse(Config::get('dateFormat'), $event->startDate),
+            standardize($event->title),
+            standardize(Date::parse(Config::get('dateFormat'), $event->startDate)),
             $file->extension
         );
 
-        $file->sendToBrowser(standardize($fileName));
+        $file->sendToBrowser($fileName);
     }
 }

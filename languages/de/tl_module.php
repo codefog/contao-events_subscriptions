@@ -20,7 +20,3 @@ $GLOBALS['TL_LANG']['tl_module']['jumpTo_unsubscribe'] = [
     'Abmeldebestätigungs-Seite',
     'Bitte wählen Sie eine Seite, auf die Benutzerinnen und Benutzer nach einer erfolgreichen Abmeldung geführt werden.',
 ];
-$GLOBALS['TL_LANG']['tl_module']['jumpTo_login']       = [
-    'Login Seite',
-    'Bitte wählen Sie eine Seite aus, auf die Benutzerinnen und Benutzer nach dem Einloggen geführt werden.',
-];

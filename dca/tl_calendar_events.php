@@ -10,6 +10,11 @@
  */
 
 /**
+ * Load the language files
+ */
+\Contao\System::loadLanguageFile('tl_calendar_events_subscription');
+
+/**
  * Add a child table
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['config']['ctable'][] = 'tl_calendar_events_subscription';
@@ -36,7 +41,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptions'] 
  * Add palettes
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][]           = 'subscription_override';
-$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override'] = 'subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override'] = 'subscription_types,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime';
 
 /**
  * Add fields
@@ -48,6 +53,17 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_override'] = [
     'inputType' => 'checkbox',
     'eval'      => ['submitOnChange' => true],
     'sql'       => "char(1) NOT NULL default ''",
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types'] = [
+    'label'            => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_types'],
+    'exclude'          => true,
+    'filter'           => true,
+    'inputType'        => 'checkbox',
+    'options_callback' => ['Codefog\EventsSubscriptions\DataContainer\EventsContainer', 'getTypes'],
+    'reference'        => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['typeRef'],
+    'eval'             => ['mandatory' => true, 'multiple' => true, 'tl_class' => 'clr'],
+    'sql'              => "blob NULL",
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_maximum'] = [

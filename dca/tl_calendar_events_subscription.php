@@ -44,7 +44,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'headerFields'          => ['title', 'startDate', 'startTime', 'endDate', 'endTime', 'published'],
             'child_record_callback' => [
                 'Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer',
-                'listMembers',
+                'generateLabel',
             ],
         ],
         'global_operations' => [
@@ -83,7 +83,10 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
 
     // Palettes
     'palettes' => [
-        'default' => '{member_legend},member,addedBy',
+        '__selector__' => ['type'],
+        'default'      => '{type_legend},type,addedBy',
+        'guest'        => '{type_legend},type,addedBy;{guest_legend},firstname,lastname,email',
+        'member'       => '{type_legend},type,addedBy;{member_legend},member',
     ],
 
     // Fields
@@ -96,6 +99,30 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
         ],
         'tstamp'       => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
+        ],
+        'type'         => [
+            'label'            => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['type'],
+            'exclude'          => true,
+            'filter'           => true,
+            'inputType'        => 'select',
+            'options_callback' => ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'getTypes'],
+            'reference'        => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['typeRef'],
+            'eval'             => [
+                'mandatory'          => true,
+                'includeBlankOption' => true,
+                'submitOnChange'     => true,
+                'tl_class'           => 'w50',
+            ],
+            'sql'              => "varchar(32) NOT NULL default ''",
+        ],
+        'addedBy'      => [
+            'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['addedBy'],
+            'default'    => \Contao\BackendUser::getInstance()->id,
+            'exclude'    => true,
+            'inputType'  => 'select',
+            'foreignKey' => 'tl_user.name',
+            'eval'       => ['includeBlankOption' => true, 'tl_class' => 'w50'],
+            'sql'        => "int(10) unsigned NOT NULL default '0'",
         ],
         'member'       => [
             'label'            => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member'],
@@ -117,14 +144,26 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             ],
             'sql'              => "int(10) unsigned NOT NULL default '0'",
         ],
-        'addedBy'      => [
-            'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['addedBy'],
-            'default'    => \Contao\BackendUser::getInstance()->id,
-            'exclude'    => true,
-            'inputType'  => 'select',
-            'foreignKey' => 'tl_user.name',
-            'eval'       => ['includeBlankOption' => true, 'tl_class' => 'w50'],
-            'sql'        => "int(10) unsigned NOT NULL default '0'",
+        'firstname'    => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['firstname'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'eval'      => ['mandatory' => true, 'tl_class' => 'w50'],
+            'sql'       => "varchar(255) NOT NULL default ''",
+        ],
+        'lastname'     => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastname'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'eval'      => ['mandatory' => true, 'tl_class' => 'w50'],
+            'sql'       => "varchar(255) NOT NULL default ''",
+        ],
+        'email'        => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['email'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'eval'      => ['mandatory' => true, 'rgxp' => 'email', 'decodeEntities' => true, 'tl_class' => 'w50'],
+            'sql'       => "varchar(255) NOT NULL default ''",
         ],
         'lastReminder' => [
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastReminder'],

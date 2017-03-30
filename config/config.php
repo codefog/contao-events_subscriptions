@@ -53,40 +53,53 @@ $GLOBALS['TL_MODELS']['tl_calendar_events_subscription'] = 'Codefog\EventsSubscr
 $GLOBALS['TL_CRON']['hourly'][] = ['Codefog\EventsSubscriptions\EventListener\CronListener', 'onHourlyJob'];
 
 /**
+ * Add the subscription types
+ */
+\Codefog\EventsSubscriptions\Services::getSubscriptionFactory()->add(
+    'guest',
+    'Codefog\EventsSubscriptions\Subscription\GuestSubscription'
+);
+
+\Codefog\EventsSubscriptions\Services::getSubscriptionFactory()->add(
+    'member',
+    'Codefog\EventsSubscriptions\Subscription\MemberSubscription'
+);
+
+/**
  * Notification Center Notification Types
  */
 $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['events_subscriptions'] = [
     'events_subscriptions_reminder'    => [
-        'recipients'           => ['admin_email', 'member_email'],
-        'email_subject'        => ['admin_email', 'member_email', 'member_*', 'event_*', 'calendar_*'],
-        'email_text'           => ['admin_email', 'member_email', 'member_*', 'event_*', 'calendar_*'],
-        'email_html'           => ['admin_email', 'member_email', 'member_*', 'event_*', 'calendar_*'],
-        'email_sender_name'    => ['admin_email', 'member_email'],
-        'email_sender_address' => ['admin_email', 'member_email'],
-        'email_recipient_cc'   => ['admin_email', 'member_email'],
-        'email_recipient_bcc'  => ['admin_email', 'member_email'],
-        'email_replyTo'        => ['admin_email', 'member_email'],
+        'recipients'           => ['admin_email', 'recipient_email'],
+        'email_subject'        => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_text'           => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_html'           => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_sender_name'    => ['admin_email', 'recipient_email'],
+        'email_sender_address' => ['admin_email', 'recipient_email'],
+        'email_recipient_cc'   => ['admin_email', 'recipient_email'],
+        'email_recipient_bcc'  => ['admin_email', 'recipient_email'],
+        'email_replyTo'        => ['admin_email', 'recipient_email'],
     ],
     'events_subscriptions_subscribe'   => [
-        'recipients'           => ['admin_email', 'member_email'],
-        'email_subject'        => ['admin_email', 'member_email', 'member_*', 'event_*', 'calendar_*'],
-        'email_text'           => ['admin_email', 'member_email', 'member_*', 'event_*', 'calendar_*'],
-        'email_html'           => ['admin_email', 'member_email', 'member_*', 'event_*', 'calendar_*'],
-        'email_sender_name'    => ['admin_email', 'member_email'],
-        'email_sender_address' => ['admin_email', 'member_email'],
-        'email_recipient_cc'   => ['admin_email', 'member_email'],
-        'email_recipient_bcc'  => ['admin_email', 'member_email'],
-        'email_replyTo'        => ['admin_email', 'member_email'],
+        'recipients'           => ['admin_email', 'recipient_email'],
+        'email_subject'        => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_text'           => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_html'           => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_sender_name'    => ['admin_email', 'recipient_email'],
+        'email_sender_address' => ['admin_email', 'recipient_email'],
+        'email_recipient_cc'   => ['admin_email', 'recipient_email'],
+        'email_recipient_bcc'  => ['admin_email', 'recipient_email'],
+        'email_replyTo'        => ['admin_email', 'recipient_email'],
     ],
     'events_subscriptions_unsubscribe' => [
-        'recipients'           => ['admin_email', 'member_email'],
-        'email_subject'        => ['admin_email', 'member_email', 'member_*', 'event_*', 'calendar_*'],
-        'email_text'           => ['admin_email', 'member_email', 'member_*', 'event_*', 'calendar_*'],
-        'email_html'           => ['admin_email', 'member_email', 'member_*', 'event_*', 'calendar_*'],
-        'email_sender_name'    => ['admin_email', 'member_email'],
-        'email_sender_address' => ['admin_email', 'member_email'],
-        'email_recipient_cc'   => ['admin_email', 'member_email'],
-        'email_recipient_bcc'  => ['admin_email', 'member_email'],
-        'email_replyTo'        => ['admin_email', 'member_email'],
+        'recipients'           => ['admin_email', 'recipient_email'],
+        'email_subject'        => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_text'           => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_html'           => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_sender_name'    => ['admin_email', 'recipient_email'],
+        'email_sender_address' => ['admin_email', 'recipient_email'],
+        'email_recipient_cc'   => ['admin_email', 'recipient_email'],
+        'email_recipient_bcc'  => ['admin_email', 'recipient_email'],
+        'email_replyTo'        => ['admin_email', 'recipient_email'],
     ],
 ];

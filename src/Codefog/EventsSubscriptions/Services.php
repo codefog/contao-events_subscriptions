@@ -59,7 +59,7 @@ class Services
         return static::get(
             'exporter',
             function () {
-                return new Exporter(static::getEventDispatcher());
+                return new Exporter(static::getEventDispatcher(), static::getSubscriptionFactory());
             }
         );
     }
@@ -89,7 +89,7 @@ class Services
         return static::get(
             'notification-sender',
             function () {
-                return new NotificationSender();
+                return new NotificationSender(static::getSubscriptionFactory());
             }
         );
     }
@@ -104,7 +104,26 @@ class Services
         return static::get(
             'subscriber',
             function () {
-                return new Subscriber(static::getEventDispatcher(), static::getSubscriptionValidator());
+                return new Subscriber(
+                    static::getEventDispatcher(),
+                    static::getSubscriptionFactory(),
+                    static::getSubscriptionValidator()
+                );
+            }
+        );
+    }
+
+    /**
+     * Get the subscription factory
+     *
+     * @return SubscriptionFactory
+     */
+    public static function getSubscriptionFactory()
+    {
+        return static::get(
+            'subscription-factory',
+            function () {
+                return new SubscriptionFactory();
             }
         );
     }

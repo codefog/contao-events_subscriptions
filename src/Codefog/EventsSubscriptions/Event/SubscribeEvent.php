@@ -12,26 +12,50 @@
 namespace Codefog\EventsSubscriptions\Event;
 
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
+use Codefog\EventsSubscriptions\Subscription\SubscriptionInterface;
 
 class SubscribeEvent
 {
     /**
      * @var SubscriptionModel
      */
+    private $model;
+
+    /**
+     * @var SubscriptionInterface
+     */
     private $subscription;
 
     /**
      * SubscribeEvent constructor.
      *
-     * @param SubscriptionModel $subscription
+     * @param SubscriptionModel     $model
+     * @param SubscriptionInterface $subscription
      */
-    public function __construct(SubscriptionModel $subscription)
+    public function __construct(SubscriptionModel $model, SubscriptionInterface $subscription)
     {
+        $this->model        = $model;
         $this->subscription = $subscription;
     }
 
     /**
      * @return SubscriptionModel
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * @param SubscriptionModel $model
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+    }
+
+    /**
+     * @return SubscriptionInterface
      */
     public function getSubscription()
     {
@@ -39,7 +63,7 @@ class SubscribeEvent
     }
 
     /**
-     * @param SubscriptionModel $subscription
+     * @param SubscriptionInterface $subscription
      */
     public function setSubscription($subscription)
     {

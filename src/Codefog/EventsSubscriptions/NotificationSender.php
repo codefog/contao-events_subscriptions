@@ -12,6 +12,8 @@
 namespace Codefog\EventsSubscriptions;
 
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
+use Codefog\EventsSubscriptions\Subscription\NotificationAwareInterface;
+use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\Config;
 use Contao\Model;
@@ -22,62 +24,79 @@ use NotificationCenter\Model\Notification;
 class NotificationSender
 {
     /**
+     * @var SubscriptionFactory
+     */
+    private $factory;
+
+    /**
+     * NotificationSender constructor.
+     *
+     * @param SubscriptionFactory $factory
+     */
+    public function __construct(SubscriptionFactory $factory)
+    {
+        $this->factory = $factory;
+    }
+
+    /**
      * Send the notification
      *
      * @param Notification      $notification
-     * @param SubscriptionModel $subscription
+     * @param SubscriptionModel $model
      */
-    public function send(Notification $notification, SubscriptionModel $subscription)
+    public function send(Notification $notification, SubscriptionModel $model)
     {
-        $tokens = $this->generateTokens($subscription);
-        $notification->send($tokens, $tokens['member_language']);
+        $subscription = $this->factory->createFromModel($model);
+
+        if (!($subscription instanceof NotificationAwareInterface) || ($event = $model->getEvent()) === null) {
+            return;
+        }
+
+        $tokens = $this->generateTokens($event, $subscription);
+        $notification->send($tokens, $tokens['subscription_language']);
     }
 
     /**
      * Send the notification by type
      *
      * @param string            $type
-     * @param SubscriptionModel $subscription
+     * @param SubscriptionModel $model
      */
-    public function sendByType($type, SubscriptionModel $subscription)
+    public function sendByType($type, SubscriptionModel $model)
     {
-        if (($models = Notification::findBy('type', $type)) === null) {
+        if (($notifications = Notification::findBy('type', $type)) === null) {
             return;
         }
 
         /**
-         * @var Collection   $models
-         * @var Notification $model
+         * @var Collection   $notifications
+         * @var Notification $notification
          */
-        foreach ($models as $model) {
-            $this->send($model, $subscription);
+        foreach ($notifications as $notification) {
+            $this->send($notification, $model);
         }
     }
 
     /**
      * Generate the tokens
      *
-     * @param SubscriptionModel $subscription
+     * @param CalendarEventsModel        $event
+     * @param NotificationAwareInterface $subscription
      *
      * @return array
      */
-    private function generateTokens(SubscriptionModel $subscription)
+    private function generateTokens(CalendarEventsModel $event, NotificationAwareInterface $subscription)
     {
-        $tokens = ['admin_email' => $GLOBALS['TL_ADMIN_EMAIL'] ?: Config::get('adminEmail')];
+        $tokens                    = $subscription->getNotificationTokens();
+        $tokens['admin_email']     = $GLOBALS['TL_ADMIN_EMAIL'] ?: Config::get('adminEmail');
+        $tokens['recipient_email'] = $subscription->getNotificationEmail();
 
         // Generate event tokens
-        if (($event = $subscription->getEvent()) !== null) {
-            $tokens = array_merge($tokens, $this->getModelTokens($event, 'event_'));
+        $tokens = array_merge($tokens, $this->getModelTokens($event, 'event_'));
 
-            // Generate calendar tokens
-            if (($calendar = CalendarModel::findByPk($event->pid)) !== null) {
-                $tokens = array_merge($tokens, $this->getModelTokens($calendar, 'calendar_'));
-            }
-        }
-
-        // Generate member tokens
-        if (($member = $subscription->getMember()) !== null) {
-            $tokens = array_merge($tokens, $this->getModelTokens($member, 'member_'));
+        // Generate calendar tokens
+        if (($calendar = CalendarModel::findByPk($event->pid)) !== null) {
+            $tokens = array_merge($tokens, $this->getModelTokens($calendar, 'calendar_'));
         }
 
         return $tokens;
