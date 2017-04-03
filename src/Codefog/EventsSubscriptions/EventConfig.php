@@ -113,6 +113,26 @@ class EventConfig
     }
 
     /**
+     * Return true if the event has a waiting list
+     *
+     * @return bool
+     */
+    public function hasWaitingList()
+    {
+        return $this->get('subscription_waitingList') ? true : false;
+    }
+
+    /**
+     * Get the waiting list limit
+     *
+     * @return int
+     */
+    public function getWaitingListLimit()
+    {
+        return (int)$this->get('subscription_waitingListLimit');
+    }
+
+    /**
      * Calculate the time offset
      *
      * @param int    $time

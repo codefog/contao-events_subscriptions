@@ -30,6 +30,7 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['email']        = [
     'E-mail address',
     'Please enter the e-mail address.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['dateCreated']  = ['Date created'];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastReminder'] = ['Last reminder sent'];
 
 /**

@@ -11,11 +11,21 @@
 
     <p class="date">Event start: <?= $this->date ?></p>
 
-    <?php if ($this->subscribers): ?>
+    <?php if ($this->subscribers['subscribers']): ?>
         <h4>Subscribers</h4>
 
         <ul>
-            <?php foreach ($this->subscribers as $subscriber): ?>
+            <?php foreach ($this->subscribers['subscribers'] as $subscriber): ?>
+                <li><?= $subscriber ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <?php if ($this->subscribers['waitingList']): ?>
+        <h4>Waiting list</h4>
+
+        <ul>
+            <?php foreach ($this->subscribers['waitingList'] as $subscriber): ?>
                 <li><?= $subscriber ?></li>
             <?php endforeach; ?>
         </ul>

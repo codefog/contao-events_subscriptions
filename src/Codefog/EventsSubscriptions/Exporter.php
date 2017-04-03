@@ -135,17 +135,18 @@ class Exporter
         $headerFields = $GLOBALS['TL_LANG']['MSC']['events_subscriptions.exportHeaderFields'];
 
         $columns = [
-            'event_id'               => $headerFields['event_id'],
-            'event_title'            => $headerFields['event_title'],
-            'event_start'            => $headerFields['event_start'],
-            'event_end'              => $headerFields['event_end'],
-            'subscription_type'      => $headerFields['subscription_type'],
-            'subscription_firstname' => $headerFields['subscription_firstname'],
-            'subscription_lastname'  => $headerFields['subscription_lastname'],
-            'subscription_email'     => $headerFields['subscription_email'],
+            'event_id'                 => $headerFields['event_id'],
+            'event_title'              => $headerFields['event_title'],
+            'event_start'              => $headerFields['event_start'],
+            'event_end'                => $headerFields['event_end'],
+            'subscription_type'        => $headerFields['subscription_type'],
+            'subscription_waitingList' => $headerFields['subscription_waitingList'],
+            'subscription_firstname'   => $headerFields['subscription_firstname'],
+            'subscription_lastname'    => $headerFields['subscription_lastname'],
+            'subscription_email'       => $headerFields['subscription_email'],
         ];
 
-        /** @var SubscriptionInterface $subscription */
+        /** @var ExportAwareInterface $subscription */
         foreach ($subscriptions as $subscription) {
             foreach ($subscription->getExportColumns() as $name => $label) {
                 if (!array_key_exists($name, $columns)) {
@@ -188,14 +189,15 @@ class Exporter
             array_flip(array_keys($columns))
         );
 
-        /** @var SubscriptionInterface $subscription */
+        /** @var ExportAwareInterface|SubscriptionInterface $subscription */
         foreach ($subscriptions as $subscription) {
             $model = $subscription->getSubscriptionModel();
-            $tmp   = array_merge(
+            $tmp = array_merge(
                 $subscription->getExportRow(),
                 $eventData,
                 [
-                    'subscription_type' => $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types']['reference'][$model->type],
+                    'subscription_type'        => $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types']['reference'][$model->type],
+                    'subscription_waitingList' => $subscription->isOnWaitingList() ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'],
                 ]
             );
 

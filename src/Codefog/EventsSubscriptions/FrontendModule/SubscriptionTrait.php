@@ -79,19 +79,24 @@ trait SubscriptionTrait
      */
     protected function generateEventSubscribers(EventConfig $config)
     {
-        if (($subscriptions = SubscriptionModel::findBy('pid', $config->getEvent()->id)) === null) {
+        $subscriptions = SubscriptionModel::findBy('pid', $config->getEvent()->id, ['order' => 'dateCreated']);
+
+        if ($subscriptions === null) {
             return [];
         }
 
         $factory     = Services::getSubscriptionFactory();
-        $subscribers = [];
+        $subscribers = ['subscribers' => [], 'waitingList' => []];
 
         /**
          * @var Collection        $subscriptions
          * @var SubscriptionModel $model
          */
         foreach ($subscriptions as $model) {
-            $subscribers[] = $factory->createFromModel($model)->getFrontendLabel();
+            $subscription = $factory->createFromModel($model);
+            $key          = $subscription->isOnWaitingList() ? 'waitingList' : 'subscribers';
+
+            $subscribers[$key][] = $subscription->getFrontendLabel();
         }
 
         return $subscribers;

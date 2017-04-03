@@ -33,6 +33,16 @@ For example if the event starts on `10-03-2017` and you set the unsubscribe end 
 it will no longer be possible to unsubscribe on `07-03-2017` and after.
 
 
+## Waiting list
+
+Sometimes you may want to limit the maximum number of subscriptions but still allow the users to subscribe
+in order to move up in the queue when the existing subscriber resigns. This is the case where the waiting
+list feature comes in handy. You can enable it by checking the appropriate box and entering the maximum
+number of participants on the waiting list. Leave 0 to not limit the waiting list at all.
+
+![](images/advanced-waiting-list.png)
+
+
 ## Subscription reminders
 
 To make sure your members will not forget about the event you can set the subscription reminders

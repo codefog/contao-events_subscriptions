@@ -79,6 +79,13 @@ class Upgrade
             );
             $this->db->query("UPDATE tl_calendar_events_subscription SET type='member'");
         }
+
+        if (!$this->db->fieldExists('dateCreated', 'tl_calendar_events_subscription')) {
+            $this->db->query(
+                "ALTER TABLE `tl_calendar_events_subscription` ADD `dateCreated` int(10) unsigned NOT NULL default '0'"
+            );
+            $this->db->query("UPDATE tl_calendar_events_subscription SET dateCreated=tstamp");
+        }
     }
 
     /**

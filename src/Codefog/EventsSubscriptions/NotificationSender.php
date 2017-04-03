@@ -13,6 +13,7 @@ namespace Codefog\EventsSubscriptions;
 
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Subscription\NotificationAwareInterface;
+use Codefog\EventsSubscriptions\Subscription\SubscriptionInterface;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\Config;
@@ -90,6 +91,11 @@ class NotificationSender
         $tokens                    = $subscription->getNotificationTokens();
         $tokens['admin_email']     = $GLOBALS['TL_ADMIN_EMAIL'] ?: Config::get('adminEmail');
         $tokens['recipient_email'] = $subscription->getNotificationEmail();
+
+        // Waiting list token
+        if ($subscription instanceof SubscriptionInterface) {
+            $tokens['subscription_waitingList'] = $subscription->isOnWaitingList();
+        }
 
         // Generate event tokens
         $tokens = array_merge($tokens, $this->getModelTokens($event, 'event_'));

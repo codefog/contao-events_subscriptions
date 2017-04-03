@@ -90,6 +90,16 @@ class SubscriptionValidator
             return true;
         }
 
+        // Check the waiting list
+        if ($event->hasWaitingList()) {
+            // Value is not set, unlimited number of subscriptions
+            if (!($limit = $event->getWaitingListLimit())) {
+                return true;
+            }
+
+            $max += $limit;
+        }
+
         return SubscriptionModel::countBy('pid', $event->getEvent()->id) < $max;
     }
 

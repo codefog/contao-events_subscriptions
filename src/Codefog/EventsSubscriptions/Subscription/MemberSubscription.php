@@ -173,13 +173,23 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
             return '';
         }
 
-        return sprintf(
+        $label = sprintf(
             '%s %s <span style="padding-left:3px;color:#b3b3b3;">[%s – %s]</span>',
             $member->firstname,
             $member->lastname,
             $member->username,
             $member->email
         );
+
+        if ($this->isOnWaitingList()) {
+            $label = sprintf(
+                '%s <strong class="tl_red">%s</strong>',
+                $label,
+                $GLOBALS['TL_LANG']['MSC']['events_subscriptions.onWaitingList']
+            );
+        }
+
+        return $label;
     }
 
     /**

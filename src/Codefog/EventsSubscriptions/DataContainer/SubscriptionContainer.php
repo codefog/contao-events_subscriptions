@@ -40,7 +40,14 @@ class SubscriptionContainer
             return;
         }
 
-        $max   = $config->getMaximumSubscriptions();
+        $max = $config->getMaximumSubscriptions();
+
+        // Get the waiting list settings
+        if ($config->hasWaitingList()) {
+            $limit = $config->getWaitingListLimit();
+            $max   = $limit ? ($max + $limit) : 0;
+        }
+
         $count = SubscriptionModel::countBy('pid', $config->getEvent()->id);
 
         if ($max > 0) {

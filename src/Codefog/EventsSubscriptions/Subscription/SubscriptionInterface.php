@@ -89,16 +89,9 @@ interface SubscriptionInterface
     public function getFrontendLabel();
 
     /**
-     * Get the export columns
+     * Return true if the subscription is on the waiting list, false otherwise
      *
-     * @return array
+     * @return bool
      */
-    public function getExportColumns();
-
-    /**
-     * Get the export row
-     *
-     * @return array
-     */
-    public function getExportRow();
+    public function isOnWaitingList();
 }

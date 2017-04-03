@@ -60,13 +60,15 @@ class Subscriber
      */
     public function subscribe(EventConfig $event, SubscriptionInterface $subscription)
     {
+        $now   = time();
         $model = new SubscriptionModel();
         $subscription->writeToModel($event, $model);
 
         // Write meta data and save
-        $model->tstamp = time();
-        $model->type   = $this->factory->getType(get_class($subscription));
-        $model->pid    = $event->getEvent()->id;
+        $model->tstamp      = $now;
+        $model->dateCreated = $now;
+        $model->type        = $this->factory->getType(get_class($subscription));
+        $model->pid         = $event->getEvent()->id;
         $model->save();
 
         // Dispatch the event

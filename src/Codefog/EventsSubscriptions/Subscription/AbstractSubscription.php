@@ -77,6 +77,29 @@ abstract class AbstractSubscription implements SubscriptionInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function isOnWaitingList()
+    {
+        if (($subscriptionModel = $this->getSubscriptionModel()) === null) {
+            throw new \BadMethodCallException('The subscription model does not exist');
+        }
+
+        $event = EventConfig::create($subscriptionModel->getEvent()->id);
+
+        if (!$event->hasWaitingList() || !($max = $event->getMaximumSubscriptions())) {
+            return null;
+        }
+
+        $total = SubscriptionModel::countBy(
+            ['pid=? AND dateCreated<? AND id!=?'],
+            [$event->getEvent()->id, $subscriptionModel->dateCreated, $subscriptionModel->id]
+        );
+
+        return $total >= $max;
+    }
+
+    /**
      * Create the basic form
      *
      * @param EventConfig $event
