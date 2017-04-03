@@ -60,6 +60,19 @@ class SubscriptionContainer
     }
 
     /**
+     * Set the date created
+     *
+     * @param DataContainer $dc
+     */
+    public function setDateCreated(DataContainer $dc)
+    {
+        if (!$dc->activeRecord->dateCreated) {
+            Database::getInstance()->prepare("UPDATE {$dc->table} SET dateCreated=? WHERE id=?")
+                ->execute(time(), $dc->id);
+        }
+    }
+
+    /**
      * Dispatch the subscribe event
      *
      * @param DataContainer $dc

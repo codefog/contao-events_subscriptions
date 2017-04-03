@@ -22,6 +22,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'displaySummary'],
         ],
         'onsubmit_callback' => [
+            ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'setDateCreated'],
             ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'dispatchSubscribeEvent'],
         ],
         'ondelete_callback' => [
