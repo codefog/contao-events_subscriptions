@@ -43,6 +43,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'disableGrouping'       => true,
             'fields'                => ['dateCreated'],
             'headerFields'          => ['title', 'startDate', 'startTime', 'endDate', 'endTime', 'published'],
+            'panelLayout'           => 'filter,limit',
             'child_record_callback' => [
                 'Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer',
                 'generateLabel',
@@ -104,6 +105,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
         'dateCreated'  => [
             'label'  => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['dateCreated'],
             'filter' => true,
+            'flag'   => 8,
             'eval'   => ['rgxp' => 'datim'],
             'sql'    => "int(10) unsigned NOT NULL default '0'",
         ],
@@ -126,6 +128,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['addedBy'],
             'default'    => \Contao\BackendUser::getInstance()->id,
             'exclude'    => true,
+            'filter'     => true,
             'inputType'  => 'select',
             'foreignKey' => 'tl_user.name',
             'eval'       => ['includeBlankOption' => true, 'tl_class' => 'w50'],
