@@ -13,6 +13,7 @@ namespace Codefog\EventsSubscriptions\DataContainer;
 
 use Codefog\EventsSubscriptions\Event\SubscribeEvent;
 use Codefog\EventsSubscriptions\Event\UnsubscribeEvent;
+use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\EventDispatcher;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
@@ -33,28 +34,21 @@ class SubscriptionContainer
             return;
         }
 
-        $event = Database::getInstance()->prepare(
-            "SELECT subscription_maximum, (SELECT COUNT(*) FROM tl_calendar_events_subscription WHERE pid=tl_calendar_events.id) AS subscriptions FROM tl_calendar_events WHERE id=?"
-        )
-            ->limit(1)
-            ->execute(CURRENT_ID);
-
-        if (!$event->numRows) {
+        try {
+            $config = EventConfig::create(CURRENT_ID);
+        } catch (\Exception $e) {
             return;
         }
 
-        if ($event->subscription_maximum) {
+        $max   = $config->getMaximumSubscriptions();
+        $count = SubscriptionModel::countBy('pid', $config->getEvent()->id);
+
+        if ($max > 0) {
             Message::addInfo(
-                sprintf(
-                    $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summaryMax'],
-                    $event->subscriptions,
-                    $event->subscription_maximum
-                )
+                sprintf($GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summaryMax'], $count, $max)
             );
         } else {
-            Message::addInfo(
-                sprintf($GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summary'], $event->subscriptions)
-            );
+            Message::addInfo(sprintf($GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summary'], $count));
         }
     }
 
