@@ -21,9 +21,10 @@ $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_export'] = [
 /**
  * Add front end modules
  */
-$GLOBALS['FE_MOD']['events']['event_list_subscribe'] = 'Codefog\EventsSubscriptions\FrontendModule\EventListModule';
-$GLOBALS['FE_MOD']['events']['event_subscribe']      = 'Codefog\EventsSubscriptions\FrontendModule\EventSubscribeModule';
-$GLOBALS['FE_MOD']['events']['event_subscriptions']  = 'Codefog\EventsSubscriptions\FrontendModule\EventSubscriptionsModule';
+$GLOBALS['FE_MOD']['events']['event_list_subscribe']   = 'Codefog\EventsSubscriptions\FrontendModule\EventListModule';
+$GLOBALS['FE_MOD']['events']['event_reader_subscribe'] = 'Codefog\EventsSubscriptions\FrontendModule\EventReaderModule';
+$GLOBALS['FE_MOD']['events']['event_subscribe']        = 'Codefog\EventsSubscriptions\FrontendModule\EventSubscribeModule';
+$GLOBALS['FE_MOD']['events']['event_subscriptions']    = 'Codefog\EventsSubscriptions\FrontendModule\EventSubscriptionsModule';
 
 /**
  * Hooks

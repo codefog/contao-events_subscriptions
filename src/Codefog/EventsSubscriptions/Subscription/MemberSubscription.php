@@ -183,7 +183,7 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
 
         if ($this->isOnWaitingList()) {
             $label = sprintf(
-                '%s <strong class="tl_red">%s</strong>',
+                '%s <strong class="tl_red">[%s]</strong>',
                 $label,
                 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.onWaitingList']
             );

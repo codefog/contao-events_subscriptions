@@ -16,6 +16,12 @@ Based on the genuine event list module enhanced with the subscription functional
 on the genuine event list module it offers the same features as it's ancestor.
 
 
+## Event reader subscribe
+
+Based on the genuine event reader module enhanced with the subscription functionality. Since it is based 
+on the genuine event reader module it offers the same features as it's ancestor.
+
+
 ## Subscribe event form
 
 The module that should be placed on the same page as the event reader module. It displays
