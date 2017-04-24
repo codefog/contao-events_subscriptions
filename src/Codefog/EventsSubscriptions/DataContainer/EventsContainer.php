@@ -14,8 +14,11 @@ namespace Codefog\EventsSubscriptions\DataContainer;
 use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\Services;
 use Contao\Backend;
+use Contao\CalendarEventsModel;
+use Contao\CalendarModel;
 use Contao\DataContainer;
 use Contao\Image;
+use Contao\Input;
 use Haste\Dca\PaletteManipulator;
 
 class EventsContainer
@@ -27,12 +30,19 @@ class EventsContainer
      */
     public function extendPalette(DataContainer $dc)
     {
-        if (!$dc->id || CURRENT_ID === $dc->id) {
+        if (!$dc->id) {
             return;
         }
 
+        // Get the current pid
+        if (Input::get('act') === 'edit') {
+            $pid = CalendarEventsModel::findByPk($dc->id)->pid;
+        } else {
+            $pid = $dc->id;
+        }
+
         // Return if the subscription is not enabled
-        if (!$this->isSubscriptionEnabled($dc->id)) {
+        if (!CalendarModel::findByPk($pid)->subscription_enable) {
             return;
         }
 
