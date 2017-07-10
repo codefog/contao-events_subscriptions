@@ -17,7 +17,7 @@ use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Haste\Input\Input;
 
-class SubscribeModule extends \Module
+class EventSubscribeModule extends \Module
 {
     use SubscriptionTrait;
 
