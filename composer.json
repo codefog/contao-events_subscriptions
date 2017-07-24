@@ -25,7 +25,7 @@
         "contao-legacy/events_subscriptions": "self.version"
     },
     "autoload":{
-        "psr-4": {
+        "psr-0": {
             "Codefog\\EventsSubscriptions\\": "src"
         }
     },
