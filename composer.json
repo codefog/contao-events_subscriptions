@@ -3,7 +3,7 @@
     "description": "events_subscriptions extension for Contao Open Source CMS",
     "keywords": ["contao", "event", "events", "subscription", "subscriptions", "calendar"],
     "type": "contao-module",
-    "license": "LGPL-3.0+",
+    "license": "MIT",
     "authors": [
         {
             "name": "Codefog",

@@ -1,8 +1,8 @@
 # Events Subscriptions extension for Contao Open Source CMS
 
-![](https://img.shields.io/packagist/v/codefog/contao-events_subscriptions.svg)
-![](https://img.shields.io/packagist/l/codefog/contao-events_subscriptions.svg)
-![](https://img.shields.io/packagist/dt/codefog/contao-events_subscriptions.svg)
+[![](https://img.shields.io/packagist/v/codefog/contao-events_subscriptions.svg)](https://packagist.org/packages/codefog/contao-events_subscriptions)
+[![](https://img.shields.io/packagist/l/codefog/contao-events_subscriptions.svg)](https://github.com/codefog/contao-events_subscriptions/blob/master/LICENSE.txt)
+[![](https://img.shields.io/packagist/dt/codefog/contao-events_subscriptions.svg)](https://packagist.org/packages/codefog/contao-events_subscriptions)
 
 Events Subscriptions is an extension for the [Contao Open Source CMS](https://contao.org).
 
