@@ -115,8 +115,8 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscriptions'] = array
 		'addedBy' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_calendar_events_subscriptions']['addedBy'],
-			'default'                 => $this->User->id,
-			'exclude'                 => true,
+			'default'                 => \Contao\BackendUser::getInstance()->id,
+            'exclude'                 => true,
 			'inputType'               => 'select',
 			'foreignKey'              => 'tl_user.name',
 			'eval'                    => array('mandatory'=>true, 'includeBlankOption'=>true, 'tl_class'=>'w50'),
