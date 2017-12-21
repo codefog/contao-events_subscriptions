@@ -3,24 +3,27 @@
 /**
  * events_subscriptions extension for Contao Open Source CMS
  *
- * Copyright (C) 2013 Codefog
- *
- * @package events_subscriptions
- * @author  Codefog <http://codefog.pl>
- * @author  Kamil Kuzminski <kamil.kuzminski@codefog.pl>
- * @license LGPL
+ * @copyright Copyright (c) 2011-2017, Codefog
+ * @author    Codefog <https://codefog.pl>
+ * @license   http://opensource.org/licenses/lgpl-3.0.html LGPL
+ * @link      http://github.com/codefog/contao-events_subscriptions
  */
-
 
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_reminders'] = array('Erinnerungmails aktivieren', 'Aktiviert Erinnerungs-E-Mails für im Kalender eingetragene Anlässe.');
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_time']      = array('Sendezeit', 'Bitte geben Sie die ungefähre Zeit ein, wann die Erinnerung verschickt werden sollte.');
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_days']      = array('Tage vor dem Anlass', 'Bitte geben Sie in einer Komma getrennten Liste an, wieviele Tage vor dem Anlass Erinnerungsmails verschickt werden sollten.');
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_subject']   = array('E-Mail-Betreff', 'Bitte geben Sie den E-Mail-Betreff an. Sie können Wildcards für dynamisches Einfügen von Inhalten verwenden (z.B. ##event_title## für den Titel des Anlasses).');
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_message']   = array('E-Mail Inhalt', 'Bitte geben Sie den Inhaltstext der Mail-Nachricht an. Sie können Wildcards für das dynamische Einfügen von Inhalten verwenden (z.B. ##member_firstname## für den Vornamen eines Teilnehmers, einer Teilnehmerin).');
-
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_reminders'] = [
+    'Erinnerungmails aktivieren',
+    'Aktiviert Erinnerungs-E-Mails für im Kalender eingetragene Anlässe.',
+];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_time']      = [
+    'Sendezeit',
+    'Bitte geben Sie die ungefähre Zeit ein, wann die Erinnerung verschickt werden sollte.',
+];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_days']      = [
+    'Tage vor dem Anlass',
+    'Bitte geben Sie in einer Komma getrennten Liste an, wieviele Tage vor dem Anlass Erinnerungsmails verschickt werden sollten.',
+];
 
 /**
  * Fields

@@ -3,25 +3,21 @@
 /**
  * events_subscriptions extension for Contao Open Source CMS
  *
- * Copyright (C) 2013 Codefog
- *
- * @package events_subscriptions
- * @author  Codefog <http://codefog.pl>
- * @author  Kamil Kuzminski <kamil.kuzminski@codefog.pl>
- * @license LGPL
+ * @copyright Copyright (c) 2011-2017, Codefog
+ * @author    Codefog <https://codefog.pl>
+ * @license   http://opensource.org/licenses/lgpl-3.0.html LGPL
+ * @link      http://github.com/codefog/contao-events_subscriptions
  */
-
 
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC']['eventSubscribe']    = 'Zapisz się';
-$GLOBALS['TL_LANG']['MSC']['eventUnsubscribe']  = 'Wypisz się';
-$GLOBALS['TL_LANG']['MSC']['eventSubscribed']   = 'Zapisałeś się na to wydarzenie.';
-$GLOBALS['TL_LANG']['MSC']['eventUnsubscribed'] = 'Wypisałeś się z tego wydarzenia.';
-
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe']               = 'Zapisz się';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe']             = 'Wypisz się';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation']   = 'Zapisałeś się na to wydarzenie.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeConfirmation'] = 'Wypisałeś się z tego wydarzenia.';
 
 /**
  * Errors
  */
-$GLOBALS['TL_LANG']['ERR']['memberAlreadySubscribed'] = 'Użytkownik ID %s jest już zapisany na to wydarzenie!';
+$GLOBALS['TL_LANG']['ERR']['events_subscriptions.memberAlreadySubscribed'] = 'Użytkownik ID %s jest już zapisany na to wydarzenie!';

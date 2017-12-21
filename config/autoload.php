@@ -3,41 +3,31 @@
 /**
  * events_subscriptions extension for Contao Open Source CMS
  *
- * Copyright (C) 2013 Codefog
- *
- * @package events_subscriptions
- * @author  Codefog <http://codefog.pl>
- * @author  Kamil Kuzminski <kamil.kuzminski@codefog.pl>
- * @license LGPL
+ * @copyright Copyright (c) 2011-2017, Codefog
+ * @author    Codefog <https://codefog.pl>
+ * @license   http://opensource.org/licenses/lgpl-3.0.html LGPL
+ * @link      http://github.com/codefog/contao-events_subscriptions
  */
-
 
 /**
- * Register a custom namespace
+ * Register PSR-0 namespace
  */
-ClassLoader::addNamespace('EventsSubscriptions');
-
-
-/**
- * Register the classes
- */
-ClassLoader::addClasses(array
-(
-	// Classes
-	'EventsSubscriptions\EventsSubscriptions'      => 'system/modules/events_subscriptions/classes/EventsSubscriptions.php',
-
-	// Modules
-	'EventsSubscriptions\ModuleEventSubscribe'     => 'system/modules/events_subscriptions/modules/ModuleEventSubscribe.php',
-	'EventsSubscriptions\ModuleEventListSubscribe' => 'system/modules/events_subscriptions/modules/ModuleEventListSubscribe.php'
-));
-
+if (class_exists('NamespaceClassLoader')) {
+    NamespaceClassLoader::add('Codefog\EventsSubscriptions', 'system/modules/events_subscriptions/src');
+}
 
 /**
  * Register the templates
  */
-TemplateLoader::addFiles(array
-(
-	'event_list_subscribe'   => 'system/modules/events_subscriptions/templates',
-	'mod_eventsubscribe'     => 'system/modules/events_subscriptions/templates',
-	'mod_eventlistsubscribe' => 'system/modules/events_subscriptions/templates'
-));
+TemplateLoader::addFiles(
+    [
+        // Events
+        'event_list_subscribe'   => 'system/modules/events_subscriptions/templates/events',
+
+        // Frontend modules
+        'mod_event_subscribe'    => 'system/modules/events_subscriptions/templates/modules',
+
+        // Partials
+        'eventsubscription_form' => 'system/modules/events_subscriptions/templates/partials',
+    ]
+);

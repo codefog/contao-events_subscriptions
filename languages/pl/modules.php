@@ -3,17 +3,20 @@
 /**
  * events_subscriptions extension for Contao Open Source CMS
  *
- * Copyright (C) 2013 Codefog
- *
- * @package events_subscriptions
- * @author  Codefog <http://codefog.pl>
- * @author  Kamil Kuzminski <kamil.kuzminski@codefog.pl>
- * @license LGPL
+ * @copyright Copyright (c) 2011-2017, Codefog
+ * @author    Codefog <https://codefog.pl>
+ * @license   http://opensource.org/licenses/lgpl-3.0.html LGPL
+ * @link      http://github.com/codefog/contao-events_subscriptions
  */
-
 
 /**
  * Front end modules
  */
-$GLOBALS['TL_LANG']['FMD']['eventsubscribe']     = array('Formularz zapisania na wydarzenie', 'Dodaje formularz do zapisania się na wydarzenie.');
-$GLOBALS['TL_LANG']['FMD']['eventlistsubscribe'] = array('Lista wydarzeń do zapisania', 'Dodaje listę wydarzeń na które można się zapisać.');
+$GLOBALS['TL_LANG']['FMD']['event_list_subscribe'] = [
+    'Lista wydarzeń do zapisania',
+    'Dodaje listę wydarzeń na które można się zapisać.',
+];
+$GLOBALS['TL_LANG']['FMD']['event_subscribe']      = [
+    'Formularz zapisania na wydarzenie',
+    'Dodaje formularz do zapisania się na wydarzenie.',
+];
