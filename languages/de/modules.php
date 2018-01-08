@@ -13,10 +13,18 @@
  * Front end modules
  */
 $GLOBALS['TL_LANG']['FMD']['event_list_subscribe'] = [
-    'Liste mit Anlässen zum Anmelden',
-    'Fügt der Seite eine Liste mit Anlässen bei, für die sich Benutzer anmelden können.',
+    'Eventliste mit Anmeldung',
+    'Fügt der Seite einen Eventliste mit Anmeldemöglichkeit hinzu.',
+];
+$GLOBALS['TL_LANG']['FMD']['event_reader_subscribe'] = [
+    'Eventleser mit Anmeldung',
+    'Fügt der Seite einen Eventleser mit Anmeldemöglichkeit hinzu.',
 ];
 $GLOBALS['TL_LANG']['FMD']['event_subscribe']      = [
-    'Anmeldeformular für Anlass',
-    'Fügt der Seite ein Anmeldeformular für einen Anlass bei.',
+    'Anmeldeformular für Termine',
+    'Fügt der Seite ein Anmeldeformular für einen Termin hinzu.',
+];
+$GLOBALS['TL_LANG']['FMD']['event_subscriptions']    = [
+    'Benutzer Teilnahmeliste',
+    'Fügt eine Liste alle Termine an denen der Benutzer teilnimmt hinzu.',
 ];
