@@ -81,7 +81,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_subscribeEndTim
     'exclude'   => true,
     'inputType' => 'timePeriod',
     'options'   => ['seconds', 'minutes', 'hours', 'days', 'weeks', 'months', 'years'],
-    'reference' => &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_timeRef'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'],
     'eval'      => ['rgxp' => 'natural', 'minval' => 1, 'tl_class' => 'w50'],
     'sql'       => "varchar(64) NOT NULL default ''",
 ];
@@ -91,7 +91,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_unsubscribeEndT
     'exclude'   => true,
     'inputType' => 'timePeriod',
     'options'   => ['seconds', 'minutes', 'hours', 'days', 'weeks', 'months', 'years'],
-    'reference' => &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_timeRef'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'],
     'eval'      => ['rgxp' => 'natural', 'minval' => 1, 'tl_class' => 'w50'],
     'sql'       => "varchar(64) NOT NULL default ''",
 ];
