@@ -27,12 +27,6 @@ The Contao plugin will take care of copying the files to the correct place.
     $ composer.phar require codefog/contao-events_subscriptions ^2.0
 
 
-### Install from Extension Repository (in Contao 3.5)
-
-Events Subscriptions can also be installed from the Contao Extension Repository.
-Follow the Contao manual on [how to install extensions][2].
-
-
 ### Manual installation
 
 Download [`codefog/contao-events_subscriptions`][3] and copy the folder to your Contao
@@ -50,7 +44,6 @@ information on how to do it please read the documentation.
 
 
 [1]: https://getcomposer.org
-[2]: https://docs.contao.org/books/manual/3.5/en/05-system-administration/extensions.html
 [3]: https://github.com/codefog/contao-events_subscriptions/archive/master.zip
 [4]: https://github.com/codefog/contao-haste/archive/master.zip
 [5]: https://github.com/terminal42/contao-notification_center/archive/master.zip
