@@ -14,15 +14,15 @@
  */
 $GLOBALS['TL_LANG']['tl_member_group']['subscription_enableLimit'] = [
     'Anmeldelimit',
-    'Begrenzt die Möglichkeit sich für Termine anzumelnden.',
+    'Begrenzt die Möglichkeit sich für Termine anzumelden.',
 ];
 $GLOBALS['TL_LANG']['tl_member_group']['subscription_totalLimit']  = [
     'Limit',
-    'Für wie viele Termine kann kann man sich anmelden? Für eine ungerenzte Anzahl bitte 0 eintragen.',
+    'Für wie viele Termine kann kann man sich anmelden? Für eine unbegrenzte Anzahl bitte 0 eintragen.',
 ];
 $GLOBALS['TL_LANG']['tl_member_group']['subscription_periodLimit'] = [
     'Zeitliche Begrenzung',
-    'Zusätzlich kann eine Zeitlich Begrenzung gesetzt werden. Als Beispiel 5 Anmeldungen pro Monat.',
+    'Zusätzlich kann eine zeitliche Begrenzung gesetzt werden. Als Beispiel 5 Anmeldungen pro Monat.',
 ];
 
 /**

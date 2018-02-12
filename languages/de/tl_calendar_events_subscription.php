@@ -19,7 +19,7 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['addedBy'] = [
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member'] = [
     'Teilnehmer',
-    'Bitte wählen Sie den Teilnehmer, de Sie für den Termin eintragen möchten.',
+    'Bitte wählen Sie den Teilnehmer, den Sie für den Termin eintragen möchten.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['firstname'] = ['Vorname', ''];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastname'] = ['Nachname', ''];
@@ -66,4 +66,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['typeRef'] = [
  * Miscellaneous
  */
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summary'] = 'Aktuell haben sich %s Personen zu diesem Termin angemeldet.';
-$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summaryMax'] = 'Aktuell haben sich %s Personen von maximal %s Personen zu diesem Termin angemeldet.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summaryMax'] = 'Aktuell haben sich %s Personen von maximal %s zu diesem Termin angemeldet.';
