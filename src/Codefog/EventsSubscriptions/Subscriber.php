@@ -83,17 +83,22 @@ class Subscriber
     /**
      * Unsubscribe user from the event
      *
-     * @param int $eventId
-     * @param int $memberId
+     * @param EventConfig           $event
+     * @param SubscriptionInterface $subscription
      *
      * @return SubscriptionModel
+     *
+     * @throws \RuntimeException
      */
     public function unsubscribe(EventConfig $event, SubscriptionInterface $subscription)
     {
-        $model = SubscriptionModel::findOneBy(
-            ['pid=? AND type=?'],
-            [$event->getEvent()->id, $this->factory->getType(get_class($subscription))]
-        );
+        $columns = ['pid=? AND type=?'];
+        $values = [$event->getEvent()->id, $this->factory->getType(get_class($subscription))];
+        $subscription->setUnsubscribeCriteria($event, $columns, $values);
+
+        if (($model = SubscriptionModel::findOneBy($columns, $values)) === null) {
+            throw new \RuntimeException('The subscription model to unsubscribe could not be found');
+        }
 
         $model->delete();
 

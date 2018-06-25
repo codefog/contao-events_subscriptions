@@ -58,6 +58,15 @@ interface SubscriptionInterface
     public function writeToModel(EventConfig $event, SubscriptionModel $model);
 
     /**
+     * Set the unsubscribe criteria
+     *
+     * @param EventConfig $event
+     * @param array       &$columns
+     * @param array       &$values
+     */
+    public function setUnsubscribeCriteria(EventConfig $event, array &$columns, array &$values);
+
+    /**
      * Get the subscribe/unsubscribe form
      *
      * @param EventConfig $event

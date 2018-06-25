@@ -167,6 +167,19 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
     /**
      * @inheritDoc
      */
+    public function setUnsubscribeCriteria(EventConfig $event, array &$columns, array &$values)
+    {
+        if (($member = $this->getMemberModel()) === null) {
+            throw new \RuntimeException('There is no member model available');
+        }
+
+        $columns[] = 'member=?';
+        $values[] = $member->id;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getBackendLabel()
     {
         if (($member = $this->getMemberModel()) === null) {
