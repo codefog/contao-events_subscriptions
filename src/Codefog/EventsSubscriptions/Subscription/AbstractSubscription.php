@@ -100,6 +100,14 @@ abstract class AbstractSubscription implements SubscriptionInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function setUnsubscribeCriteria(EventConfig $event, array &$columns, array &$values)
+    {
+        // Backwards compatibility
+    }
+
+    /**
      * Create the basic form
      *
      * @param EventConfig $event
