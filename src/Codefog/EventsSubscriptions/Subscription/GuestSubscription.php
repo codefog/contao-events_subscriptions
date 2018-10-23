@@ -167,6 +167,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
             'subscription_firstname' => $this->subscriptionModel->firstname,
             'subscription_lastname'  => $this->subscriptionModel->lastname,
             'subscription_email'     => $this->subscriptionModel->email,
+            'unsubscribe_link'       => $this->generateUnsubscribeLink(),
         ];
     }
 }
