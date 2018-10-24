@@ -12,21 +12,21 @@
 
 ## Notification types and their purposes
 
-The notifications are handled by the 
+The notifications are handled by the
 [Notification Center](https://github.com/terminal42/contao-notification_center) extension.
 
-1. **Event reminder** 
-   
+1. **Event reminder**
+
    This notification type is used to send the reminders about the event. You must choose it in the
    calendar settings if you have enabled the reminders.
 
-2. **Event subscribe** 
+2. **Event subscribe**
 
    This notification type is used to confirm the member subscribed to the event. This notification
    does not need to be chosen anywhere, all of this notification types will be sent upon subscirption.
    **Note:** this notification is also sent when the user is subscribed to the event in the backend!
 
-3. **Event unsubscribe** 
+3. **Event unsubscribe**
 
    This notification type is used to confirm the member unsubscribed from the event. This notification
    does not need to be chosen anywhere, all of this notification types will be sent upon unsubscirption.
@@ -37,25 +37,29 @@ The notifications are handled by the
 
 The list of available tokens in every notification:
 
-1. `admin_email` 
-    
+1. `admin_email`
+
    The e-mail address of administrator.
 
-2. `member_email` 
+2. `recipient_email`
 
-   The e-mail address of the subscribed member.
+   The e-mail address of the subscribed user.
 
-3. `member_*`
+3. `subscription_*`
 
-   All data of the subscribed member. Enter the field name in place of asterisk to get
-   the desired data, e.g. `member_firstname` to get the member's firstname.
+   All data of the subscribed user. Enter the field name in place of asterisk to get
+   the desired data, e.g. `subscription_firstname` to get the member's firstname.
 
-4. `event_*` 
+4. `event_*`
 
    All data of the event. Enter the field name in place of asterisk to get
    the desired data, e.g. `event_startDate` to get the event's start date.
 
-5. `calendar_*` 
+5. `calendar_*`
 
    All data of the event's calendar. Enter the field name in place of asterisk to get
    the desired data, e.g. `calendar_title` to get the calendar's title.
+
+6. `unsubscribe_link`
+
+   A unique link that allows the user to immediately unsubscribe from the event.
