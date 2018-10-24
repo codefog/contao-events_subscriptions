@@ -77,7 +77,7 @@ $GLOBALS['TL_CRON']['hourly'][] = ['Codefog\EventsSubscriptions\EventListener\Cr
 $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['events_subscriptions'] = [
     'events_subscriptions_reminder'    => [
         'recipients'           => ['admin_email', 'recipient_email'],
-        'email_subject'        => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_subject'        => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
         'email_text'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'calendar_*'],
         'email_html'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'calendar_*'],
         'email_sender_name'    => ['admin_email', 'recipient_email'],
@@ -88,7 +88,7 @@ $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['events_subscriptions'] = [
     ],
     'events_subscriptions_subscribe'   => [
         'recipients'           => ['admin_email', 'recipient_email'],
-        'email_subject'        => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_subject'        => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
         'email_text'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'calendar_*'],
         'email_html'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'calendar_*'],
         'email_sender_name'    => ['admin_email', 'recipient_email'],
