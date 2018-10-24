@@ -82,7 +82,7 @@ class SubscriptionContainer
         if (!$dc->activeRecord->unsubscribeToken) {
             Database::getInstance()
                 ->prepare("UPDATE {$dc->table} SET unsubscribeToken=? WHERE id=?")
-                ->execute(md5(uniqid('', true)), $dc->id)
+                ->execute(SubscriptionModel::generateUnsubscribeToken(), $dc->id)
             ;
         }
     }
