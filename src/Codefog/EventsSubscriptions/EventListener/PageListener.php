@@ -40,13 +40,14 @@ class PageListener
     {
         if (($subscriptionModel = SubscriptionModel::findOneBy('unsubscribeToken', $token)) !== null) {
             $config = EventConfig::create($subscriptionModel->pid);
+            $calendar = $config->getCalendar();
             $subscription = Services::getSubscriptionFactory()->createFromModel($subscriptionModel);
 
             // Unsubscribe
             Services::getSubscriber()->unsubscribe($config, $subscription);
 
             // Redirect if we have a special page for that
-            if ($config->get('subscription_unsubscribeLinkPage') && ($page = PageModel::findPublishedById($config->get('subscription_unsubscribeLinkPage'))) !== null) {
+            if ($calendar->subscription_unsubscribeLinkPage && ($page = PageModel::findPublishedById($calendar->subscription_unsubscribeLinkPage)) !== null) {
                 Controller::redirect($page->getFrontendUrl());
             }
         }
