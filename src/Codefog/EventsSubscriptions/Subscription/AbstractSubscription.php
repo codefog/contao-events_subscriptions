@@ -8,6 +8,7 @@ use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
 use Codefog\EventsSubscriptions\Subscriber;
 use Codefog\EventsSubscriptions\SubscriptionValidator;
+use Contao\Environment;
 use Contao\Input;
 use Haste\Form\Form;
 
@@ -149,6 +150,20 @@ abstract class AbstractSubscription implements SubscriptionInterface
         $exception->setEventId($eventId);
 
         throw $exception;
+    }
+
+    /**
+     * Generate the unsubscribe link
+     *
+     * @return null|string
+     */
+    protected function generateUnsubscribeLink()
+    {
+        if (!$this->subscriptionModel->unsubscribeToken) {
+            return null;
+        }
+
+        return Environment::get('base') . '?event_unsubscribe=' . $this->subscriptionModel->unsubscribeToken;
     }
 
     /**

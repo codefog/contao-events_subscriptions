@@ -269,7 +269,9 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
             return [];
         }
 
-        $tokens = [];
+        $tokens = [
+            'unsubscribe_link' => $this->generateUnsubscribeLink(),
+        ];
 
         foreach ($member->row() as $k => $v) {
             $tokens['subscription_'.$k] = Format::dcaValue($member::getTable(), $k, $v);

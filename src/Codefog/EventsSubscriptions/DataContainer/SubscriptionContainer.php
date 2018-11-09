@@ -73,6 +73,21 @@ class SubscriptionContainer
     }
 
     /**
+     * Set the unsubscribe token
+     *
+     * @param DataContainer $dc
+     */
+    public function setUnsubscribeToken(DataContainer $dc)
+    {
+        if (!$dc->activeRecord->unsubscribeToken) {
+            Database::getInstance()
+                ->prepare("UPDATE {$dc->table} SET unsubscribeToken=? WHERE id=?")
+                ->execute(SubscriptionModel::generateUnsubscribeToken(), $dc->id)
+            ;
+        }
+    }
+
+    /**
      * Dispatch the subscribe event
      *
      * @param DataContainer $dc

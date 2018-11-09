@@ -53,6 +53,16 @@ class EventConfig
     }
 
     /**
+     * Get the calendar model
+     *
+     * @return CalendarModel|null
+     */
+    public function getCalendar()
+    {
+        return $this->calendar;
+    }
+
+    /**
      * Get the event model
      *
      * @return CalendarEventsModel|null

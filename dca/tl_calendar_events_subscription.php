@@ -181,5 +181,9 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'flag'  => 8,
             'sql'   => "int(10) unsigned NOT NULL default '0'",
         ],
+        'unsubscribeToken' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['unsubscribeToken'],
+            'sql'   => "varchar(32) NOT NULL default ''",
+        ],
     ],
 ];
