@@ -32,6 +32,7 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['email']        = [
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['dateCreated']  = ['Date created'];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastReminder'] = ['Last reminder sent'];
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['unsubscribeToken'] = ['Unsubscribe token'];
 
 /**
  * Legends

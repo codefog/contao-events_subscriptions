@@ -69,6 +69,7 @@ class Subscriber
         $model->dateCreated = $now;
         $model->type        = $this->factory->getType(get_class($subscription));
         $model->pid         = $event->getEvent()->id;
+        $model->unsubscribeToken = SubscriptionModel::generateUnsubscribeToken();
         $model->save();
 
         // Dispatch the event

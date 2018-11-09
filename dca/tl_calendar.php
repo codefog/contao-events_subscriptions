@@ -27,7 +27,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_
     ->addField('subscription_enable', 'subscription_legend', \Haste\Dca\PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('default', 'tl_calendar');
 
-$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']      = 'subscription_types,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_waitingList,subscription_reminders';
+$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']      = 'subscription_types,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_waitingList,subscription_reminders,subscription_unsubscribeLinkPage';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_reminders']   = 'subscription_time,subscription_days,subscription_notification';
 
@@ -82,4 +82,12 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_notification'] = [
     'options_callback' => ['Codefog\EventsSubscriptions\DataContainer\CalendarContainer', 'getNotifications'],
     'eval'             => ['mandatory' => true, 'includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],
     'sql'              => "int(10) unsigned NOT NULL default '0'",
+];
+
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_unsubscribeLinkPage'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['subscription_unsubscribeLinkPage'],
+    'exclude' => true,
+    'inputType' => 'pageTree',
+    'eval' => ['fieldType' => 'radio', 'tl_class' => 'clr'],
+    'sql' => "int(10) unsigned NOT NULL default '0'",
 ];

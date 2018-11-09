@@ -32,6 +32,11 @@ Here you can set the time offset before the event starts when to stop users to u
 For example if the event starts on `10-03-2017` and you set the unsubscribe end time to `3 days`,
 it will no longer be possible to unsubscribe on `07-03-2017` and after.
 
+### Unsubscribe link confirmation page
+
+Here you can choose the confirmation page to which users will be taken after clicking the unsubscribe
+link in the notification e-mail.
+
 
 ## Waiting list
 
@@ -46,17 +51,17 @@ number of participants on the waiting list. Leave 0 to not limit the waiting lis
 ## Subscription reminders
 
 To make sure your members will not forget about the event you can set the subscription reminders
-that will be sent on specific days before the event starts. Take a look at the configuration below: 
+that will be sent on specific days before the event starts. Take a look at the configuration below:
 
 ![](images/advanced-reminders.png)
 
 The reminders will be sent at 13:00 on 1st, 2nd and 3rd day before the event starts. For example
-if the event starts on `10-03-2017`, the reminders will be sent at: 
+if the event starts on `10-03-2017`, the reminders will be sent at:
 `07-03-2017 13:00`, `08-03-2017 13:00`, `09-03-2017 13:00`.
 
-Additionally you have to create and specify the reminder notification in the Notification Center. 
+Additionally you have to create and specify the reminder notification in the Notification Center.
 
-> In order to make reminders work with no problems make sure that Contao cron is executed 
+> In order to make reminders work with no problems make sure that Contao cron is executed
 > at least upon the sending time! The recommended way it to set the cron to be run every minute.
 
 
@@ -67,7 +72,7 @@ You can enable that in the member group and/or member settings:
 
 ![](images/advanced-members.png)
 
-> All settings set in the member group can be overridden per each member individually. 
+> All settings set in the member group can be overridden per each member individually.
 
 ### Total limit
 
@@ -83,7 +88,7 @@ subscriptions simply enter no value at all.
 
 As an example, if the limit is set to 3 events per month and the user is already subscribed for
 3 events that take place in January, he won't be able to subscribe to another one that takes place
-in the same month. However he will be able to subscribe to the event that takes place in another 
+in the same month. However he will be able to subscribe to the event that takes place in another
 month, e.g. February.
 
 > If member is assigned to multiple groups, the limit value of the first member group will be used.

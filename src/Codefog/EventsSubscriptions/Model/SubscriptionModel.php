@@ -42,4 +42,14 @@ class SubscriptionModel extends Model
     {
         return MemberModel::findByPk($this->member);
     }
+
+    /**
+     * Generate the unsubscribe token
+     *
+     * @return string
+     */
+    public static function generateUnsubscribeToken()
+    {
+        return md5(uniqid('', true));
+    }
 }
