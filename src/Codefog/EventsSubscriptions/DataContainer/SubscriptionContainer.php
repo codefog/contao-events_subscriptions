@@ -66,7 +66,7 @@ class SubscriptionContainer
      */
     public function setDateCreated(DataContainer $dc)
     {
-        if (!$dc->activeRecord->dateCreated) {
+        if (!$dc->activeRecord->dateCreated && Input::post('SUBMIT_TYPE') !== 'auto') {
             Database::getInstance()->prepare("UPDATE {$dc->table} SET dateCreated=? WHERE id=?")
                 ->execute(time(), $dc->id);
         }
@@ -94,7 +94,7 @@ class SubscriptionContainer
      */
     public function dispatchSubscribeEvent(DataContainer $dc)
     {
-        if ($dc->activeRecord->tstamp || ($subscription = SubscriptionModel::findByPk($dc->id)) === null) {
+        if ($dc->activeRecord->dateCreated || ($subscription = SubscriptionModel::findByPk($dc->id)) === null) {
             return;
         }
 
