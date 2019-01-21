@@ -18,6 +18,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
     'config'   => [
         'dataContainer'     => 'Table',
         'ptable'            => 'tl_calendar_events',
+        'doNotCopyRecords'  => true,
         'onload_callback'   => [
             ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'displaySummary'],
         ],
