@@ -15,9 +15,13 @@ use Contao\Model\Collection;
 use Contao\System;
 use Haste\IO\Reader\ArrayReader;
 use Haste\IO\Writer\CsvFileWriter;
+use Haste\IO\Writer\ExcelFileWriter;
 
 class Exporter
 {
+    const FORMAT_CSV = 'csv';
+    const FORMAT_EXCEL = 'excel';
+
     /**
      * @var EventDispatcher
      */
@@ -44,25 +48,48 @@ class Exporter
      * Export subscriptions by event
      *
      * @param CalendarEventsModel $event
+     * @param string              $format
      *
      * @return File
      *
      * @throws \InvalidArgumentException
      */
-    public function exportByEvent(CalendarEventsModel $event)
+    public function exportByEvent(CalendarEventsModel $event, $format = self::FORMAT_CSV)
     {
-        return $this->export($event, SubscriptionModel::findBy('pid', $event->id));
+        return $this->export($event, $format, SubscriptionModel::findBy('pid', $event->id));
+    }
+
+    /**
+     * Return true if the Excel format is supported
+     *
+     * @param string $format
+     *
+     * @return bool
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function isFormatSupported($format)
+    {
+        switch ($format) {
+            case self::FORMAT_CSV:
+                return true;
+            case self::FORMAT_EXCEL:
+                return class_exists('PHPExcel');
+            default:
+                throw new \InvalidArgumentException(sprintf('Invalid export format: %s', $format));
+        }
     }
 
     /**
      * Export the subscriptions to a file
      *
      * @param CalendarEventsModel $event
+     * @param string              $format
      * @param Collection          $models
      *
      * @return File
      */
-    private function export($event, Collection $models = null)
+    private function export($event, $format, Collection $models = null)
     {
         $subscriptions = [];
 
@@ -80,7 +107,7 @@ class Exporter
         }
 
         $reader = $this->getFileReader($event, $subscriptions);
-        $writer = $this->getFileWriter();
+        $writer = $this->getFileWriter($format);
 
         // Dispatch the event
         $this->eventDispatcher->dispatch(
@@ -113,11 +140,25 @@ class Exporter
     /**
      * Get the file writer
      *
+     * @param string $format
+     *
      * @return CsvFileWriter
+     *
+     * @throws \InvalidArgumentException
      */
-    private function getFileWriter()
+    private function getFileWriter($format)
     {
-        $writer = new CsvFileWriter();
+        switch ($format) {
+            case self::FORMAT_CSV:
+                $writer = new CsvFileWriter();
+                break;
+            case self::FORMAT_EXCEL:
+                $writer = new ExcelFileWriter();
+                break;
+            default:
+                throw new \InvalidArgumentException(sprintf('Invalid export format: %s', $format));
+        }
+
         $writer->enableHeaderFields();
 
         return $writer;

@@ -75,3 +75,13 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['typeRef'] = [
  */
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summary']    = 'There are %s subscription(s) to this event.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summaryMax'] = 'There are %s subscription(s) of %s possible to this event.';
+
+/**
+ * Export
+ */
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.headline'] = 'Export subscriptions';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.explanation'] = 'You are about to export the subscriptions data for the event:';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.count'] = 'Number of the subscriptions to be exported:';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.excelFormatHint'] = 'To enable export in Excel format please install the <strong>phpoffice/phpspreadsheet</strong> package. Alternatively you can install the deprecated <strong>phpoffice/phpexcel</strong> package.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.csv'] = 'Export as CSV';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.excel'] = 'Export as Excel';
