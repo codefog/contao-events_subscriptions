@@ -74,7 +74,13 @@ class Exporter
             case self::FORMAT_CSV:
                 return true;
             case self::FORMAT_EXCEL:
-                return class_exists('PHPExcel');
+                try {
+                    new ExcelFileWriter();
+                } catch (\LogicException $e) {
+                    return false;
+                }
+
+                return true;
             default:
                 throw new \InvalidArgumentException(sprintf('Invalid export format: %s', $format));
         }
