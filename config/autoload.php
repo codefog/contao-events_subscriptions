@@ -21,6 +21,9 @@ if (class_exists('NamespaceClassLoader')) {
  */
 TemplateLoader::addFiles(
     [
+        // Backend
+        'be_events_subscriptions_export' => 'system/modules/events_subscriptions/templates/backend',
+
         // Events
         'event_list_subscribe'   => 'system/modules/events_subscriptions/templates/events',
 
