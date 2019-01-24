@@ -102,6 +102,15 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
     /**
      * @inheritDoc
      */
+    public function setUnsubscribeCriteria(EventConfig $event, array &$columns, array &$values)
+    {
+        $columns[] = 'unsubscribeToken=?';
+        $values[] = $this->subscriptionModel->unsubscribeToken;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getExportColumns()
     {
         return [];
