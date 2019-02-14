@@ -67,6 +67,9 @@ Additionally you have to create and specify the reminder notification in the Not
 
 ## Limit subscriptions per member and/or member group
 
+In the calendar and event settings you can optionally restrict which member groups are allowed to subscribe to the
+certain events. Simply select the `Member groups restriction` checkbox and choose the desired groups.
+
 It is also possible to limit the amount of possible subscriptions per member and per member group.
 You can enable that in the member group and/or member settings:
 

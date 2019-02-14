@@ -65,6 +65,7 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
         $member = MemberConfig::create($memberModel->id);
 
         if ($validator->isMemberSubscribed($event, $member)
+            || !$validator->validateMemberGroups($event, $member)
             || !$validator->validateMemberTotalLimit($member)
             || !$validator->validateMemberPeriodLimit($event, $member)
         ) {

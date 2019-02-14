@@ -198,4 +198,28 @@ class SubscriptionValidator
 
         return $limit['value'] > $subscriptions;
     }
+
+    /**
+     * Validate the member groups
+     *
+     * @param EventConfig  $event
+     * @param MemberConfig $member
+     *
+     * @return bool
+     */
+    public function validateMemberGroups(EventConfig $event, MemberConfig $member)
+    {
+        if (!$event->hasMemberGroupsLimit()) {
+            return true;
+        }
+
+        $allowedGroups = $event->getMemberGroups();
+
+        // Return false if no groups were selected
+        if (count($allowedGroups) === 0) {
+            return false;
+        }
+
+        return count(array_intersect($allowedGroups, $member->getMemberGroups())) > 0;
+    }
 }

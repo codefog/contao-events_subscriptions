@@ -42,8 +42,10 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptions'] 
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][]              = 'subscription_override';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][]              = 'subscription_waitingList';
-$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override']    = 'subscription_types,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_waitingList';
+$GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][]              = 'subscription_memberGroupsLimit';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override']    = 'subscription_types,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_waitingList,subscription_memberGroupsLimit';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_memberGroupsLimit'] = 'subscription_memberGroups';
 
 /**
  * Add fields
@@ -66,6 +68,26 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types'] = [
     'reference'        => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['typeRef'],
     'eval'             => ['mandatory' => true, 'multiple' => true, 'tl_class' => 'clr'],
     'sql'              => "blob NULL",
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_memberGroupsLimit'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_memberGroupsLimit'],
+    'exclude' => true,
+    'filter' => true,
+    'inputType' => 'checkbox',
+    'eval' => ['submitOnChange' => true],
+    'sql' => "char(1) NOT NULL default ''",
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_memberGroups'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_memberGroups'],
+    'exclude' => true,
+    'filter' => true,
+    'inputType' => 'checkbox',
+    'flag' => 1,
+    'foreignKey' => 'tl_member_group.name',
+    'eval' => ['mandatory' => true, 'multiple' => true, 'tl_class' => 'clr'],
+    'sql' => "blob NULL",
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_maximum'] = [

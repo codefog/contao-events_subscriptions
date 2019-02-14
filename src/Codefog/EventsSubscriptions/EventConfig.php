@@ -143,6 +143,26 @@ class EventConfig
     }
 
     /**
+     * Return true if the event has a member groups limit
+     *
+     * @return bool
+     */
+    public function hasMemberGroupsLimit()
+    {
+        return $this->get('subscription_memberGroupsLimit') ? true : false;
+    }
+
+    /**
+     * Get the allowed member groups
+     *
+     * @return array
+     */
+    public function getMemberGroups()
+    {
+        return deserialize($this->get('subscription_memberGroups'), true);
+    }
+
+    /**
      * Calculate the time offset
      *
      * @param int    $time
