@@ -50,6 +50,16 @@ class MemberConfig
     }
 
     /**
+     * Get the member groups
+     *
+     * @return array
+     */
+    public function getMemberGroups()
+    {
+        return deserialize($this->member->groups, true);
+    }
+
+    /**
      * Get the total subscription limit
      *
      * @return int

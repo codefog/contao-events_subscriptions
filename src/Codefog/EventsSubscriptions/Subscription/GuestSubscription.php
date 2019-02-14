@@ -5,6 +5,7 @@ namespace Codefog\EventsSubscriptions\Subscription;
 use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Haste\Form\Form;
+use Haste\Util\ArrayPosition;
 
 class GuestSubscription extends AbstractSubscription implements ExportAwareInterface, NotificationAwareInterface
 {
@@ -41,6 +42,8 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
             return;
         }
 
+        parent::writeToModel($event, $model);
+
         $model->firstname = $form->fetch('firstname');
         $model->lastname  = $form->fetch('lastname');
         $model->email     = $form->fetch('email');
@@ -62,21 +65,24 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                     'label'     => &$GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.firstname'],
                     'inputType' => 'text',
                     'eval'      => ['mandatory' => true],
-                ]
+                ],
+                ArrayPosition::before('enableReminders')
             )->addFormField(
                 'lastname',
                 [
                     'label'     => &$GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.lastname'],
                     'inputType' => 'text',
                     'eval'      => ['mandatory' => true],
-                ]
+                ],
+                ArrayPosition::before('enableReminders')
             )->addFormField(
                 'email',
                 [
                     'label'     => &$GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.email'],
                     'inputType' => 'text',
                     'eval'      => ['mandatory' => true, 'rgxp' => 'email'],
-                ]
+                ],
+                ArrayPosition::before('enableReminders')
             );
 
         return $form;

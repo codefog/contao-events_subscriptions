@@ -83,6 +83,16 @@ class EventConfig
     }
 
     /**
+     * Return true if calendar has reminders
+     *
+     * @return bool
+     */
+    public function hasReminders()
+    {
+        return $this->calendar->subscription_reminders ? true : false;
+    }
+
+    /**
      * Get the allowed subscription types
      *
      * @return array
@@ -140,6 +150,26 @@ class EventConfig
     public function getWaitingListLimit()
     {
         return (int)$this->get('subscription_waitingListLimit');
+    }
+
+    /**
+     * Return true if the event has a member groups limit
+     *
+     * @return bool
+     */
+    public function hasMemberGroupsLimit()
+    {
+        return $this->get('subscription_memberGroupsLimit') ? true : false;
+    }
+
+    /**
+     * Get the allowed member groups
+     *
+     * @return array
+     */
+    public function getMemberGroups()
+    {
+        return deserialize($this->get('subscription_memberGroups'), true);
     }
 
     /**

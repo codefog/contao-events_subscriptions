@@ -145,7 +145,7 @@ class Automator
         $where = (count($where) ? " AND (".implode(" OR ", $where).")" : "");
 
         return Database::getInstance()->prepare(
-            "SELECT e.*, es.id AS subscriptionId FROM tl_calendar_events_subscription es JOIN tl_calendar_events e ON e.id=es.pid WHERE e.pid=?".$where
+            "SELECT e.*, es.id AS subscriptionId FROM tl_calendar_events_subscription es JOIN tl_calendar_events e ON e.id=es.pid WHERE e.pid=? AND es.disableReminders=''".$where
         )
             ->execute($calendar->id)
             ->fetchAllAssoc();

@@ -65,6 +65,7 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
         $member = MemberConfig::create($memberModel->id);
 
         if ($validator->isMemberSubscribed($event, $member)
+            || !$validator->validateMemberGroups($event, $member)
             || !$validator->validateMemberTotalLimit($member)
             || !$validator->validateMemberPeriodLimit($event, $member)
         ) {
@@ -118,6 +119,8 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
         if (($memberModel = $this->getMemberModel()) === null) {
             throw new \RuntimeException('The member model cannot be null');
         }
+
+        parent::writeToModel($event, $model);
 
         $model->member = $memberModel->id;
     }

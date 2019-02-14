@@ -40,6 +40,14 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_waitingListLimit']   = [
     'Waiting list limit',
     'Please enter the waiting list limit. Enter 0 to allow unlimited subscriptions.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_memberGroupsLimit']   = [
+    'Member groups restriction',
+    'Restrict the subscription to certain member groups. This works only if you have enabled the Member subscription type!',
+];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_memberGroups']   = [
+    'Member groups',
+    'Please choose one or more member groups that are allowed to subscribe.',
+];
 
 /**
  * Legends
