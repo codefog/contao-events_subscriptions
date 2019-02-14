@@ -38,6 +38,7 @@ trait SubscriptionTrait
             'subscribeEndTime'   => $this->getSubscribeEndTime($config),
             'unsubscribeEndTime' => $this->getUnsubscribeEndTime($config),
             'subscribers'        => $this->generateEventSubscribers($config),
+            'subscriptionMaximum' => $config->getMaximumSubscriptions(),
             'subscriptionTypes'  => [],
         ];
 
