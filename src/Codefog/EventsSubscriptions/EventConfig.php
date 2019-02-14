@@ -83,6 +83,16 @@ class EventConfig
     }
 
     /**
+     * Return true if calendar has reminders
+     *
+     * @return bool
+     */
+    public function hasReminders()
+    {
+        return $this->calendar->subscription_reminders ? true : false;
+    }
+
+    /**
      * Get the allowed subscription types
      *
      * @return array

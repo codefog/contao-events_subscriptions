@@ -109,6 +109,21 @@ abstract class AbstractSubscription implements SubscriptionInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function writeToModel(EventConfig $event, SubscriptionModel $model)
+    {
+        if (($form = $this->getForm($event)) === null) {
+            return;
+        }
+
+        // Disable reminder if they are turned on and the user explicitly does not request them
+        if ($event->hasReminders() && !$this->form->fetch('enableReminders')) {
+            $model->disableReminders = 1;
+        }
+    }
+
+    /**
      * Create the basic form
      *
      * @param EventConfig $event
@@ -130,6 +145,14 @@ abstract class AbstractSubscription implements SubscriptionInterface
         );
 
         $form->addContaoHiddenFields();
+
+        if ($event->hasReminders()) {
+            $form->addFormField('enableReminders', [
+                'inputType' => 'checkbox',
+                'default' => 1,
+                'options' => [1 => &$GLOBALS['TL_LANG']['MSC']['events_subscriptions.enableReminders']],
+            ]);
+        }
 
         return $form;
     }

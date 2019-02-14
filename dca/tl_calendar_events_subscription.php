@@ -46,7 +46,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'disableGrouping'       => true,
             'fields'                => ['dateCreated'],
             'headerFields'          => ['title', 'startDate', 'startTime', 'endDate', 'endTime', 'published'],
-            'panelLayout'           => 'filter,limit',
+            'panelLayout'           => 'filter;limit',
             'child_record_callback' => [
                 'Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer',
                 'generateLabel',
@@ -89,9 +89,9 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
     // Palettes
     'palettes' => [
         '__selector__' => ['type'],
-        'default'      => '{type_legend},type,addedBy',
-        'guest'        => '{type_legend},type,addedBy;{guest_legend},firstname,lastname,email',
-        'member'       => '{type_legend},type,addedBy;{member_legend},member',
+        'default'      => '{type_legend},type,addedBy,disableReminders',
+        'guest'        => '{type_legend},type,addedBy,disableReminders;{guest_legend},firstname,lastname,email',
+        'member'       => '{type_legend},type,addedBy,disableReminders;{member_legend},member',
     ],
 
     // Fields
@@ -136,6 +136,14 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'foreignKey' => 'tl_user.name',
             'eval'       => ['includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql'        => "int(10) unsigned NOT NULL default '0'",
+        ],
+        'disableReminders' => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['disableReminders'],
+            'exclude'   => true,
+            'filter'    => true,
+            'inputType' => 'checkbox',
+            'eval'      => ['tl_class' => 'clr'],
+            'sql'       => "char(1) NOT NULL default ''",
         ],
         'member'       => [
             'label'            => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member'],

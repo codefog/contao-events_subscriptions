@@ -120,6 +120,8 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
             throw new \RuntimeException('The member model cannot be null');
         }
 
+        parent::writeToModel($event, $model);
+
         $model->member = $memberModel->id;
     }
 
