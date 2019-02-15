@@ -43,7 +43,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptions'] 
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][]              = 'subscription_override';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][]              = 'subscription_waitingList';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][]              = 'subscription_memberGroupsLimit';
-$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override']    = 'subscription_types,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_waitingList,subscription_memberGroupsLimit';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override']    = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_waitingList';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_memberGroupsLimit'] = 'subscription_memberGroups';
 

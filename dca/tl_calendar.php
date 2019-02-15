@@ -28,7 +28,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_
     ->addField('subscription_enable', 'subscription_legend', \Haste\Dca\PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('default', 'tl_calendar');
 
-$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']      = 'subscription_types,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_waitingList,subscription_memberGroupsLimit,subscription_reminders,subscription_unsubscribeLinkPage';
+$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']      = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_waitingList,subscription_reminders,subscription_unsubscribeLinkPage';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_memberGroupsLimit'] = 'subscription_memberGroups';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_reminders']   = 'subscription_time,subscription_days,subscription_notification';
