@@ -40,6 +40,14 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_waitingListLimit']   = [
     'Wartelistenlimit',
     '0 für keine Begrenzung.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_memberGroupsLimit']   = [
+    'Berechtigung auf Mitgliedergruppen beschränken',
+    'Beschränken Sie die Anmeldung auf bestimmte Mitgliedergruppen. Dies funktioniert nur, wenn Sie den Anmeldetyp für Mitglieder aktiviert haben!',
+];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_memberGroups']   = [
+    'Mitgliedergruppen',
+    'Bitte wählen Sie eine oder mehrere Mitgliedergruppen aus, die sich anmelden dürfen.',
+];
 
 /**
  * Legends
