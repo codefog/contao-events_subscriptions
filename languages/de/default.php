@@ -19,6 +19,7 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeConfirmation'] = 'Si
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeNotAllowed']     = 'Es ist nicht mehr möglich sich zu diesem Termin anzumelden.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeNotAllowed']   = 'Es ist nicht mehr möglich sich zu diesem Termin abzumelden.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.onWaitingList']           = 'Warteliste';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.enableReminders']         = 'Erinnerung aktivieren';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.firstname']     = 'Vorname';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.lastname']      = 'Nachname';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.email']         = 'E-Mailadresse';

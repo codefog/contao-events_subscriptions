@@ -17,6 +17,10 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['addedBy'] = [
     'Eingetragen von',
     'Hier können Sie wählen, wer diesen Teilnehmer eingetragen hat.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['disableReminders'] = [
+    'Erinnerungen deaktivieren',
+    'Erinnerungen für diesen Benutzer nicht aktivieren.',
+];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member'] = [
     'Teilnehmer',
     'Bitte wählen Sie den Teilnehmer, den Sie für den Termin eintragen möchten.',
