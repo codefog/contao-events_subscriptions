@@ -34,7 +34,7 @@ trait SubscriptionTrait
     {
         $data = [
             'subscribeMessage'   => Services::getFlashMessage()->puke($config->getEvent()->id),
-            'isEventPast'        => $this->event->startTime < time(),
+            'isEventPast'        => $config->getEvent()->startTime < time(),
             'subscribeEndTime'   => $this->getSubscribeEndTime($config),
             'unsubscribeEndTime' => $this->getUnsubscribeEndTime($config),
             'subscribers'        => $this->generateEventSubscribers($config),
