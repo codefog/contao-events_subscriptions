@@ -13,11 +13,11 @@
         <?php endif; ?>
 
         <?php if ($type['canSubscribe']): ?>
-            <p class="info">You can subscribe until: <?= $this->subscribeEndTime['date'] ?></p>
+            <p class="info"><?= sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.canSubscribeUntil'], $this->subscribeEndTime['date']) ?></p>
         <?php endif; ?>
 
         <?php if ($type['canUnsubscribe']): ?>
-            <p class="info">You can unsubscribe until: <?= $this->unsubscribeEndTime['date'] ?></p>
+            <p class="info"><?= sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.canUnsubscribeUntil'], $this->unsubscribeEndTime['date']) ?></p>
         <?php endif; ?>
 
         <?php if ($type['form']): ?>
