@@ -58,7 +58,8 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
             return false;
         }
 
-        $form = $this->createBasicForm($event)
+        $form = $this->createBasicForm($event);
+        $form
             ->addFormField(
                 'firstname',
                 [
@@ -66,7 +67,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                     'inputType' => 'text',
                     'eval'      => ['mandatory' => true],
                 ],
-                ArrayPosition::before('enableReminders')
+                $form->hasFormField('enableReminders') ? ArrayPosition::before('enableReminders') : null
             )->addFormField(
                 'lastname',
                 [
@@ -74,7 +75,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                     'inputType' => 'text',
                     'eval'      => ['mandatory' => true],
                 ],
-                ArrayPosition::before('enableReminders')
+                $form->hasFormField('enableReminders') ? ArrayPosition::before('enableReminders') : null
             )->addFormField(
                 'email',
                 [
@@ -82,7 +83,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                     'inputType' => 'text',
                     'eval'      => ['mandatory' => true, 'rgxp' => 'email'],
                 ],
-                ArrayPosition::before('enableReminders')
+                $form->hasFormField('enableReminders') ? ArrayPosition::before('enableReminders') : null
             );
 
         return $form;
