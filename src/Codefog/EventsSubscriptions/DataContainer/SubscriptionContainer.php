@@ -94,7 +94,7 @@ class SubscriptionContainer
      */
     public function dispatchSubscribeEvent(DataContainer $dc)
     {
-        if ($dc->activeRecord->dateCreated || ($subscription = SubscriptionModel::findByPk($dc->id)) === null) {
+        if (Input::post('SUBMIT_TYPE') === 'auto' || $dc->activeRecord->dateCreated || ($subscription = SubscriptionModel::findByPk($dc->id)) === null) {
             return;
         }
 
