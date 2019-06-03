@@ -95,7 +95,7 @@ class Exporter
      *
      * @return File
      */
-    private function export($event, $format, Collection $models = null)
+    private function export($eventModel, $format, Collection $models = null)
     {
         $subscriptions = [];
 
@@ -112,18 +112,18 @@ class Exporter
             }
         }
 
-        $reader = $this->getFileReader($event, $subscriptions);
+        $reader = $this->getFileReader($eventModel, $subscriptions);
         $writer = $this->getFileWriter($format);
 
         // Dispatch the event
         $this->eventDispatcher->dispatch(
             EventDispatcher::EVENT_ON_EXPORT,
-            new ExportEvent($reader, $writer, $event, $subscriptions)
+            $event = new ExportEvent($reader, $writer, $eventModel, $subscriptions)
         );
 
-        $writer->writeFrom($reader);
+        $writer->writeFrom($event->getReader());
 
-        return new File($writer->getFilename(), true);
+        return new File($event->getWriter()->getFilename(), true);
     }
 
     /**
