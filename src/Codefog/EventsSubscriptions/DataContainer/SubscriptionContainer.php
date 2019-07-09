@@ -148,12 +148,17 @@ class SubscriptionContainer
     /**
      * Get all members and return them as array
      *
+     * @param DataContainer $dc
+     *
      * @return array
      */
-    public function getMembers()
+    public function getMembers(DataContainer $dc)
     {
         $members = [];
-        $records = Database::getInstance()->execute("SELECT * FROM tl_member ORDER BY lastname, firstname, username");
+        $records = Database::getInstance()
+            ->prepare("SELECT * FROM tl_member WHERE id=? OR id NOT IN (SELECT member FROM tl_calendar_events_subscription WHERE type=? AND pid=?) ORDER BY lastname, firstname, username")
+            ->execute($dc->activeRecord->member, 'member', $dc->activeRecord->pid)
+        ;
 
         while ($records->next()) {
             $members[$records->id] = $records->lastname.' '.$records->firstname.' ('.$records->username.')';

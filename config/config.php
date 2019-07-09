@@ -48,6 +48,11 @@ $GLOBALS['TL_HOOKS']['generatePage'][] = [
     'onGeneratePage',
 ];
 
+$GLOBALS['TL_HOOKS']['reviseTable'][] = [
+    'Codefog\EventsSubscriptions\EventListener\TableListener',
+    'onReviseTable',
+];
+
 /**
  * Models
  */
