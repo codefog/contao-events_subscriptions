@@ -44,5 +44,5 @@ but should not be used (at least unmodified) in the production.
 If you wonder what data is available for the template you can simply print it:
 
 ```php
-<?php dump($this->getData()) ?>
+<?php $this->dumpTemplateVars() ?>
 ```
