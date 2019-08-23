@@ -11,7 +11,7 @@
 
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
-use Codefog\EventsSubscriptions\EventConfig;
+use Codefog\EventsSubscriptions\Services;
 use Contao\Controller;
 use Contao\Date;
 use Contao\Message;
@@ -203,7 +203,7 @@ class EventListModule extends ModuleEventlist
             $objTemplate = new \FrontendTemplate($this->cal_template);
             $objTemplate->setData($event);
 
-            $subscriptionData = $this->getSubscriptionTemplateData(EventConfig::create($event['id']), $this->arrData);
+            $subscriptionData = $this->getSubscriptionTemplateData(Services::getEventConfigFactory()->create($event['id']), $this->arrData);
 
             // Add the subscription data to the template
             foreach ($subscriptionData as $k => $v) {

@@ -11,7 +11,6 @@
 
 namespace Codefog\EventsSubscriptions\EventListener;
 
-use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
 use Contao\Controller;
@@ -39,7 +38,7 @@ class PageListener
     private function unsubscribe($token)
     {
         if (($subscriptionModel = SubscriptionModel::findOneBy('unsubscribeToken', $token)) !== null) {
-            $config = EventConfig::create($subscriptionModel->pid);
+            $config = Services::getEventConfigFactory()->create($subscriptionModel->pid);
             $calendar = $config->getCalendar();
             $subscription = Services::getSubscriptionFactory()->createFromModel($subscriptionModel);
 

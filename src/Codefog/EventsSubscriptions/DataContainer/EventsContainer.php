@@ -11,7 +11,6 @@
 
 namespace Codefog\EventsSubscriptions\DataContainer;
 
-use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\Services;
 use Contao\Backend;
 use Contao\CalendarEventsModel;
@@ -98,8 +97,6 @@ class EventsContainer
      */
     private function isSubscriptionEnabled($id)
     {
-        $config = EventConfig::create($id);
-
-        return $config->canSubscribe();
+        return Services::getEventConfigFactory()->create($id)->canSubscribe();
     }
 }
