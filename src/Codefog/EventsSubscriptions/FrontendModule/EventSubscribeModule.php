@@ -85,5 +85,7 @@ class EventSubscribeModule extends \Module
         foreach ($data as $k => $v) {
             $this->Template->$k = $v;
         }
+
+        $this->Template->event = $this->event->row();
     }
 }
