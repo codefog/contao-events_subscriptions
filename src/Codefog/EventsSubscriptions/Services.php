@@ -20,6 +20,12 @@ class Services
     private static $instances = [];
 
     /**
+     * Initializations
+     * @var array
+     */
+    private static $initializations = [];
+
+    /**
      * Get the automator
      *
      * @return Automator
@@ -114,6 +120,21 @@ class Services
     }
 
     /**
+     * Get the event config factory
+     *
+     * @return EventConfigFactory
+     */
+    public static function getEventConfigFactory()
+    {
+        return static::get(
+            'event-config-factory',
+            function () {
+                return new EventConfigFactory();
+            }
+        );
+    }
+
+    /**
      * Get the subscription factory
      *
      * @return SubscriptionFactory
@@ -144,6 +165,17 @@ class Services
     }
 
     /**
+     * Set the initialization
+     *
+     * @param string $key
+     * @param callable $init
+     */
+    public static function setInitialization($key, callable $init)
+    {
+        static::$initializations[$key] = $init;
+    }
+
+    /**
      * Get the instance
      *
      * @param string   $key
@@ -154,6 +186,11 @@ class Services
     private static function get($key, callable $init)
     {
         if (!isset(static::$instances[$key])) {
+            // Set the initialization instead of the default value
+            if (isset(static::$initializations[$key]) && is_callable(static::$initializations[$key])) {
+                $init = static::$initializations[$key];
+            }
+
             static::$instances[$key] = $init();
         }
 

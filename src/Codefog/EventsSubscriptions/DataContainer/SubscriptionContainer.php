@@ -13,7 +13,6 @@ namespace Codefog\EventsSubscriptions\DataContainer;
 
 use Codefog\EventsSubscriptions\Event\SubscribeEvent;
 use Codefog\EventsSubscriptions\Event\UnsubscribeEvent;
-use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\EventDispatcher;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
@@ -35,7 +34,7 @@ class SubscriptionContainer
         }
 
         try {
-            $config = EventConfig::create(CURRENT_ID);
+            $config = Services::getEventConfigFactory()->create(CURRENT_ID);
         } catch (\Exception $e) {
             return;
         }

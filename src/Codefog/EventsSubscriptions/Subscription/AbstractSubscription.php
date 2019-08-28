@@ -86,7 +86,7 @@ abstract class AbstractSubscription implements SubscriptionInterface
             throw new \BadMethodCallException('The subscription model does not exist');
         }
 
-        $event = EventConfig::create($subscriptionModel->getEvent()->id);
+        $event = Services::getEventConfigFactory()->create($subscriptionModel->getEvent()->id);
 
         if (!$event->hasWaitingList() || !($max = $event->getMaximumSubscriptions())) {
             return null;

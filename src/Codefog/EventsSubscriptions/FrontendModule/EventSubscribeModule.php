@@ -11,7 +11,7 @@
 
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
-use Codefog\EventsSubscriptions\EventConfig;
+use Codefog\EventsSubscriptions\Services;
 use Contao\BackendTemplate;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
@@ -80,10 +80,12 @@ class EventSubscribeModule extends \Module
      */
     protected function compile()
     {
-        $data = $this->getSubscriptionTemplateData(EventConfig::create($this->event->id), $this->arrData);
+        $data = $this->getSubscriptionTemplateData(Services::getEventConfigFactory()->create($this->event->id), $this->arrData);
 
         foreach ($data as $k => $v) {
             $this->Template->$k = $v;
         }
+
+        $this->Template->event = $this->event->row();
     }
 }

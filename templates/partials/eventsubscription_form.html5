@@ -1,5 +1,5 @@
 <?php foreach ($this->subscriptionTypes as $name => $type): ?>
-    <div class="type-<?= $type ?>">
+    <div class="type-<?= $name ?>">
         <?php if ($this->subscribeMessage): ?>
             <p class="confirm"><?= $this->subscribeMessage ?></p>
         <?php endif; ?>

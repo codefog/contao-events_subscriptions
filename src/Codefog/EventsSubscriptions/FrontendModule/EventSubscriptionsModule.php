@@ -11,7 +11,6 @@
 
 namespace Codefog\EventsSubscriptions\FrontendModule;
 
-use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\MemberConfig;
 use Codefog\EventsSubscriptions\Services;
 use Contao\BackendTemplate;
@@ -145,7 +144,7 @@ class EventSubscriptionsModule extends ModuleEventlist
                         continue;
                     }
 
-                    $event['subscription_config'] = EventConfig::create($event['id']);
+                    $event['subscription_config'] = Services::getEventConfigFactory()->create($event['id']);
 
                     // The user is not subscribed to the event
                     if (!$validator->isMemberSubscribed($event['subscription_config'], $memberConfig)) {
@@ -220,7 +219,7 @@ class EventSubscriptionsModule extends ModuleEventlist
             $objTemplate = new \FrontendTemplate($this->cal_template);
             $objTemplate->setData($event);
 
-            $subscriptionData = $this->getSubscriptionTemplateData(EventConfig::create($event['id']), $this->arrData);
+            $subscriptionData = $this->getSubscriptionTemplateData(Services::getEventConfigFactory()->create($event['id']), $this->arrData);
 
             // Add the subscription data to the template
             foreach ($subscriptionData as $k => $v) {
