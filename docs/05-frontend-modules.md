@@ -46,3 +46,15 @@ If you wonder what data is available for the template you can simply print it:
 ```php
 <?php $this->dumpTemplateVars() ?>
 ```
+
+Example data you can find is:
+
+```php
+$this->subscription_waitingList; // 1 – waiting list enabled; 0 – disabled
+$this->subscription_waitingListLimit; // waiting list limit
+$this->subscribers; // all subscribers
+$this->subscribers['subscribers']; // event subscribers
+$this->subscribers['waitingList']; // subscribers on waiting list
+$this->subscriptionMaximum; // maximum subscribers limit
+$this->subscriptionTypes; // detailed information about subscription types
+```
