@@ -32,6 +32,12 @@ The notifications are handled by the
    does not need to be chosen anywhere, all of this notification types will be sent upon unsubscription.
    **Note:** this notification is also sent when the user is unsubscribed from the event in the backend!
 
+4. **Event waiting list promotion**
+
+   This notification type is used to update the member waiting list status. It is sent only if the subscription
+   promotes from a waiting list to the subscriber list due to an unsubscription of a different member.
+   **Note:** this notification is also sent when the other user is unsubscribed from the event in the backend!
+
 
 ## Available tokens
 
