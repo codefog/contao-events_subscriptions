@@ -26,7 +26,11 @@
                 <?= $type['form']->fields ?>
 
                 <div class="submit_container">
-                    <button type="submit" class="submit <?php if ($type['canUnsubscribe']): ?>unsubscribe<?php else: ?>subscribe<?php endif; ?>"><?= $type['canUnsubscribe'] ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe'] ?></button>
+                    <?php if ($this->subscribeWaitingList): ?>
+                        <button type="submit" class="submit <?php if ($type['canUnsubscribe']): ?>unsubscribe<?php else: ?>subscribe<?php endif; ?>"><?= $type['canUnsubscribe'] ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeWaitingList'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeWaitingList'] ?></button>
+                    <?php else: ?>
+                        <button type="submit" class="submit <?php if ($type['canUnsubscribe']): ?>unsubscribe<?php else: ?>subscribe<?php endif; ?>"><?= $type['canUnsubscribe'] ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe'] ?></button>
+                    <?php endif; ?>
                 </div>
             </form>
         <?php endif; ?>

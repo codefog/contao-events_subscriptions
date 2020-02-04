@@ -42,6 +42,9 @@ trait SubscriptionTrait
             'subscriptionTypes'  => [],
         ];
 
+        // Add a helper variable that indicates subscription to a waiting list (see #32)
+        $data['subscribeWaitingList'] = $config->hasWaitingList() && ($data['subscriptionMaximum'] - count($data['subscribers']['subscribers']) <= 0);
+
         $factory = Services::getSubscriptionFactory();
 
         foreach ($config->getAllowedSubscriptionTypes() as $type) {
