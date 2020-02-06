@@ -15,6 +15,7 @@
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe']               = 'Anmelden';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeWaitingList']    = 'Auf die Warteliste setzen';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe']             = 'Abmelden';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeWaitingList']  = 'Von der Warteliste abmelden';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation']   = 'Sie haben sich für den Termin angemeldet.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeConfirmation'] = 'Sie haben sich vom Termin abgemeldet.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeNotAllowed']     = 'Es ist nicht mehr möglich sich zu diesem Termin anzumelden.';

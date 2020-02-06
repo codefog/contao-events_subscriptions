@@ -26,10 +26,10 @@
                 <?= $type['form']->fields ?>
 
                 <div class="submit_container">
-                    <?php if ($this->subscribeWaitingList): ?>
-                        <button type="submit" class="submit <?php if ($type['canUnsubscribe']): ?>unsubscribe<?php else: ?>subscribe<?php endif; ?>"><?= $type['canUnsubscribe'] ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeWaitingList'] ?></button>
-                    <?php else: ?>
-                        <button type="submit" class="submit <?php if ($type['canUnsubscribe']): ?>unsubscribe<?php else: ?>subscribe<?php endif; ?>"><?= $type['canUnsubscribe'] ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe'] ?></button>
+                    <?php if ($type['canSubscribe']): ?>
+                        <button type="submit" class="submit subscribe"><?= $this->subscribeWaitingList ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeWaitingList'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe'] ?></button>
+                    <?php elseif ($type['canUnsubscribe']): ?>
+                        <button type="submit" class="submit unsubscribe"><?= $type['isOnWaitingList'] ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeWaitingList'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeWaitingList'] ?></button>
                     <?php endif; ?>
                 </div>
             </form>

@@ -57,5 +57,5 @@ $this->subscribers['subscribers']; // event subscribers
 $this->subscribers['waitingList']; // subscribers on waiting list
 $this->subscriptionMaximum; // maximum subscribers limit
 $this->subscriptionTypes; // detailed information about subscription types
-$this->subscribeWaitingList; // subscribe/unsubscribe to/from waiting list
+$this->subscribeWaitingList; // true if subscribe will be made to waiting list
 ```

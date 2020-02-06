@@ -15,8 +15,10 @@ use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\Exception\RedirectException;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
+use Codefog\EventsSubscriptions\Subscription\MemberSubscription;
 use Contao\Controller;
 use Contao\Date;
+use Contao\FrontendUser;
 use Contao\Model\Collection;
 use Contao\PageModel;
 
@@ -68,7 +70,14 @@ trait SubscriptionTrait
                 'canSubscribe'   => $subscription->canSubscribe($config),
                 'canUnsubscribe' => $subscription->canUnsubscribe($config),
                 'isSubscribed'   => $subscription->isSubscribed($config),
+                'isOnWaitingList' => false,
             ];
+
+            // Check if member is on waiting list
+            if ($data['subscriptionTypes'][$type]['isSubscribed'] && $subscription instanceof MemberSubscription) {
+                $subscription->setSubscriptionModel(SubscriptionModel::findOneBy(['pid=? AND member=?'], [$config->getEvent()->id, FrontendUser::getInstance()->id]));
+                $data['subscriptionTypes'][$type]['isOnWaitingList'] = $subscription->isOnWaitingList();
+            }
         }
 
         return $data;
