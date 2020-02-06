@@ -101,6 +101,8 @@ class Subscriber
             throw new \RuntimeException('The subscription model to unsubscribe could not be found');
         }
 
+        $subscription->setSubscriptionModel($model);
+
         // First, dispatch the event (consistency with DC_Table)
         $this->eventDispatcher->dispatch(EventDispatcher::EVENT_ON_UNSUBSCRIBE, new UnsubscribeEvent($model, $subscription));
 
