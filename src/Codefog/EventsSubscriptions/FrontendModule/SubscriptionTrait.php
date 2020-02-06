@@ -83,14 +83,14 @@ trait SubscriptionTrait
      */
     protected function generateEventSubscribers(EventConfig $config)
     {
+        $subscribers = ['subscribers' => [], 'waitingList' => []];
         $subscriptions = SubscriptionModel::findBy('pid', $config->getEvent()->id, ['order' => 'dateCreated']);
 
         if ($subscriptions === null) {
-            return [];
+            return $subscribers;
         }
 
         $factory     = Services::getSubscriptionFactory();
-        $subscribers = ['subscribers' => [], 'waitingList' => []];
 
         /**
          * @var Collection        $subscriptions
