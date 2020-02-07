@@ -23,14 +23,20 @@ The notifications are handled by the
 2. **Event subscribe**
 
    This notification type is used to confirm the member subscribed to the event. This notification
-   does not need to be chosen anywhere, all of this notification types will be sent upon subscirption.
+   does not need to be chosen anywhere, all of this notification types will be sent upon subscription.
    **Note:** this notification is also sent when the user is subscribed to the event in the backend!
 
 3. **Event unsubscribe**
 
    This notification type is used to confirm the member unsubscribed from the event. This notification
-   does not need to be chosen anywhere, all of this notification types will be sent upon unsubscirption.
+   does not need to be chosen anywhere, all of this notification types will be sent upon unsubscription.
    **Note:** this notification is also sent when the user is unsubscribed from the event in the backend!
+
+4. **Event waiting list promotion**
+
+   This notification type is used to update the member waiting list status. It is sent only if the subscription
+   promotes from a waiting list to the subscriber list due to an unsubscription of a different member.
+   **Note:** this notification is also sent when the other user is unsubscribed from the event in the backend!
 
 
 ## Available tokens
@@ -49,6 +55,10 @@ The list of available tokens in every notification:
 
    All data of the subscribed user. Enter the field name in place of asterisk to get
    the desired data, e.g. `subscription_firstname` to get the member's firstname.
+
+4. `subscription_waitingList`
+
+   True if the subscriber is on the waiting list, false otherwise.
 
 4. `event_*`
 

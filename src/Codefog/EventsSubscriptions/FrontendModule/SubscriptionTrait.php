@@ -15,8 +15,10 @@ use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\Exception\RedirectException;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
+use Codefog\EventsSubscriptions\Subscription\MemberSubscription;
 use Contao\Controller;
 use Contao\Date;
+use Contao\FrontendUser;
 use Contao\Model\Collection;
 use Contao\PageModel;
 
@@ -33,6 +35,8 @@ trait SubscriptionTrait
     protected function getSubscriptionTemplateData(EventConfig $config, array $moduleData)
     {
         $data = [
+            'subscriptionWaitingList'      => $config->hasWaitingList(),
+            'subscriptionWaitingListLimit' => $config->getWaitingListLimit(),
             'subscribeMessage'   => Services::getFlashMessage()->puke($config->getEvent()->id),
             'isEventPast'        => $config->getEvent()->startTime < time(),
             'subscribeEndTime'   => $this->getSubscribeEndTime($config),
@@ -41,6 +45,9 @@ trait SubscriptionTrait
             'subscriptionMaximum' => $config->getMaximumSubscriptions(),
             'subscriptionTypes'  => [],
         ];
+
+        // Add a helper variable that indicates subscription to a waiting list (see #32)
+        $data['subscribeWaitingList'] = $config->hasWaitingList() && ($data['subscriptionMaximum'] - count($data['subscribers']['subscribers']) <= 0);
 
         $factory = Services::getSubscriptionFactory();
 
@@ -65,7 +72,14 @@ trait SubscriptionTrait
                 'canSubscribe'   => $subscription->canSubscribe($config),
                 'canUnsubscribe' => $subscription->canUnsubscribe($config),
                 'isSubscribed'   => $subscription->isSubscribed($config),
+                'isOnWaitingList' => false,
             ];
+
+            // Check if member is on waiting list
+            if ($data['subscriptionTypes'][$type]['isSubscribed'] && $subscription instanceof MemberSubscription) {
+                $subscription->setSubscriptionModel(SubscriptionModel::findOneBy(['pid=? AND member=?'], [$config->getEvent()->id, FrontendUser::getInstance()->id]));
+                $data['subscriptionTypes'][$type]['isOnWaitingList'] = $subscription->isOnWaitingList();
+            }
         }
 
         return $data;
@@ -80,14 +94,14 @@ trait SubscriptionTrait
      */
     protected function generateEventSubscribers(EventConfig $config)
     {
+        $subscribers = ['subscribers' => [], 'waitingList' => []];
         $subscriptions = SubscriptionModel::findBy('pid', $config->getEvent()->id, ['order' => 'dateCreated']);
 
         if ($subscriptions === null) {
-            return [];
+            return $subscribers;
         }
 
         $factory     = Services::getSubscriptionFactory();
-        $subscribers = ['subscribers' => [], 'waitingList' => []];
 
         /**
          * @var Collection        $subscriptions
