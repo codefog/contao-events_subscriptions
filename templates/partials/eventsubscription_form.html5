@@ -29,7 +29,7 @@
                     <?php if ($type['canSubscribe']): ?>
                         <button type="submit" class="submit subscribe"><?= $this->subscribeWaitingList ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeWaitingList'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe'] ?></button>
                     <?php elseif ($type['canUnsubscribe']): ?>
-                        <button type="submit" class="submit unsubscribe"><?= $type['isOnWaitingList'] ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeWaitingList'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeWaitingList'] ?></button>
+                        <button type="submit" class="submit unsubscribe"><?= $type['isOnWaitingList'] ? $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeWaitingList'] : $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe'] ?></button>
                     <?php endif; ?>
                 </div>
             </form>
