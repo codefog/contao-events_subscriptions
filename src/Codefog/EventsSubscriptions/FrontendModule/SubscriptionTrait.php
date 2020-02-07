@@ -35,6 +35,8 @@ trait SubscriptionTrait
     protected function getSubscriptionTemplateData(EventConfig $config, array $moduleData)
     {
         $data = [
+            'subscriptionWaitingList'      => $config->hasWaitingList(),
+            'subscriptionWaitingListLimit' => $config->getWaitingListLimit(),
             'subscribeMessage'   => Services::getFlashMessage()->puke($config->getEvent()->id),
             'isEventPast'        => $config->getEvent()->startTime < time(),
             'subscribeEndTime'   => $this->getSubscribeEndTime($config),
