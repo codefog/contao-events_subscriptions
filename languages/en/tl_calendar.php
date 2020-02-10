@@ -32,6 +32,10 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscription_notification'] = [
     'Reminder notification',
     'Please choose the notification that will be used to sent the reminder.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_skipWaitingListReminders'] = [
+    'Skip reminders for waiting list subscribers',
+    'Do not send reminders for subscribers that are currently on the waiting list.',
+];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_unsubscribeLinkPage'] = [
     'Unsubscribe link confirmation page',
     'Here you can choose the page that will be displayed after the user unsubscribes via unique link he receives in e-mail.',

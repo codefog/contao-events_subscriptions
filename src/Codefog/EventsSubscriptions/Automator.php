@@ -26,13 +26,19 @@ class Automator
     private $sender;
 
     /**
-     * Automator constructor.
-     *
-     * @param NotificationSender $sender
+     * @var SubscriptionFactory
      */
-    public function __construct(NotificationSender $sender)
+    private $subscriptionFactory;
+
+    /**
+     * Automator constructor.
+     * @param NotificationSender $sender
+     * @param SubscriptionFactory $subscriptionFactory
+     */
+    public function __construct(NotificationSender $sender, SubscriptionFactory $subscriptionFactory)
     {
         $this->sender = $sender;
+        $this->subscriptionFactory = $subscriptionFactory;
     }
 
     /**
@@ -101,15 +107,24 @@ class Automator
         $sent = 0;
 
         foreach ($events as $event) {
-            if (($subscription = SubscriptionModel::findByPk($event['subscriptionId'])) === null) {
+            if (($subscriptionModel = SubscriptionModel::findByPk($event['subscriptionId'])) === null) {
                 continue;
             }
 
-            $this->sender->send($notification, $subscription);
+            // Skip the reminders for waiting lists, if enabled
+            if ($calendar->subscription_skipWaitingListReminders) {
+                $subscription = $this->subscriptionFactory->createFromModel($subscriptionModel);
+
+                if ($subscription->isOnWaitingList()) {
+                    continue;
+                }
+            }
+
+            $this->sender->send($notification, $subscriptionModel);
 
             // Update the database
-            $subscription->lastReminder = time();
-            $subscription->save();
+            $subscriptionModel->lastReminder = time();
+            $subscriptionModel->save();
 
             // Bump the counter
             $sent++;
