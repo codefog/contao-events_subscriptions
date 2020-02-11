@@ -35,7 +35,7 @@ class Services
         return static::get(
             'automator',
             function () {
-                return new Automator(static::getNotificationSender());
+                return new Automator(static::getNotificationSender(), static::getSubscriptionFactory());
             }
         );
     }
