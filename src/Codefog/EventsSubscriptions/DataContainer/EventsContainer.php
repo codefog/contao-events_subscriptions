@@ -52,6 +52,33 @@ class EventsContainer
     }
 
     /**
+     * Get the "notifications" button
+     *
+     * @param array  $row
+     * @param string $href
+     * @param string $label
+     * @param string $title
+     * @param string $icon
+     * @param string $attributes
+     *
+     * @return string
+     */
+    public function getNotificationsButton(array $row, $href, $label, $title, $icon, $attributes)
+    {
+        if (!$this->isSubscriptionEnabled($row['id'])) {
+            return '';
+        }
+
+        return sprintf(
+            '<a href="%s" title="%s"%s>%s</a> ',
+            Backend::addToUrl($href.'&amp;id='.$row['id']),
+            specialchars($title),
+            $attributes,
+            Image::getHtml($icon, $label)
+        );
+    }
+
+    /**
      * Get the "subscriptions" button
      *
      * @param array  $row

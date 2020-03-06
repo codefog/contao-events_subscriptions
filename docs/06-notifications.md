@@ -38,6 +38,11 @@ The notifications are handled by the
    promotes from a waiting list to the subscriber list due to an unsubscription of a different member.
    **Note:** this notification is also sent when the other user is unsubscribed from the event in the backend!
 
+5. **Event notification**
+
+   This notification type is used when a backend user manually clicks the "Send a new event notification" button next
+   to an event in the backend list module. It can mostly be used as a message to your users encouraging to subscribe
+   to a new event which you have just created.
 
 ## Available tokens
 

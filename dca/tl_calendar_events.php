@@ -30,6 +30,13 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback'][] = [
 /**
  * Add list operations
  */
+$GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['sendNotifications'] = [
+    'label'           => &$GLOBALS['TL_LANG']['tl_calendar_events']['sendNotifications'],
+    'href'            => 'key=subscriptions_notification',
+    'icon'            => 'system/modules/events_subscriptions/assets/send.svg',
+    'button_callback' => ['Codefog\EventsSubscriptions\DataContainer\EventsContainer', 'getNotificationsButton'],
+];
+
 $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptions'] = [
     'label'           => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'],
     'href'            => 'table=tl_calendar_events_subscription',
@@ -132,4 +139,11 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_waitingListLimi
     'inputType' => 'text',
     'eval'      => ['rgxp' => 'digit', 'tl_class' => 'clr'],
     'sql'       => "smallint(5) unsigned NOT NULL default '0'",
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_lastNotificationSent'] = [
+    'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_lastNotificationSent'],
+    'exclude'   => true,
+    'eval'      => ['rgxp' => 'datim'],
+    'sql'       => "varchar(10) NOT NULL default ''",
 ];
