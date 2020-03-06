@@ -42,7 +42,8 @@ The notifications are handled by the
 
    This notification type is used when a backend user manually clicks the "Send a new event notification" button next
    to an event in the backend list module. It can mostly be used as a message to your users encouraging to subscribe
-   to a new event which you have just created.
+   to a new event which you have just created. The notification will address all selected members that have NOT
+   subscribed to the event yet!
 
 ## Available tokens
 

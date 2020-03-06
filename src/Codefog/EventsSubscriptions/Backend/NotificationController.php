@@ -126,8 +126,8 @@ class NotificationController
         $members = [];
         $time = Date::floorToMinute();
         $memberRecords = Database::getInstance()
-            ->prepare("SELECT * FROM tl_member WHERE login=? AND (start='' OR start<=?) AND (stop='' OR stop>?) AND disable=''")
-            ->execute(1, $time, $time + 60)
+            ->prepare("SELECT * FROM tl_member WHERE login=? AND (start='' OR start<=?) AND (stop='' OR stop>?) AND disable='' AND id NOT IN (SELECT member FROM tl_calendar_events_subscription WHERE pid=?)")
+            ->execute(1, $time, $time + 60, $eventModel->id)
         ;
 
         // Get only the members that belong to selected groups
