@@ -149,9 +149,12 @@ class Automator
         }
 
         $today = new Date();
-        $where = [];
 
-        // Bulid a WHERE statement
+        // Set regular visibility settings (#35)
+        $time = Date::floorToMinute();
+        $where = ["(start='' OR start<='$time') AND (stop='' OR stop>'" . ($time + 60) . "') AND published='1'"];
+
+        // Build a WHERE statement
         foreach ($days as $day) {
             $date    = new Date(strtotime('+'.$day.' days'));
             $where[] = "((e.startTime BETWEEN ".$date->dayBegin." AND ".$date->dayEnd.") AND ((es.lastReminder = 0) OR (es.lastReminder NOT BETWEEN ".$today->dayBegin." AND ".$today->dayEnd.")))";

@@ -89,3 +89,15 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.count'] = 'Number
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.excelFormatHint'] = 'To enable export in Excel format please install the <strong>phpoffice/phpspreadsheet</strong> package. Alternatively you can install the deprecated <strong>phpoffice/phpexcel</strong> package.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.csv'] = 'Export as CSV';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.excel'] = 'Export as Excel';
+
+/**
+ * Notification
+ */
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.headline'] = 'Event notifications';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.explanation'] = 'Here you can send a notification to selected member groups for the event:';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.notification'] = 'Notification';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.memberGroups'] = 'Member groups';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.submit'] = 'Send a notification';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.noRecipients'] = 'There are no active members to send this notification to.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.confirmation'] = '%s notifications sent successfully!';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.lastNotificationDate'] = 'Last notification sent at %s.';

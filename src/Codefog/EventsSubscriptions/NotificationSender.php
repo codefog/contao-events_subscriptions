@@ -17,6 +17,7 @@ use Codefog\EventsSubscriptions\Subscription\SubscriptionInterface;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\Config;
+use Contao\Events;
 use Contao\Model;
 use Contao\Model\Collection;
 use Haste\Util\Format;
@@ -79,6 +80,39 @@ class NotificationSender
     }
 
     /**
+     * Get the tokens
+     *
+     * @param array $data
+     * @param string $table
+     * @param string $prefix
+     *
+     * @return array
+     */
+    public function getTokens(array $data, $table, $prefix)
+    {
+        $tokens = [];
+
+        foreach ($data as $k => $v) {
+            $tokens[$prefix.$k] = Format::dcaValue($table, $k, $v);
+        }
+
+        return $tokens;
+    }
+
+    /**
+     * Get the model tokens
+     *
+     * @param Model  $model
+     * @param string $prefix
+     *
+     * @return array
+     */
+    public function getModelTokens(Model $model, $prefix)
+    {
+        return $this->getTokens($model->row(), $model::getTable(), $prefix);
+    }
+
+    /**
      * Generate the tokens
      *
      * @param CalendarEventsModel        $event
@@ -99,30 +133,11 @@ class NotificationSender
 
         // Generate event tokens
         $tokens = array_merge($tokens, $this->getModelTokens($event, 'event_'));
+        $tokens['event_link'] = Events::generateEventUrl($event, true);
 
         // Generate calendar tokens
         if (($calendar = CalendarModel::findByPk($event->pid)) !== null) {
             $tokens = array_merge($tokens, $this->getModelTokens($calendar, 'calendar_'));
-        }
-
-        return $tokens;
-    }
-
-    /**
-     * Get the model tokens
-     *
-     * @param Model  $model
-     * @param string $prefix
-     *
-     * @return array
-     */
-    private function getModelTokens(Model $model, $prefix)
-    {
-        $tokens = [];
-        $table  = $model::getTable();
-
-        foreach ($model->row() as $k => $v) {
-            $tokens[$prefix.$k] = Format::dcaValue($table, $k, $v);
         }
 
         return $tokens;

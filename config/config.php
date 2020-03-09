@@ -17,6 +17,10 @@ $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_export'] = [
     'Codefog\EventsSubscriptions\Backend\ExportController',
     'run',
 ];
+$GLOBALS['BE_MOD']['content']['calendar']['subscriptions_notification'] = [
+    'Codefog\EventsSubscriptions\Backend\NotificationController',
+    'run',
+];
 
 /**
  * Add front end modules
@@ -83,8 +87,8 @@ $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['events_subscriptions'] = [
     'events_subscriptions_reminder'    => [
         'recipients'           => ['admin_email', 'recipient_email'],
         'email_subject'        => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
-        'email_text'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'calendar_*'],
-        'email_html'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_text'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'event_link', 'calendar_*'],
+        'email_html'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'event_link', 'calendar_*'],
         'email_sender_name'    => ['admin_email', 'recipient_email'],
         'email_sender_address' => ['admin_email', 'recipient_email'],
         'email_recipient_cc'   => ['admin_email', 'recipient_email'],
@@ -94,8 +98,8 @@ $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['events_subscriptions'] = [
     'events_subscriptions_subscribe'   => [
         'recipients'           => ['admin_email', 'recipient_email'],
         'email_subject'        => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
-        'email_text'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'calendar_*'],
-        'email_html'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_text'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'event_link', 'calendar_*'],
+        'email_html'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'event_link', 'calendar_*'],
         'email_sender_name'    => ['admin_email', 'recipient_email'],
         'email_sender_address' => ['admin_email', 'recipient_email'],
         'email_recipient_cc'   => ['admin_email', 'recipient_email'],
@@ -105,8 +109,8 @@ $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['events_subscriptions'] = [
     'events_subscriptions_unsubscribe' => [
         'recipients'           => ['admin_email', 'recipient_email'],
         'email_subject'        => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
-        'email_text'           => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
-        'email_html'           => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_text'           => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'event_link', 'calendar_*'],
+        'email_html'           => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'event_link', 'calendar_*'],
         'email_sender_name'    => ['admin_email', 'recipient_email'],
         'email_sender_address' => ['admin_email', 'recipient_email'],
         'email_recipient_cc'   => ['admin_email', 'recipient_email'],
@@ -116,8 +120,19 @@ $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['events_subscriptions'] = [
     'events_subscriptions_listUpdate' => [
         'recipients'           => ['admin_email', 'recipient_email'],
         'email_subject'        => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*'],
-        'email_text'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'calendar_*'],
-        'email_html'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'calendar_*'],
+        'email_text'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'event_link', 'calendar_*'],
+        'email_html'           => ['admin_email', 'recipient_email', 'unsubscribe_link', 'subscription_*', 'event_*', 'event_link', 'calendar_*'],
+        'email_sender_name'    => ['admin_email', 'recipient_email'],
+        'email_sender_address' => ['admin_email', 'recipient_email'],
+        'email_recipient_cc'   => ['admin_email', 'recipient_email'],
+        'email_recipient_bcc'  => ['admin_email', 'recipient_email'],
+        'email_replyTo'        => ['admin_email', 'recipient_email'],
+    ],
+    'events_subscription_event' => [
+        'recipients'           => ['admin_email', 'recipient_email'],
+        'email_subject'        => ['admin_email', 'recipient_email', 'event_*', 'calendar_*', 'member_*'],
+        'email_text'           => ['admin_email', 'recipient_email', 'event_*', 'event_link', 'calendar_*', 'member_*'],
+        'email_html'           => ['admin_email', 'recipient_email', 'event_*', 'event_link', 'calendar_*', 'member_*'],
         'email_sender_name'    => ['admin_email', 'recipient_email'],
         'email_sender_address' => ['admin_email', 'recipient_email'],
         'email_recipient_cc'   => ['admin_email', 'recipient_email'],

@@ -48,6 +48,7 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_memberGroups']   = [
     'Member groups',
     'Please choose one or more member groups that are allowed to subscribe.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_lastNotificationSent'] = ['Last notification sent'];
 
 /**
  * Legends
@@ -61,6 +62,7 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'] = [
     'Subscriptions',
     'Show the subscriptions of event ID %s',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events']['sendNotifications'] = ['Send event notifications', 'Send a notifications of event ID %s'];
 
 /**
  * Reference
