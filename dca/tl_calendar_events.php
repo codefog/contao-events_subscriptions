@@ -27,6 +27,13 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback'][] = [
     'extendPalette',
 ];
 
+if (($index = array_search(['tl_calendar_events', 'checkPermission'], $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback'])) !== false) {
+    $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback'][$index] = [
+        'Codefog\EventsSubscriptions\DataContainer\EventsContainer',
+        'checkPermission'
+    ];
+}
+
 /**
  * Add list operations
  */
