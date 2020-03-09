@@ -150,9 +150,7 @@ class Automator
 
         $today = new Date();
 
-        // Set regular visibility settings (#35)
-        $time = Date::floorToMinute();
-        $where = ["(start='' OR start<='$time') AND (stop='' OR stop>'" . ($time + 60) . "') AND published='1'"];
+        $where = [];
 
         // Build a WHERE statement
         foreach ($days as $day) {
@@ -161,11 +159,12 @@ class Automator
         }
 
         $where = (count($where) ? " AND (".implode(" OR ", $where).")" : "");
+        $time = Date::floorToMinute();
 
         return Database::getInstance()->prepare(
-            "SELECT e.*, es.id AS subscriptionId FROM tl_calendar_events_subscription es JOIN tl_calendar_events e ON e.id=es.pid WHERE e.pid=? AND es.disableReminders=''".$where
+            "SELECT e.*, es.id AS subscriptionId FROM tl_calendar_events_subscription es JOIN tl_calendar_events e ON e.id=es.pid WHERE e.pid=? AND es.disableReminders='' AND (e.start='' OR e.start<=?) AND (e.stop='' OR e.stop>?) AND e.published=?".$where
         )
-            ->execute($calendar->id)
+            ->execute($calendar->id, $time, ($time + 60), 1)
             ->fetchAllAssoc();
     }
 }
