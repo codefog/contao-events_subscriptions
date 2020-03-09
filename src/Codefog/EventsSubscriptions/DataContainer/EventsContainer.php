@@ -13,11 +13,14 @@ namespace Codefog\EventsSubscriptions\DataContainer;
 
 use Codefog\EventsSubscriptions\Services;
 use Contao\Backend;
+use Contao\BackendUser;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
+use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
+use Contao\System;
 use Haste\Dca\PaletteManipulator;
 
 class EventsContainer
@@ -49,6 +52,34 @@ class EventsContainer
             ->addLegend('subscription_legend', 'title_legend', \Haste\Dca\PaletteManipulator::POSITION_AFTER, true)
             ->addField('subscription_override', 'subscription_legend', \Haste\Dca\PaletteManipulator::POSITION_APPEND)
             ->applyToPalette('default', 'tl_calendar_events');
+    }
+
+    /**
+     * Check the permission
+     */
+    public function checkPermission()
+    {
+        try {
+            System::importStatic('tl_calendar_events')->checkPermission();
+        } catch (AccessDeniedException $e) {
+            // Catch the exception and return if this is the subscriptions notification controller
+            if (Input::get('key') === 'subscriptions_notification') {
+                $user = BackendUser::getInstance();
+
+                if (empty($user->calendars) || !\is_array($user->calendars)) {
+                    $root = [0];
+                } else {
+                    $root = $user->calendars;
+                }
+
+                // Return if the calendar is allowed
+                if (\in_array(CalendarEventsModel::findByPk(Input::get('id'))->pid, $root)) {
+                    return;
+                }
+            }
+
+            throw $e;
+        }
     }
 
     /**
