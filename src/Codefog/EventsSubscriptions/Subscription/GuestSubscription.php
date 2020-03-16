@@ -84,6 +84,13 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                     'eval'      => ['mandatory' => true, 'rgxp' => 'email'],
                 ],
                 $form->hasFormField('enableReminders') ? ArrayPosition::before('enableReminders') : null
+            )->addFormField(
+                'captcha',
+                [
+                    'label'     => &$GLOBALS['TL_LANG']['MSC']['securityQuestion'],
+                    'inputType' => 'captcha',
+                    'eval'      => ['mandatory' => true],
+                ]
             );
 
         return $form;
