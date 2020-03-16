@@ -22,10 +22,50 @@ class CalendarContainer
      */
     public function getNotifications()
     {
+        return $this->getNotificationsByType('events_subscriptions_reminder');
+    }
+
+    /**
+     * Get the subscribe notifications
+     *
+     * @return array
+     */
+    public function getSubscribeNotifications()
+    {
+        return $this->getNotificationsByType('events_subscriptions_subscribe');
+    }
+
+    /**
+     * Get the unsubscribe notifications
+     *
+     * @return array
+     */
+    public function getUnsubscribeNotifications()
+    {
+        return $this->getNotificationsByType('events_subscriptions_unsubscribe');
+    }
+
+    /**
+     * Get the list update notifications
+     *
+     * @return array
+     */
+    public function getListUpdateNotifications()
+    {
+        return $this->getNotificationsByType('events_subscriptions_listUpdate');
+    }
+
+    /**
+     * Get the notifications by type
+     *
+     * @param string $type
+     *
+     * @return array
+     */
+    private function getNotificationsByType($type)
+    {
         $notifications = [];
-        $records       = Database::getInstance()->execute(
-            "SELECT id, title FROM tl_nc_notification WHERE type='events_subscriptions_reminder' ORDER BY title"
-        );
+        $records = Database::getInstance()->prepare("SELECT id, title FROM tl_nc_notification WHERE type=? ORDER BY title")->execute($type);
 
         while ($records->next()) {
             $notifications[$records->id] = $records->title;

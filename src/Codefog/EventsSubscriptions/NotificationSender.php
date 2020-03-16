@@ -66,16 +66,27 @@ class NotificationSender
      */
     public function sendByType($type, SubscriptionModel $model)
     {
-        if (($notifications = Notification::findBy('type', $type)) === null) {
-            return;
+        // Check if there is a custom notification set in the calendar settings
+        if (($event = $model->getEvent()) !== null && ($calendar = $event->getRelated('pid')) !== null) {
+            $notificationType = substr($type, 21); // strip events_subscriptions_ prefix
+            $field = sprintf('subscription_%sNotification', $notificationType);
+
+            if ($calendar->$field && ($notification = Notification::findByPk($calendar->$field)) !== null) {
+                $this->send($notification, $model);
+
+                return;
+            }
         }
 
-        /**
-         * @var Collection   $notifications
-         * @var Notification $notification
-         */
-        foreach ($notifications as $notification) {
-            $this->send($notification, $model);
+        // Otherwise send all notifications of certain type
+        if (($notifications = Notification::findBy('type', $type)) !== null) {
+            /**
+             * @var Collection   $notifications
+             * @var Notification $notification
+             */
+            foreach ($notifications as $notification) {
+                $this->send($notification, $model);
+            }
         }
     }
 
