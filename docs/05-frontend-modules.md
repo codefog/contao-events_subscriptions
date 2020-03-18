@@ -35,6 +35,12 @@ overview/history for the currently logged in user. Since it is based on the genu
 it offers the same features as it's ancestor.
 
 
+## CSS classes
+
+Since version 2.8.0 all the events that member is subscribed to, will get a `subscribed` CSS class in the event modules
+such as event list and calendar.
+
+
 ## Note on `event_` template
 
 You may need to adjust some of the `event_` templates to enable the extra data and subscription form.

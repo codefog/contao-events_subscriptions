@@ -57,6 +57,11 @@ $GLOBALS['TL_HOOKS']['reviseTable'][] = [
     'onReviseTable',
 ];
 
+$GLOBALS['TL_HOOKS']['getAllEvents'][] = [
+    'Codefog\EventsSubscriptions\EventListener\EventsListener',
+    'onGetAllEvents',
+];
+
 /**
  * Models
  */
