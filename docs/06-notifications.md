@@ -44,6 +44,15 @@ The notifications are handled by the
    to an event in the backend list module. It can mostly be used as a message to your users encouraging to subscribe
    to a new event which you have just created. The notification will address all selected members that have NOT
    subscribed to the event yet!
+   
+
+## Custom notifications per calendar
+   
+As of version 2.8.0 it is possible to set custom notifications per each calendar. In order to do that, simply enable
+the subscriptions in the calendar settings and choose the appropriate notifications in the corresponding fields 
+(e.g. `Subscribe notification`). If no subscription is chosen, then all subscriptions of a certain type will be 
+sent out (standard behavior)!
+
 
 ## Available tokens
 

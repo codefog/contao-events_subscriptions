@@ -40,6 +40,18 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscription_unsubscribeLinkPage'] = [
     'Unsubscribe link confirmation page',
     'Here you can choose the page that will be displayed after the user unsubscribes via unique link he receives in e-mail.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_subscribeNotification'] = [
+    'Subscribe notification',
+    'Here you can choose a custom subscribe notification that will be used instead of all notifications of this type.',
+];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_unsubscribeNotification'] = [
+    'Unsubscribe notification',
+    'Here you can choose a custom unsubscribe notification that will be used instead of all notifications of this type.',
+];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_listUpdateNotification'] = [
+    'Waiting list promotion notification',
+    'Here you can choose a custom waiting list promotion notification that will be used instead of all notifications of this type.',
+];
 
 /**
  * Legends
