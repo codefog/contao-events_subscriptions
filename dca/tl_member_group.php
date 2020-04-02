@@ -46,7 +46,7 @@ $GLOBALS['TL_DCA']['tl_member_group']['fields']['subscription_periodLimit'] = [
     'exclude'   => true,
     'inputType' => 'timePeriod',
     'options'   => ['day', 'month', 'year'],
-    'reference' => &$GLOBALS['TL_DCA']['tl_member_group']['fields']['subscription_periodRef'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_member_group']['subscription_periodRef'],
     'eval'      => ['rgxp' => 'natural', 'minval' => 1, 'tl_class' => 'w50'],
     'sql'       => "varchar(64) NOT NULL default ''",
 ];
