@@ -32,6 +32,18 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscription_notification'] = [
     'Erinnerungsbenachrichtigung',
     'Bitte wählen Sie die Benachrichtung, welche als Erinnerung versendet werden soll, aus.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_subscribeNotification'] = [
+    'Benachrichtigung für Terminanmeldung',
+    'Hier können Sie eine benutzerdefinierte Benachrichtigung auswählen, die anstelle der Standard Benachrichtigungen für diese Aktion verwendet wird.',
+];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_unsubscribeNotification'] = [
+    'Benachrichtigung für Terminabmeldung',
+    'Hier können Sie eine benutzerdefinierte Benachrichtigung auswählen, die anstelle der Standard Benachrichtigungen für diese Aktion verwendet wird.',
+];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_listUpdateNotification'] = [
+    'Benachrichtigung über Veränderung der Warteliste',
+    'Hier können Sie eine benutzerdefinierte Benachrichtigung auswählen, die anstelle der Standard Benachrichtigungen für diese Aktion verwendet wird.',
+];
 
 /**
  * Legends
