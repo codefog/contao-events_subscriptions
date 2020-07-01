@@ -13,10 +13,10 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_module']['jumpTo_subscribe']   = [
-    'Anmeldebestätigungs-Seite',
-    'Bitte wählen Sie eine Seite, auf die Benutzerinnen und Benutzer nach einer erfolgreichen Anmeldung geführt werden.',
+    'Anmeldung Bestätigungsseite',
+    'Bitte wählen Sie die Bestätigungsseite, auf die der Besucher nach der Anmeldung zum Event weitergeleitet wird.',
 ];
 $GLOBALS['TL_LANG']['tl_module']['jumpTo_unsubscribe'] = [
-    'Abmeldebestätigungs-Seite',
-    'Bitte wählen Sie eine Seite, auf die Benutzerinnen und Benutzer nach einer erfolgreichen Abmeldung geführt werden.',
+    'Abmeldung Bestätigungsseite',
+    'Bitte wählen Sie die Bestätigungsseite, auf die der Besucher nach der Abmeldung vom Event weitergeleitet wird.',
 ];
