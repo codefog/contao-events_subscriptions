@@ -21,10 +21,10 @@ $GLOBALS['TL_LANG']['FMD']['event_reader_subscribe'] = [
     'Fügt der Seite einen Eventleser mit Anmeldemöglichkeit hinzu.',
 ];
 $GLOBALS['TL_LANG']['FMD']['event_subscribe']      = [
-    'Anmeldeformular für Termine',
-    'Fügt der Seite ein Anmeldeformular für einen Termin hinzu.',
+    'Anmeldeformular für Events',
+    'Fügt der Seite ein Anmeldeformular hinzu.',
 ];
 $GLOBALS['TL_LANG']['FMD']['event_subscriptions']    = [
-    'Benutzer Teilnahmeliste',
-    'Fügt eine Liste aller Termine, an denen der Benutzer teilnimmt, hinzu.',
+    'Mitglied Anmeldeliste',
+    'Fügt eine Liste aller Events hinzu, zu denen das aktuelle Mitglied angemeldet ist.',
 ];
