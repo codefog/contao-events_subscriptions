@@ -13,22 +13,22 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_member_group']['subscription_enableLimit'] = [
-    'Anmeldelimit',
-    'Begrenzt die Möglichkeit sich für Termine anzumelden.',
+    'Anmeldelimit aktivieren',
+    'Begrenzt die Zahl der Anmeldungen für Mitglieder aus dieser Gruppe.',
 ];
 $GLOBALS['TL_LANG']['tl_member_group']['subscription_totalLimit']  = [
-    'Limit',
-    'Für wie viele Termine kann kann man sich anmelden? Für eine unbegrenzte Anzahl bitte 0 eintragen.',
+    'Gesamtlimit',
+    'Hier können Sie das gesamte Limit der Anmeldungen angeben. 0 für eine unbegrenzte Anzahl.',
 ];
 $GLOBALS['TL_LANG']['tl_member_group']['subscription_periodLimit'] = [
-    'Zeitliche Begrenzung',
-    'Zusätzlich kann eine zeitliche Begrenzung gesetzt werden. Als Beispiel 5 Anmeldungen pro Monat.',
-];
+    'Zeitraum des Limits',
+    'Hier können Sie die Limitierung der Anmeldungen zusätzlich auf einen Zeitraum festlegen. Zum Beispiel können Sie nur 5 Anmeldungen pro Monat zulassen.',
+  ];
 
 /**
  * Legends
  */
-$GLOBALS['TL_LANG']['tl_member_group']['events_subscription_legend'] = 'Einstellungen der Anmeldung zu Terminen';
+$GLOBALS['TL_LANG']['tl_member_group']['events_subscription_legend'] = 'Einstellungen Event-Anmeldungen';
 
 /**
  * Reference
