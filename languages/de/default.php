@@ -13,42 +13,42 @@
  * Miscellaneous
  */
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribe']               = 'Anmelden';
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeWaitingList']    = 'Auf die Warteliste setzen';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeWaitingList']    = 'Auf eine Warteliste setzen';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe']             = 'Abmelden';
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeWaitingList']  = 'Von der Warteliste abmelden';
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation']   = 'Sie haben sich für den Termin angemeldet.';
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeConfirmation'] = 'Sie haben sich vom Termin abgemeldet.';
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeNotAllowed']     = 'Es ist nicht mehr möglich sich zu diesem Termin anzumelden.';
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeNotAllowed']   = 'Es ist nicht mehr möglich sich zu diesem Termin abzumelden.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeWaitingList']  = 'Von einer Warteliste abmelden';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation']   = 'Sie haben sich für das Event angemeldet.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeConfirmation'] = 'Sie haben sich vom Event abgemeldet.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeNotAllowed']     = 'Anmeldung zu diesem Event ist nicht mehr möglich.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeNotAllowed']   = 'Abmeldung von diesem Event ist nicht mehr möglich.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.onWaitingList']           = 'Warteliste';
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.enableReminders']         = 'Eine Erinnerung für diese Veranstaltung erhalten';
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.canSubscribeUntil']       = 'Sie können sich bis zum %s anmelden.';
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.canUnsubscribeUntil']     = 'Sie können sich bis zum %s abmelden.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.enableReminders']         = 'Sende mir eine Erinnerung für dieses Event';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.canSubscribeUntil']       = 'Anmeldung möglich bis: %s';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.canUnsubscribeUntil']     = 'Abmeldung möglich bis: %s';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.firstname']     = 'Vorname';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.lastname']      = 'Nachname';
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.email']         = 'E-Mailadresse';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.email']         = 'E-Mail-Adresse';
 
 /**
  * Errors
  */
-$GLOBALS['TL_LANG']['ERR']['events_subscriptions.memberAlreadySubscribed'] = 'Teilnehmer ID %s ist für den Termin bereits angemeldet!';
+$GLOBALS['TL_LANG']['ERR']['events_subscriptions.memberAlreadySubscribed'] = 'Mitglied ID %s ist für dieses Event bereits angemeldet!';
 
 /**
  * Export
  */
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.exportHeaderFields'] = [
-    'event_id'                 => 'Termin ID',
-    'event_title'              => 'Termin Titel',
-    'event_start'              => 'Startdatum',
-    'event_end'                => 'Enddatum',
-    'subscription_type'        => 'Typ',
+    'event_id'                 => 'Event ID',
+    'event_title'              => 'Event Titel',
+    'event_start'              => 'Event Beginn',
+    'event_end'                => 'Event Ende',
+    'subscription_type'        => 'Typ der Anmeldung',
     'subscription_waitingList' => 'Warteliste',
     'subscription_firstname'   => 'Vorname',
     'subscription_lastname'    => 'Nachname',
-    'subscription_email'       => 'E-Mailadresse',
+    'subscription_email'       => 'E-Mail-Adresse',
 ];
 
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.memberExportHeaderFields'] = [
-    'member_id'       => 'Benutzer ID',
-    'member_username' => 'Benutzername',
+    'member_id'       => 'Mitglied ID',
+    'member_username' => 'Mitglied Benutzername',
 ];

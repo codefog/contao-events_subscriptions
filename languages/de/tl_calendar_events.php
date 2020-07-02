@@ -13,64 +13,65 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_override']           = [
-    'Einstellungen der Anmeldung überschreiben',
-    'Überschreibe die Anmeldeeinstellungen des Kalenders.',
+    'Anmeldeeinstellungen überschreiben',
+    'Überschreiben Sie die Anmeldeeinstellungen des Kalenders.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_types']              = [
-    'Erlaubte Typen',
-    'Welche Gruppen sollen sich anmelden können?',
+    'Erlaubte Anmelde-Typen',
+    'Hier können Sie die die erlaubten Anmelde-Typen auswählen.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_maximum']            = [
-    'Maximale Teilnehmerzahl',
-    '0 für keine Begrenzung.',
+    'Maximale Anzahl der Anmeldungen',
+    'Hier können Sie die maximale Anzahl der Anmeldungen pro Event angeben. 0 steht für unbegrenzte Anmeldungen.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_subscribeEndTime']   = [
-    'Zeit bis zum Ende der Anmeldung',
-    'Wenn die Anmeldung bis zum Start des Termines möglich sein soll, muss das Feld leer sein.',
+    'Anmeldeschluss',
+    'Hier können Sie den Zeitversatz vor Beginn des Events festlegen bis wann eine Anmeldung erfolgen kann. Lassen Sie das Feld leer, wenn Sie keinen Anmeldeschluss benötigen.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_unsubscribeEndTime'] = [
-    'Zeit bis zum Ende der Abmeldung',
-    'Wenn die Abmeldung bis zum Start des Termines möglich sein soll, muss das Feld leer sein.'
+    'Abmeldefrist',
+    'Hier können Sie den Zeitversatz vor Beginn des Events festlegen ab wann eine Abmeldung nicht mehr möglich ist. Lassen Sie das Feld leer, wenn Sie dies nicht benötigen.'
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_waitingList']        = [
     'Warteliste aktivieren',
-    'Benutzern erlauben sich auf die Warteliste zu schreiben.',
+    'Erlauben Sie die Anmeldung über eine Warteliste.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_waitingListLimit']   = [
-    'Wartelistenlimit',
-    '0 für keine Begrenzung.',
+    'Warteliste begrenzen',
+    'Bitte geben Sie das Limit der Warteliste an. 0 für keine Begrenzung.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_memberGroupsLimit']   = [
-    'Berechtigung auf Mitgliedergruppen beschränken',
-    'Beschränken Sie die Anmeldung auf bestimmte Mitgliedergruppen. Dies funktioniert nur, wenn Sie den Anmeldetyp für Mitglieder aktiviert haben!',
+    'Beschränkung auf Mitgliedergruppen',
+    'Beschränken Sie die Anmeldung auf bestimmte Mitgliedergruppen. Dies funktioniert nur, wenn Sie den Anmelde-Typ für Mitglieder aktiviert haben!',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_memberGroups']   = [
     'Mitgliedergruppen',
-    'Bitte wählen Sie eine oder mehrere Mitgliedergruppen aus, die sich anmelden dürfen.',
+    'Bitte wählen Sie eine oder mehrere Mitgliedergruppen, welche sich anmelden dürfen.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_lastNotificationSent'] = ['Letzte Benachrichtigung gesendet'];
 
 /**
  * Legends
  */
-$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_legend'] = 'Einstellungen der Anmeldung';
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_legend'] = ' Anmeldung Einstellungen';
 
 /**
  * Buttons
  */
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'] = [
-    'Angemeldete Teilnehmer',
-    'Zeigt die Teilnehmer, die sich für den Termin ID %s angemeldet haben.',
+    'Anmeldungen',
+    'Zeigt die Anmeldungen für Event ID %s.',
 ];
 
 /**
  * Reference
  */
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'] = [
-    'seconds' => 'Sekunde',
-    'minutes' => 'Minute',
-    'hours'   => 'Stunde',
-    'days'    => 'Tag',
-    'weeks'   => 'Woche',
-    'months'  => 'Monat',
-    'years'   => 'Jahr',
+    'seconds' => 'Sekunde(n)',
+    'minutes' => 'Minute(n)',
+    'hours'   => 'Stunde(n)',
+    'days'    => 'Tag(e)',
+    'weeks'   => 'Woche(n)',
+    'months'  => 'Monat(e)',
+    'years'   => 'Jahr(e)',
 ];

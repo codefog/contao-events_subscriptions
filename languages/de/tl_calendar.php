@@ -13,39 +13,47 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_enable']       = [
-    'Anmeldungen aktivieren',
-    'Nutzern erlauben sich für Termine anzumelden.',
+    'Anmeldung aktivieren',
+    'Besuchern erlauben sich für Events dieses Kalenders anzumelden.',
 ];
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_reminders'] = [
-    'Erinnerungmails aktivieren',
-    'Aktiviert Erinnerungs-E-Mails für im Kalender eingetragene Anlässe.',
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_reminders']    = [
+    'Erinnerungen aktivieren',
+    'Aktiviert Erinnerungen per E-Mail für im Kalender eingetragene Events.',
 ];
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_time']      = [
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_time']         = [
     'Sendezeit',
-    'Bitte geben Sie die ungefähre Zeit ein, wann die Erinnerung verschickt werden sollte.',
+    'Bitte geben Sie die ungefähre Zeit ein, wann Erinnerungen gesendet werden sollen.',
 ];
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_days']      = [
-    'Tage vor dem Termin',
-    'Bitte geben Sie in einer Komma getrennten Liste an, wieviele Tage vor dem Anlass Erinnerungsmails verschickt werden sollten.',
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_days']         = [
+    'Tage vor dem Event',
+    'Bitte geben Sie in einer Komma getrennten Liste an, wieviele Tage vor dem Event Erinnerungsmails verschickt werden sollen.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_notification'] = [
-    'Erinnerungsbenachrichtigung',
-    'Bitte wählen Sie die Benachrichtung, welche als Erinnerung versendet werden soll, aus.',
+    'Benachrichtigung für Erinnerungen',
+    'Bitte wählen Sie die Benachrichtung, welche die Erinnerung versenden soll.',
+];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_skipWaitingListReminders'] = [
+    'Erinnerungen für Anmeldungen auf der Wartelise deaktivieren',
+    'Sede keine Erinnerung für Besucher, welche auf zur Zeit auf der Warteliste stehen.',
+];
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_unsubscribeLinkPage'] = [
+    'Link zur Seite mit der Abmeldebestätigung',
+    'Hier können Sie die Seite wählen, welche angezeigt wird nachdem der Besucher sich per eindeutigem Link aus einer erhaltenen E-Mail abmeldet.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_subscribeNotification'] = [
-    'Benachrichtigung für Terminanmeldung',
-    'Hier können Sie eine benutzerdefinierte Benachrichtigung auswählen, die anstelle der Standard Benachrichtigungen für diese Aktion verwendet wird.',
+    'Benachrichtigung über Anmeldung',
+    'Hier können Sie eine benutzerdefinierte Benachrichtigung für die Anmeldung wählen, die anstelle aller Benachrichtigungen dieses Typs verwendet wird.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_unsubscribeNotification'] = [
-    'Benachrichtigung für Terminabmeldung',
-    'Hier können Sie eine benutzerdefinierte Benachrichtigung auswählen, die anstelle der Standard Benachrichtigungen für diese Aktion verwendet wird.',
+    'Benachrichtigung über Abmeldung',
+    'Hier können Sie eine benutzerdefinierte Benachrichtigung für die Abmeldung wählen, die anstelle aller Benachrichtigungen dieses Typs verwendet wird.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_listUpdateNotification'] = [
     'Benachrichtigung über Veränderung der Warteliste',
-    'Hier können Sie eine benutzerdefinierte Benachrichtigung auswählen, die anstelle der Standard Benachrichtigungen für diese Aktion verwendet wird.',
+    'Hier können Sie eine benutzerdefinierte Benachrichtigung über Anderungen in der Warteliste wählen, die anstelle aller Benachrichtigungen dieses Typs verwendet wird.',
 ];
 
 /**
  * Legends
  */
-$GLOBALS['TL_LANG']['tl_calendar']['subscription_legend'] = 'Anmelde-Einstellungen';
+$GLOBALS['TL_LANG']['tl_calendar']['subscription_legend'] = 'Anmeldung Einstellungen';
