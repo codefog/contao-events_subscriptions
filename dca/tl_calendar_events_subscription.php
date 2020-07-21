@@ -89,9 +89,9 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
     // Palettes
     'palettes' => [
         '__selector__' => ['type'],
-        'default'      => '{type_legend},type,addedBy,disableReminders',
-        'guest'        => '{type_legend},type,addedBy,disableReminders;{guest_legend},firstname,lastname,email',
-        'member'       => '{type_legend},type,addedBy,disableReminders;{member_legend},member',
+        'default'      => '{type_legend},type,addedBy,numberOfParticipants,disableReminders',
+        'guest'        => '{type_legend},type,addedBy,numberOfParticipants,disableReminders;{guest_legend},firstname,lastname,email',
+        'member'       => '{type_legend},type,addedBy,numberOfParticipants,disableReminders;{member_legend},member',
     ],
 
     // Fields
@@ -137,12 +137,21 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'eval'       => ['includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql'        => "int(10) unsigned NOT NULL default '0'",
         ],
+        'numberOfParticipants'    => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['numberOfParticipants'],
+            'default'   => 1,
+            'exclude'   => true,
+            'search'    => true,
+            'inputType' => 'text',
+            'eval'      => ['rgxp' => 'natural', 'minval' => 1, 'tl_class' => 'w50'],
+            'sql'       => "smallint(5) unsigned NOT NULL default '1'",
+        ],
         'disableReminders' => [
             'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['disableReminders'],
             'exclude'   => true,
             'filter'    => true,
             'inputType' => 'checkbox',
-            'eval'      => ['tl_class' => 'clr'],
+            'eval'      => ['tl_class' => 'w50 m12'],
             'sql'       => "char(1) NOT NULL default ''",
         ],
         'member'       => [

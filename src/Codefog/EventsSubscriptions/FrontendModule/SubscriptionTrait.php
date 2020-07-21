@@ -37,7 +37,6 @@ trait SubscriptionTrait
         $data = [
             'subscriptionWaitingList'      => $config->hasWaitingList(),
             'subscriptionWaitingListLimit' => $config->getWaitingListLimit(),
-            'subscribeMessage'   => Services::getFlashMessage()->puke($config->getEvent()->id),
             'isEventPast'        => $config->getEvent()->startTime < time(),
             'subscribeEndTime'   => $this->getSubscribeEndTime($config),
             'unsubscribeEndTime' => $this->getUnsubscribeEndTime($config),
@@ -47,7 +46,7 @@ trait SubscriptionTrait
         ];
 
         // Add a helper variable that indicates subscription to a waiting list (see #32)
-        $data['subscribeWaitingList'] = $config->hasWaitingList() && ($data['subscriptionMaximum'] - count($data['subscribers']['subscribers']) <= 0);
+        $data['subscribeWaitingList'] = $config->hasWaitingList() && ($data['subscriptionMaximum'] > 0) && ($data['subscriptionMaximum'] - count($data['subscribers']['subscribers']) <= 0);
 
         $factory = Services::getSubscriptionFactory();
 
@@ -60,10 +59,21 @@ trait SubscriptionTrait
                     $subscription->processForm($form, $config);
                 } catch (RedirectException $e) {
                     if ($e->getPage() === null) {
+                        // Set a flash message, if any
+                        if ($e->getMessage() && $e->getEventId()) {
+                            Services::getFlashMessage()->set($e->getMessage(), $e->getEventId());
+                        }
+
                         Controller::reload();
                     } else {
                         $this->handleRedirect($moduleData['jumpTo_'.$e->getPage()], $e->getMessage(), $e->getEventId());
                     }
+                }
+
+                // If the form was submitted but no redirection was made and the appropriate field is there,
+                // it means we can subscribe to the waiting list
+                if ($form->hasFormField('waitingList')) {
+                    $data['subscribeWaitingList'] = true;
                 }
             }
 
@@ -81,6 +91,9 @@ trait SubscriptionTrait
                 $data['subscriptionTypes'][$type]['isOnWaitingList'] = $subscription->isOnWaitingList();
             }
         }
+
+        // Add the flash messages after the forms are processed
+        $data['subscribeMessage'] = Services::getFlashMessage()->puke($config->getEvent()->id);
 
         return $data;
     }

@@ -153,6 +153,16 @@ class EventConfig
     }
 
     /**
+     * Return true if the user can provide a number of participants
+     *
+     * @return bool
+     */
+    public function canProvideNumberOfParticipants()
+    {
+        return $this->get('subscription_numberOfParticipants') ? true : false;
+    }
+
+    /**
      * Return true if the event has a member groups limit
      *
      * @return bool

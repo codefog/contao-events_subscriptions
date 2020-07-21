@@ -47,6 +47,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
         $model->firstname = $form->fetch('firstname');
         $model->lastname  = $form->fetch('lastname');
         $model->email     = $form->fetch('email');
+        $model->numberOfParticipants = $event->canProvideNumberOfParticipants() ? $form->fetch('numberOfParticipants') : 1;
     }
 
     /**
@@ -59,6 +60,18 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
         }
 
         $form = $this->createBasicForm($event);
+        $position = null;
+
+        // Determine the fields position
+        if ($form->hasFormField('enableReminders')) {
+            $position = ArrayPosition::before('enableReminders');
+        }
+
+        // Determine the fields position
+        if ($form->hasFormField('numberOfParticipants')) {
+            $position = ArrayPosition::before('numberOfParticipants');
+        }
+
         $form
             ->addFormField(
                 'firstname',
@@ -67,7 +80,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                     'inputType' => 'text',
                     'eval'      => ['mandatory' => true],
                 ],
-                $form->hasFormField('enableReminders') ? ArrayPosition::before('enableReminders') : null
+                $position
             )->addFormField(
                 'lastname',
                 [
@@ -75,7 +88,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                     'inputType' => 'text',
                     'eval'      => ['mandatory' => true],
                 ],
-                $form->hasFormField('enableReminders') ? ArrayPosition::before('enableReminders') : null
+                $position
             )->addFormField(
                 'email',
                 [
@@ -83,7 +96,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                     'inputType' => 'text',
                     'eval'      => ['mandatory' => true, 'rgxp' => 'email'],
                 ],
-                $form->hasFormField('enableReminders') ? ArrayPosition::before('enableReminders') : null
+                $position
             )->addFormField(
                 'captcha',
                 [
@@ -102,6 +115,11 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
     public function processForm(Form $form, EventConfig $event)
     {
         if ($this->canSubscribe($event)) {
+            // Validate the number of participants
+            if (!$this->validateNumberOfParticipants($form, $event)) {
+                return;
+            }
+
             $this->getSubscriber()->subscribe($event, $this);
             $this->throwRedirectException(
                 'subscribe',
@@ -139,6 +157,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
             'subscription_firstname' => $this->subscriptionModel->firstname,
             'subscription_lastname'  => $this->subscriptionModel->lastname,
             'subscription_email'     => $this->subscriptionModel->email,
+            'subscription_numberOfParticipants' => $this->subscriptionModel->numberOfParticipants,
         ];
     }
 
@@ -148,10 +167,12 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
     public function getBackendLabel()
     {
         $label = sprintf(
-            '%s %s <span style="padding-left:3px;color:#b3b3b3;">[%s]</span>',
+            '%s %s <span style="padding-left:3px;color:#b3b3b3;">[%s]</span> <span style="padding-left:3px;color:#b3b3b3;">[%s: %s]</span>',
             $this->subscriptionModel->firstname,
             $this->subscriptionModel->lastname,
-            $this->subscriptionModel->email
+            $this->subscriptionModel->email,
+            $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipants'],
+            $this->subscriptionModel->numberOfParticipants
         );
 
         if ($this->isOnWaitingList()) {
@@ -190,6 +211,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
             'subscription_firstname' => $this->subscriptionModel->firstname,
             'subscription_lastname'  => $this->subscriptionModel->lastname,
             'subscription_email'     => $this->subscriptionModel->email,
+            'subscription_numberOfParticipants' => $this->subscriptionModel->numberOfParticipants,
             'unsubscribe_link'       => $this->generateUnsubscribeLink(),
         ];
     }

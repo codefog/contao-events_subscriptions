@@ -97,7 +97,7 @@ abstract class AbstractSubscription implements SubscriptionInterface
             [$event->getEvent()->id, $subscriptionModel->dateCreated, $subscriptionModel->id]
         );
 
-        return $total >= $max;
+        return ($total + $subscriptionModel->numberOfParticipants) > $max;
     }
 
     /**
@@ -146,6 +146,15 @@ abstract class AbstractSubscription implements SubscriptionInterface
 
         $form->addContaoHiddenFields();
 
+        if ($event->canProvideNumberOfParticipants()) {
+            $form->addFormField('numberOfParticipants', [
+                'label' => &$GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipants'],
+                'default' => 1,
+                'inputType' => 'text',
+                'eval' => ['mandatory' => true, 'rgxp' => 'natural', 'minval' => 1],
+            ]);
+        }
+
         if ($event->hasReminders()) {
             $form->addFormField('enableReminders', [
                 'inputType' => 'checkbox',
@@ -155,6 +164,56 @@ abstract class AbstractSubscription implements SubscriptionInterface
         }
 
         return $form;
+    }
+
+    /**
+     * Validate the number of participants.
+     *
+     * @param Form $form
+     * @param EventConfig $event
+     *
+     * @return bool
+     */
+    protected function validateNumberOfParticipants(Form $form, EventConfig $event)
+    {
+        if (!$event->canProvideNumberOfParticipants() || $this->getSubscriptionValidator()->validateMaximumSubscriptions($event, $form->fetch('numberOfParticipants'), true)) {
+            return true;
+        }
+
+        // If waiting list is enabled and subscription to it can be made, notify the user first
+        if ($event->hasWaitingList() && $this->getSubscriptionValidator()->validateMaximumSubscriptions($event, $form->fetch('numberOfParticipants'))) {
+            // Return true if the user confirmed the subscription
+            if (isset($_POST['waitingList'])) {
+                return true;
+            }
+
+            Services::getFlashMessage()->set(
+                sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsSubscribeToWaitingList'], $event->getMaximumSubscriptions()),
+                $event->getEvent()->id
+            );
+
+            // Preserve the form data
+            $formData = $form->fetchAll();
+
+            // Add a hidden confirmation field
+            $form->addFormField('waitingList', ['inputType' => 'hidden', 'value' => '1']);
+
+            // Restore the form data as it is be reset after modifying the form fields
+            foreach ($formData as $k => $v) {
+                $form->getWidget($k)->value = $v;
+            }
+
+            return false;
+        }
+
+        // Subscription is not possible at all
+        if ($event->hasWaitingList()) {
+            $message = sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsExceededWaitingList'], $event->getMaximumSubscriptions(), $event->getWaitingListLimit());
+        } else {
+            $message = sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsExceeded'], $event->getMaximumSubscriptions());
+        }
+
+        $this->throwRedirectException(null, $message, $event->getEvent()->id);
     }
 
     /**
