@@ -146,6 +146,11 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
 
         // Subscribe user
         if ($this->canSubscribe($event)) {
+            // Validate the number of participants
+            if (!$this->validateNumberOfParticipants($form, $event)) {
+                return;
+            }
+
             $this->getSubscriber()->subscribe($event, $this);
             $this->throwRedirectException(
                 'subscribe',
@@ -190,11 +195,13 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
         }
 
         $label = sprintf(
-            '%s %s <span style="padding-left:3px;color:#b3b3b3;">[%s – %s]</span>',
+            '%s %s <span style="padding-left:3px;color:#b3b3b3;">[%s – %s]</span> <span style="padding-left:3px;color:#b3b3b3;">[%s: %s]</span>',
             $member->firstname,
             $member->lastname,
             $member->username,
-            $member->email
+            $member->email,
+            $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipants'],
+            $this->subscriptionModel->numberOfParticipants
         );
 
         if ($this->isOnWaitingList()) {
@@ -246,6 +253,7 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
             'subscription_firstname' => $member->firstname,
             'subscription_lastname'  => $member->lastname,
             'subscription_email'     => $member->email,
+            'subscription_numberOfParticipants' => $this->subscriptionModel->numberOfParticipants,
             'member_id'              => $member->id,
             'member_username'        => $member->username,
         ];
@@ -279,6 +287,8 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
         foreach ($member->row() as $k => $v) {
             $tokens['subscription_'.$k] = Format::dcaValue($member::getTable(), $k, $v);
         }
+
+        $tokens['subscription_numberOfParticipants'] = $this->subscriptionModel->numberOfParticipants;
 
         return $tokens;
     }

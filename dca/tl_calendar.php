@@ -38,7 +38,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_
     ->addField('subscription_enable', 'subscription_legend', \Haste\Dca\PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('default', 'tl_calendar');
 
-$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']      = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_waitingList,subscription_reminders,subscription_unsubscribeLinkPage,subscription_subscribeNotification,subscription_unsubscribeNotification,subscription_listUpdateNotification';
+$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']      = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_waitingList,subscription_reminders,subscription_unsubscribeLinkPage,subscription_subscribeNotification,subscription_unsubscribeNotification,subscription_listUpdateNotification';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_memberGroupsLimit'] = 'subscription_memberGroups';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_reminders']   = 'subscription_time,subscription_days,subscription_notification,subscription_skipWaitingListReminders';
@@ -59,6 +59,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_types']              =
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_maximum']            = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_maximum'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_subscribeEndTime']   = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_subscribeEndTime'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_unsubscribeEndTime'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_unsubscribeEndTime'];
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_numberOfParticipants'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_numberOfParticipants'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_waitingList']        = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_waitingList'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_waitingListLimit']   = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_waitingListLimit'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_memberGroupsLimit']  = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_memberGroupsLimit'];

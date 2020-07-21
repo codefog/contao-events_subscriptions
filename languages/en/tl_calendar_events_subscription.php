@@ -24,6 +24,10 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['disableReminders'] = [
     'Disable reminders',
     'Disable the event reminders for this subscriber.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['numberOfParticipants'] = [
+    'Number of participants',
+    'Here you can enter the number of participants.',
+];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member']       = [
     'Member',
     'Please choose the member you want to subscribe to the event.',

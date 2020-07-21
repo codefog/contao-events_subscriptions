@@ -76,10 +76,12 @@ class SubscriptionValidator
      * Validate the maximum number of subscriptions
      *
      * @param EventConfig $event
+     * @param int $numberOfParticipants
+     * @param bool $ignoreWaitingList
      *
      * @return bool
      */
-    public function validateMaximumSubscriptions(EventConfig $event)
+    public function validateMaximumSubscriptions(EventConfig $event, $numberOfParticipants = 1, $ignoreWaitingList = false)
     {
         if (!$event->canSubscribe()) {
             return false;
@@ -91,7 +93,7 @@ class SubscriptionValidator
         }
 
         // Check the waiting list
-        if ($event->hasWaitingList()) {
+        if (!$ignoreWaitingList && $event->hasWaitingList()) {
             // Value is not set, unlimited number of subscriptions
             if (!($limit = $event->getWaitingListLimit())) {
                 return true;
@@ -100,7 +102,7 @@ class SubscriptionValidator
             $max += $limit;
         }
 
-        return SubscriptionModel::countBy('pid', $event->getEvent()->id) < $max;
+        return (SubscriptionModel::countBy('pid', $event->getEvent()->id) + $numberOfParticipants) <= $max;
     }
 
     /**
