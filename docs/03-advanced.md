@@ -37,6 +37,20 @@ it will no longer be possible to unsubscribe on `07-03-2017` and after.
 Here you can choose the confirmation page to which users will be taken after clicking the unsubscribe
 link in the notification e-mail.
 
+### Number of participants
+
+Since version 2.9.0, it is possible to define a number of participants per subscription. By default, the number 
+of participants is always 1. You can allow users to enter the number of participants in the frontend by checking 
+the "Enable number of participants" checkbox in the calendar or event settings.
+
+Possible scenarios:
+
+- The event has a limited number of subscriptions, and a user wants to submit a number of participants that would 
+  exceed the limit. Result: an error message is shown, and the user is not able to subscribe.
+- The event has a limited number of subscriptions and has a waiting list, and a user wants to submit a number 
+  of participants that would exceed the limit. Result: a warning message is shown, but the user can re-submit 
+  the form to subscribe to the waiting list (if its limit allows that).
+
 
 ## Waiting list
 
