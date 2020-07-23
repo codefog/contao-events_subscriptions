@@ -29,8 +29,14 @@
                 </div>
 
                 <div class="widget clr">
-                    <?= $this->memberGroups->parse() ?>
+                    <?= $this->subscribableMemberGroups->parse() ?>
                 </div>
+
+                <?php if (isset($this->otherMemberGroups)): ?>
+                    <div class="widget clr">
+                        <?= $this->otherMemberGroups->parse() ?>
+                    </div>
+                <?php endif; ?>
             </fieldset>
 
             <div class="tl_formbody_submit">
