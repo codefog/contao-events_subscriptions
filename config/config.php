@@ -21,6 +21,10 @@ $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_notification'] = [
     'Codefog\EventsSubscriptions\Backend\NotificationController',
     'run',
 ];
+$GLOBALS['BE_MOD']['content']['calendar']['subscriptions_overview'] = [
+    'Codefog\EventsSubscriptions\Backend\OverviewController',
+    'run',
+];
 
 /**
  * Add front end modules

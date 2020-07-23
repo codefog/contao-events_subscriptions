@@ -35,6 +35,18 @@ if (($index = array_search(['tl_calendar_events', 'checkPermission'], $GLOBALS['
 }
 
 /**
+ * Add global operations
+ */
+array_insert($GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'], 0, [
+    'subscriptions_overview' => [
+        'label'           => &$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview'],
+        'href'            => 'key=subscriptions_overview',
+        'icon'            => 'mgroup.gif',
+        'button_callback' => ['Codefog\EventsSubscriptions\DataContainer\EventsContainer', 'getSubscriptionsOverviewButton'],
+    ]
+]);
+
+/**
  * Add list operations
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['sendNotifications'] = [

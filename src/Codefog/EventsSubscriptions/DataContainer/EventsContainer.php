@@ -83,6 +83,33 @@ class EventsContainer
     }
 
     /**
+     * Get the "subscriptions overview" button
+     *
+     * @param string $href
+     * @param string $label
+     * @param string $title
+     * @param string $class
+     * @param string $attributes
+     *
+     * @return string
+     */
+    public function getSubscriptionsOverviewButton($href, $label, $title, $class, $attributes)
+    {
+        if (($calendarModel = CalendarModel::findByPk(CURRENT_ID)) === null || !$calendarModel->subscription_enable) {
+            return '';
+        }
+
+        return sprintf(
+            '<a href="%s" class="%s" title="%s"%s>%s</a> ',
+            str_replace('&amp;table=tl_calendar_events', '', Backend::addToUrl($href.'&amp;id='.CURRENT_ID)),
+            $class,
+            specialchars($title),
+            $attributes,
+            $label
+        );
+    }
+
+    /**
      * Get the "notifications" button
      *
      * @param array  $row

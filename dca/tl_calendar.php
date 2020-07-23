@@ -16,6 +16,16 @@
 \Contao\System::loadLanguageFile('tl_calendar_events');
 
 /**
+ * Add list operations
+ */
+$GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['subscriptions_overview'] = [
+    'label'           => &$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview'],
+    'href'            => 'key=subscriptions_overview',
+    'icon'            => 'mgroup.gif',
+    'button_callback' => ['Codefog\EventsSubscriptions\DataContainer\CalendarContainer', 'getSubscriptionsOverviewButton'],
+];
+
+/**
  * Add palettes
  */
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_enable';
