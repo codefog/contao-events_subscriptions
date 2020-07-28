@@ -47,7 +47,6 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
         $model->firstname = $form->fetch('firstname');
         $model->lastname  = $form->fetch('lastname');
         $model->email     = $form->fetch('email');
-        $model->numberOfParticipants = $event->canProvideNumberOfParticipants() ? $form->fetch('numberOfParticipants') : 1;
     }
 
     /**

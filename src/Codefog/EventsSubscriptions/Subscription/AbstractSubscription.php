@@ -121,6 +121,11 @@ abstract class AbstractSubscription implements SubscriptionInterface
         if ($event->hasReminders() && !$this->form->fetch('enableReminders')) {
             $model->disableReminders = 1;
         }
+
+        // Set the number of participants
+        if ($event->canProvideNumberOfParticipants()) {
+            $model->numberOfParticipants = $form->fetch('numberOfParticipants');
+        }
     }
 
     /**
