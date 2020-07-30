@@ -1,3 +1,4 @@
+<?php if ($this->subscriptionTypes): ?>
 <?php foreach ($this->subscriptionTypes as $name => $type): ?>
     <div class="type-<?= $name ?>">
         <?php if ($this->subscribeMessage): ?>
@@ -36,3 +37,4 @@
         <?php endif; ?>
     </div>
 <?php endforeach; ?>
+<?php endif; ?>
