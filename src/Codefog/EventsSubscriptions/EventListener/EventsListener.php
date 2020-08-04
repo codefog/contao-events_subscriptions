@@ -34,7 +34,7 @@ class EventsListener
 
                     foreach ($config->getAllowedSubscriptionTypes() as $type) {
                         if ($factory->create($type)->isSubscribed($config)) {
-                            $allEvents[$k][$kk][$kkk]['class'] = trim($event['class'] . ' subscribed');
+                            $allEvents[$k][$kk][$kkk]['class'] = rtrim($event['class']) . ' subscribed';
                         }
                     }
                 }
