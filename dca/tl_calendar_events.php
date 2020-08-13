@@ -151,6 +151,6 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_waitingListLimi
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_lastNotificationSent'] = [
     'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_lastNotificationSent'],
     'exclude'   => true,
-    'eval'      => ['rgxp' => 'datim'],
+    'eval'      => ['rgxp' => 'datim', 'doNotCopy' => true],
     'sql'       => "varchar(10) NOT NULL default ''",
 ];
