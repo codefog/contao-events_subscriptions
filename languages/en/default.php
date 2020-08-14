@@ -31,6 +31,7 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsSubscribeTo
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.firstname']     = 'First name';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.lastname']      = 'Last name';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.email']         = 'E-mail address';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribedListHeadline']  = 'Subscriber';
 
 /**
  * Errors

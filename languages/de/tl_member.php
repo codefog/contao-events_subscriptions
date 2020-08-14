@@ -18,8 +18,8 @@
  * Fields
  */
 $GLOBALS['TL_LANG']['tl_member']['subscription_enableLimit'] = [
-    'Limit der Anmeldungen aktivieren',
-    'Beschränken Sie die Anmeldungen des Mitglieds. Dies überschreibt die Einstellungen der Mitgliedergruppe! ',
+    'Anmeldelimit aktivieren',
+    'Beschränken Sie die Anmeldungen des Mitglieds. Dies überschreibt die Einstellungen der Mitgliedergruppe!',
 ];
 
 /**
