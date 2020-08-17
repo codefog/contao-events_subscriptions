@@ -20,3 +20,7 @@ $GLOBALS['TL_LANG']['tl_module']['jumpTo_unsubscribe'] = [
     'Unsubscribe confirmation page',
     'Please choose the unsubscribe confirmation page where the user will be taken after unsubscribing from event.',
 ];
+$GLOBALS['TL_LANG']['tl_module']['cal_showParticipants'] = [
+    'Show the number of event participants',
+    'Show the number of event participants per every subscription.',
+];

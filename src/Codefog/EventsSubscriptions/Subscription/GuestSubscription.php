@@ -7,7 +7,7 @@ use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Haste\Form\Form;
 use Haste\Util\ArrayPosition;
 
-class GuestSubscription extends AbstractSubscription implements ExportAwareInterface, NotificationAwareInterface
+class GuestSubscription extends AbstractSubscription implements ExportAwareInterface,  NotificationAwareInterface
 {
     /**
      * @inheritDoc
@@ -190,7 +190,13 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
      */
     public function getFrontendLabel()
     {
-        return sprintf('%s %s', $this->subscriptionModel->firstname, $this->subscriptionModel->lastname);
+        $label = sprintf('%s %s', $this->subscriptionModel->firstname, $this->subscriptionModel->lastname);
+
+        if (isset($this->moduleData['cal_showParticipants']) && $this->moduleData['cal_showParticipants']) {
+            $label = sprintf('%s (%s)', $label, $this->subscriptionModel->numberOfParticipants);
+        }
+
+        return $label;
     }
 
     /**

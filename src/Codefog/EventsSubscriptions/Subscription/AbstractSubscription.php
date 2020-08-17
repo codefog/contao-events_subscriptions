@@ -12,7 +12,7 @@ use Contao\Environment;
 use Contao\Input;
 use Haste\Form\Form;
 
-abstract class AbstractSubscription implements SubscriptionInterface
+abstract class AbstractSubscription implements ModuleDataAwareInterface, SubscriptionInterface
 {
     /**
      * @var Form
@@ -23,6 +23,11 @@ abstract class AbstractSubscription implements SubscriptionInterface
      * @var SubscriptionModel
      */
     protected $subscriptionModel;
+
+    /**
+     * @var array
+     */
+    protected $moduleData = [];
 
     /**
      * @return SubscriptionModel
@@ -38,6 +43,14 @@ abstract class AbstractSubscription implements SubscriptionInterface
     public function setSubscriptionModel(SubscriptionModel $model)
     {
         $this->subscriptionModel = $model;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setModuleData(array $moduleData)
+    {
+        $this->moduleData = $moduleData;
     }
 
     /**

@@ -224,7 +224,13 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
             return '';
         }
 
-        return sprintf('%s %s', $member->firstname, $member->lastname);
+        $label = sprintf('%s %s', $member->firstname, $member->lastname);
+
+        if (isset($this->moduleData['cal_showParticipants']) && $this->moduleData['cal_showParticipants']) {
+            $label = sprintf('%s (%s)', $label, $this->subscriptionModel->numberOfParticipants);
+        }
+
+        return $label;
     }
 
     /**
