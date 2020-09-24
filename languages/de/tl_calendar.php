@@ -18,7 +18,7 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscription_enable']       = [
 ];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_reminders']    = [
     'Erinnerungen aktivieren',
-    'Aktiviert Erinnerungen per E-Mail für im Kalender eingetragene Events.',
+    'Aktiviere Erinnerungen per E-Mail für Events dieses Kalenders.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_time']         = [
     'Sendezeit',
@@ -30,30 +30,42 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscription_days']         = [
 ];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_notification'] = [
     'Benachrichtigung für Erinnerungen',
-    'Bitte wählen Sie die Benachrichtung, welche die Erinnerung versenden soll.',
+    'Bitte wählen Sie die Benachrichtigung, welche die Erinnerung versenden soll.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_skipWaitingListReminders'] = [
-    'Erinnerungen für Anmeldungen auf der Wartelise deaktivieren',
-    'Sede keine Erinnerung für Besucher, welche auf zur Zeit auf der Warteliste stehen.',
+    'Erinnerungen für Anmeldungen auf der Wartelise überspringen',
+    'Sende keine Erinnerungen für Besucher, welche zur Zeit auf der Warteliste stehen.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_unsubscribeLinkPage'] = [
     'Link zur Seite mit der Abmeldebestätigung',
-    'Hier können Sie die Seite wählen, welche angezeigt wird nachdem der Besucher sich per eindeutigem Link aus einer erhaltenen E-Mail abmeldet.',
+    'Hier können Sie die Seite wählen, welche angezeigt wird wenn der Besucher sich per eindeutigem Link aus einer erhaltenen E-Mail abmeldet.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_subscribeNotification'] = [
     'Benachrichtigung über Anmeldung',
-    'Hier können Sie eine benutzerdefinierte Benachrichtigung für die Anmeldung wählen, die anstelle aller Benachrichtigungen dieses Typs verwendet wird.',
+    'Hier können Sie eine benutzerdefinierte Benachrichtigung für die Anmeldung wählen, die anstelle der Standard-Benachrichtigungen dieses Typs verwendet wird.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_unsubscribeNotification'] = [
     'Benachrichtigung über Abmeldung',
-    'Hier können Sie eine benutzerdefinierte Benachrichtigung für die Abmeldung wählen, die anstelle aller Benachrichtigungen dieses Typs verwendet wird.',
+    'Hier können Sie eine benutzerdefinierte Benachrichtigung für die Abmeldung wählen, die anstelle der Standard-Benachrichtigungen dieses Typs verwendet wird.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_listUpdateNotification'] = [
     'Benachrichtigung über Veränderung der Warteliste',
-    'Hier können Sie eine benutzerdefinierte Benachrichtigung über Anderungen in der Warteliste wählen, die anstelle aller Benachrichtigungen dieses Typs verwendet wird.',
+    'Hier können Sie eine benutzerdefinierte Benachrichtigung über Anderungen in der Warteliste wählen, die anstelle der Standard-Benachrichtigungen dieses Typs verwendet wird.',
 ];
 
 /**
  * Legends
  */
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_legend'] = 'Anmeldung Einstellungen';
+
+/**
+ * Buttons
+ */
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview'] = ['Anmeldungen Übersicht', 'Zeige eine Übersicht der Anmeldungen des Kalenders ID %s'];
+
+/**
+ * Reference
+ */
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.headline'] = 'Anmeldeübersicht für Kalender "%s"';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.empty'] = 'Derzeit gibt es keine Anmeldungen.';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.waitingList'] = 'Warteliste';

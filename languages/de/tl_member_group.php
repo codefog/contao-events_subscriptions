@@ -14,7 +14,7 @@
  */
 $GLOBALS['TL_LANG']['tl_member_group']['subscription_enableLimit'] = [
     'Anmeldelimit aktivieren',
-    'Begrenzt die Zahl der Anmeldungen für Mitglieder aus dieser Gruppe.',
+    'Begrenzen Sie die Anzahl der Anmeldungen für Mitglieder aus dieser Gruppe.',
 ];
 $GLOBALS['TL_LANG']['tl_member_group']['subscription_totalLimit']  = [
     'Gesamtlimit',

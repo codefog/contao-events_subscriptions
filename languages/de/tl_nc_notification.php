@@ -16,5 +16,5 @@ $GLOBALS['TL_LANG']['tl_nc_notification']['type']['events_subscriptions']       
 $GLOBALS['TL_LANG']['tl_nc_notification']['type']['events_subscriptions_reminder']    = ['Event Erinnerung'];
 $GLOBALS['TL_LANG']['tl_nc_notification']['type']['events_subscriptions_subscribe']   = ['Event Anmeldung'];
 $GLOBALS['TL_LANG']['tl_nc_notification']['type']['events_subscriptions_unsubscribe'] = ['Event Abmeldung'];
-$GLOBALS['TL_LANG']['tl_nc_notification']['type']['events_subscriptions_listUpdate'] = ['Warteliste Veränderung'];
+$GLOBALS['TL_LANG']['tl_nc_notification']['type']['events_subscriptions_listUpdate'] = ['Event Warteliste Veränderung'];
 $GLOBALS['TL_LANG']['tl_nc_notification']['type']['events_subscription_event'] = ['Event Benachrichtigung'];

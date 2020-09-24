@@ -16,6 +16,7 @@ use Codefog\EventsSubscriptions\Exception\RedirectException;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
 use Codefog\EventsSubscriptions\Subscription\MemberSubscription;
+use Codefog\EventsSubscriptions\Subscription\ModuleDataAwareInterface;
 use Contao\Controller;
 use Contao\Date;
 use Contao\FrontendUser;
@@ -37,17 +38,16 @@ trait SubscriptionTrait
         $data = [
             'subscriptionWaitingList'      => $config->hasWaitingList(),
             'subscriptionWaitingListLimit' => $config->getWaitingListLimit(),
-            'subscribeMessage'   => Services::getFlashMessage()->puke($config->getEvent()->id),
             'isEventPast'        => $config->getEvent()->startTime < time(),
             'subscribeEndTime'   => $this->getSubscribeEndTime($config),
             'unsubscribeEndTime' => $this->getUnsubscribeEndTime($config),
-            'subscribers'        => $this->generateEventSubscribers($config),
+            'subscribers'        => $this->generateEventSubscribers($config, $moduleData),
             'subscriptionMaximum' => $config->getMaximumSubscriptions(),
             'subscriptionTypes'  => [],
         ];
 
         // Add a helper variable that indicates subscription to a waiting list (see #32)
-        $data['subscribeWaitingList'] = $config->hasWaitingList() && ($data['subscriptionMaximum'] - count($data['subscribers']['subscribers']) <= 0);
+        $data['subscribeWaitingList'] = $config->hasWaitingList() && ($data['subscriptionMaximum'] > 0) && ($data['subscriptionMaximum'] - count($data['subscribers']['subscribers']) <= 0);
 
         $factory = Services::getSubscriptionFactory();
 
@@ -60,10 +60,21 @@ trait SubscriptionTrait
                     $subscription->processForm($form, $config);
                 } catch (RedirectException $e) {
                     if ($e->getPage() === null) {
+                        // Set a flash message, if any
+                        if ($e->getMessage() && $e->getEventId()) {
+                            Services::getFlashMessage()->set($e->getMessage(), $e->getEventId());
+                        }
+
                         Controller::reload();
                     } else {
                         $this->handleRedirect($moduleData['jumpTo_'.$e->getPage()], $e->getMessage(), $e->getEventId());
                     }
+                }
+
+                // If the form was submitted but no redirection was made and the appropriate field is there,
+                // it means we can subscribe to the waiting list
+                if ($form->hasFormField('waitingList')) {
+                    $data['subscribeWaitingList'] = true;
                 }
             }
 
@@ -82,6 +93,9 @@ trait SubscriptionTrait
             }
         }
 
+        // Add the flash messages after the forms are processed
+        $data['subscribeMessage'] = Services::getFlashMessage()->puke($config->getEvent()->id);
+
         return $data;
     }
 
@@ -89,10 +103,11 @@ trait SubscriptionTrait
      * Generate the event subscribers
      *
      * @param EventConfig $config
+     * @param array $moduleData
      *
      * @return array
      */
-    protected function generateEventSubscribers(EventConfig $config)
+    protected function generateEventSubscribers(EventConfig $config, array $moduleData = [])
     {
         $subscribers = ['subscribers' => [], 'waitingList' => []];
         $subscriptions = SubscriptionModel::findBy('pid', $config->getEvent()->id, ['order' => 'dateCreated']);
@@ -109,9 +124,12 @@ trait SubscriptionTrait
          */
         foreach ($subscriptions as $model) {
             $subscription = $factory->createFromModel($model);
-            $key          = $subscription->isOnWaitingList() ? 'waitingList' : 'subscribers';
 
-            $subscribers[$key][] = $subscription->getFrontendLabel();
+            if ($subscription instanceof ModuleDataAwareInterface) {
+                $subscription->setModuleData($moduleData);
+            }
+
+            $subscribers[($subscription->isOnWaitingList() ? 'waitingList' : 'subscribers')][] = $subscription->getFrontendLabel();
         }
 
         return $subscribers;

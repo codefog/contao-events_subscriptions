@@ -4,6 +4,7 @@ namespace Codefog\EventsSubscriptions\Backend;
 
 use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
+use Codefog\EventsSubscriptions\Services;
 use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\CalendarEventsModel;
@@ -68,11 +69,13 @@ class OverviewController
             return [];
         }
 
+        $subscriptionFactory = Services::getSubscriptionFactory();
+
         /** @var CalendarEventsModel $eventModel */
         foreach ($eventModels as $eventModel) {
-            $subscriptions = SubscriptionModel::countBy('pid', $eventModel->id);
+            $subscriptionModels = SubscriptionModel::findBy('pid', $eventModel->id, ['order' => 'dateCreated']);
 
-            if ($subscriptions === 0) {
+            if ($subscriptionModels === null) {
                 continue;
             }
 
@@ -85,6 +88,20 @@ class OverviewController
                 ];
             }
 
+            $subscriptionsCount = 0;
+            $waitingListCount = 0;
+
+            /** @var SubscriptionModel $subscriptionModel */
+            foreach ($subscriptionModels as $subscriptionModel) {
+                $subscription = $subscriptionFactory->createFromModel($subscriptionModel);
+
+                if ($subscription->isOnWaitingList()) {
+                    $waitingListCount += $subscriptionModel->numberOfParticipants;
+                } else {
+                    $subscriptionsCount += $subscriptionModel->numberOfParticipants;
+                }
+            }
+
             $eventConfig = new EventConfig($calendarModel, $eventModel);
             $maximumSubscriptions = $eventConfig->getMaximumSubscriptions();
 
@@ -92,11 +109,11 @@ class OverviewController
                 'id' => $eventModel->id,
                 'title' => $eventModel->title,
                 'date' => Date::parse(Config::get($eventModel->addTime ?'datimFormat' : 'dateFormat'), $eventModel->startTime),
-                'subscriptions' => $subscriptions,
+                'subscriptions' => $subscriptionsCount,
                 'maxSubscriptions' => $maximumSubscriptions,
                 'waitingList' => $eventConfig->hasWaitingList(),
                 'waitingListLimit' => $eventConfig->getWaitingListLimit(),
-                'waitingListSubscriptions' => ($maximumSubscriptions > 0) ? max(0, $subscriptions - $maximumSubscriptions) : 0,
+                'waitingListSubscriptions' => ($maximumSubscriptions > 0) ? $waitingListCount : 0,
                 'url' => sprintf(
                     'contao?do=calendar&table=tl_calendar_events_subscription&id=%s&rt=%s&ref=%s',
                     $eventModel->id,

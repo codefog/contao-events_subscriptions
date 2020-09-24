@@ -32,6 +32,7 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_unsubscribeEndTime'] = [
     'Unsubscribe end time',
     'Here you can set the time offset before start of the event when the unsubscription closes. Leave empty to not limit the time to unsubscribe.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_numberOfParticipants'] = ['Enable number of participants', 'Allow subscribers to enter the number of participants.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_waitingList']        = [
     'Enable waiting list',
     'Allow the users to subscribe to the waiting list.',
