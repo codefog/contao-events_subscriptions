@@ -57,3 +57,15 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscription_listUpdateNotification'] = [
  * Legends
  */
 $GLOBALS['TL_LANG']['tl_calendar']['subscription_legend'] = 'Subscription settings';
+
+/**
+ * Buttons
+ */
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview'] = ['Subscriptions overview', 'View an overview of subscriptions of calendar ID %s'];
+
+/**
+ * Reference
+ */
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.headline'] = 'Subscriptions overview for calendar "%s"';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.empty'] = 'Currently there are no subscriptions.';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.waitingList'] = 'Waiting list';

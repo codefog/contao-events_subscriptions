@@ -35,6 +35,18 @@ if (($index = array_search(['tl_calendar_events', 'checkPermission'], $GLOBALS['
 }
 
 /**
+ * Add global operations
+ */
+array_insert($GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'], 0, [
+    'subscriptions_overview' => [
+        'label'           => &$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview'],
+        'href'            => 'key=subscriptions_overview',
+        'icon'            => 'mgroup.gif',
+        'button_callback' => ['Codefog\EventsSubscriptions\DataContainer\EventsContainer', 'getSubscriptionsOverviewButton'],
+    ]
+]);
+
+/**
  * Add list operations
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['sendNotifications'] = [
@@ -57,7 +69,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptions'] 
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][]              = 'subscription_override';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][]              = 'subscription_waitingList';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][]              = 'subscription_memberGroupsLimit';
-$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override']    = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_waitingList';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override']    = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_waitingList';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_memberGroupsLimit'] = 'subscription_memberGroups';
 
@@ -130,6 +142,15 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_unsubscribeEndT
     'reference' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'],
     'eval'      => ['rgxp' => 'natural', 'minval' => 1, 'tl_class' => 'w50'],
     'sql'       => "varchar(64) NOT NULL default ''",
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_numberOfParticipants'] = [
+    'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_numberOfParticipants'],
+    'exclude'   => true,
+    'filter'    => true,
+    'inputType' => 'checkbox',
+    'eval'      => ['tl_class' => 'clr'],
+    'sql'       => "char(1) NOT NULL default ''",
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_waitingList'] = [

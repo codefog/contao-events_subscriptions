@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptions\Backend;
 
+use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\NotificationSender;
 use Codefog\EventsSubscriptions\Services;
 use Contao\Backend;
@@ -54,13 +55,14 @@ class NotificationController
         System::loadLanguageFile('tl_calendar_events_subscription');
 
         $formSubmit = 'events-subscriptions-notification';
+        $memberGroups = $this->getMemberGroups($eventModel);
 
         // Process the form
         if (Input::post('FORM_SUBMIT') === $formSubmit) {
-            $this->processForm($eventModel);
+            $this->processForm($eventModel, $memberGroups);
         }
 
-        return $this->createTemplate($eventModel, $formSubmit)->parse();
+        return $this->createTemplate($eventModel, $formSubmit, $memberGroups)->parse();
     }
 
     /**
@@ -68,10 +70,11 @@ class NotificationController
      *
      * @param CalendarEventsModel $eventModel
      * @param string              $formSubmit
+     * @param array               $memberGroups
      *
      * @return BackendTemplate
      */
-    protected function createTemplate(CalendarEventsModel $eventModel, $formSubmit)
+    protected function createTemplate(CalendarEventsModel $eventModel, $formSubmit, array $memberGroups = [])
     {
         $eventData = [];
 
@@ -95,11 +98,19 @@ class NotificationController
             'eval' => ['mandatory' => true, 'includeBlankOption' => true],
         ], 'notification', Input::post('notification')));
 
-        $template->memberGroups = new $GLOBALS['BE_FFL']['checkbox'](Widget::getAttributesFromDca([
-            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.memberGroups'],
-            'options' => $this->getMemberGroups(),
-            'eval' => ['mandatory' => true, 'multiple' => true],
-        ], 'member-groups', Input::post('member-groups')));
+        $template->subscribableMemberGroups = new $GLOBALS['BE_FFL']['checkbox'](Widget::getAttributesFromDca([
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribableMemberGroups'],
+            'options' => $memberGroups['subscribable'],
+            'eval' => ['multiple' => true],
+        ], 'subscribable-member-groups', Input::post('subscribable-member-groups')));
+
+        if (count($memberGroups['other']) > 0) {
+            $template->otherMemberGroups = new $GLOBALS['BE_FFL']['checkbox'](Widget::getAttributesFromDca([
+                'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.otherMemberGroups'],
+                'options' => $memberGroups['other'],
+                'eval' => ['multiple' => true],
+            ], 'other-member-groups', Input::post('other-member-groups')));
+        }
 
         return $template;
     }
@@ -108,15 +119,32 @@ class NotificationController
      * Process the form
      *
      * @param CalendarEventsModel $eventModel
+     * @param array $memberGroups
      */
-    protected function processForm(CalendarEventsModel $eventModel)
+    protected function processForm(CalendarEventsModel $eventModel, array $memberGroups = [])
     {
-        if (!($notificationId = Input::post('notification')) || !($memberGroupIds = Input::post('member-groups')) || !is_array($memberGroupIds) || count($memberGroupIds) === 0) {
+        if (!($notificationId = Input::post('notification'))) {
+            Controller::reload();
+        }
+
+        $memberGroupIds = [];
+
+        // Assign subscribable member groups
+        if (is_array($subscribableMemberGroupIds = Input::post('subscribable-member-groups')) && count($subscribableMemberGroupIds) > 0) {
+            $memberGroupIds = array_merge($memberGroupIds, array_intersect(array_map('\intval', $subscribableMemberGroupIds), array_keys($memberGroups['subscribable'])));
+        }
+
+        // Assign subscribable other groups
+        if (is_array($otherMemberGroupIds = Input::post('other-member-groups')) && count($otherMemberGroupIds) > 0) {
+            $memberGroupIds = array_merge($memberGroupIds, array_intersect(array_map('\intval', $otherMemberGroupIds), array_keys($memberGroups['other'])));
+        }
+
+        if (count($memberGroupIds) === 0) {
+            Message::addError($GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.noRecipients']);
             Controller::reload();
         }
 
         $notificationId = (int) $notificationId;
-        $memberGroupIds = array_intersect(array_map('\intval', $memberGroupIds), array_keys($this->getMemberGroups()));
 
         // Validate submitted data
         if (!array_key_exists($notificationId, $this->getNotifications()) || count($memberGroupIds) === 0 || ($notification = Notification::findByPk($notificationId)) === null) {
@@ -177,16 +205,26 @@ class NotificationController
     /**
      * Get the member groups
      *
+     * @param CalendarEventsModel $eventModel
+     *
      * @return array
      */
-    protected function getMemberGroups()
+    protected function getMemberGroups(CalendarEventsModel $eventModel)
     {
-        $groups = [];
+        $groups = ['subscribable' => [], 'other' => []];
+        $eventConfig = new EventConfig($eventModel->getRelated('pid'), $eventModel);
+        $subscribableGroups = $eventConfig->hasMemberGroupsLimit() ? $eventConfig->getMemberGroups() : null;
 
         if (($models = MemberGroupModel::findAllActive(['order' => 'name'])) !== null) {
             /** @var MemberGroupModel $model */
             foreach ($models as $model) {
-                $groups[(int) $model->id] = $model->name;
+                $key = 'subscribable';
+
+                if (isset($subscribableGroups) && !in_array($model->id, $subscribableGroups)) {
+                    $key = 'other';
+                }
+
+                $groups[$key][(int) $model->id] = $model->name;
             }
         }
 

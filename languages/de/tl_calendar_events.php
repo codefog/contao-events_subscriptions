@@ -18,7 +18,7 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_override']           = [
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_types']              = [
     'Erlaubte Anmelde-Typen',
-    'Hier können Sie die die erlaubten Anmelde-Typen auswählen.',
+    'Hier können Sie die erlaubten Anmelde-Typen auswählen.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_maximum']            = [
     'Maximale Anzahl der Anmeldungen',
@@ -32,9 +32,10 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_unsubscribeEndTime'] = [
     'Abmeldefrist',
     'Hier können Sie den Zeitversatz vor Beginn des Events festlegen ab wann eine Abmeldung nicht mehr möglich ist. Lassen Sie das Feld leer, wenn Sie dies nicht benötigen.'
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_numberOfParticipants'] = ['Enable number of participants', 'Erlaube die Angabe einer Anzahl an Teilnehmern bei der Anmeldung'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_waitingList']        = [
     'Warteliste aktivieren',
-    'Erlauben Sie die Anmeldung über eine Warteliste.',
+    'Erlauben Sie die Anmeldung auf die Warteliste.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_waitingListLimit']   = [
     'Warteliste begrenzen',
@@ -60,8 +61,9 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_legend'] = ' Anmeldung E
  */
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'] = [
     'Anmeldungen',
-    'Zeigt die Anmeldungen für Event ID %s.',
+    'Zeigt die Anmeldungen zu Event ID %s.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events']['sendNotifications'] = ['Event-Benachrichtigungen senden', 'Benachrichtigungen über Event ID %s senden'];
 
 /**
  * Reference

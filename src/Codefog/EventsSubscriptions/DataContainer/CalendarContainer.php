@@ -11,10 +11,39 @@
 
 namespace Codefog\EventsSubscriptions\DataContainer;
 
+use Contao\Backend;
 use Contao\Database;
+use Contao\Image;
 
 class CalendarContainer
 {
+    /**
+     * Get the "subscriptions overview" button
+     *
+     * @param array  $row
+     * @param string $href
+     * @param string $label
+     * @param string $title
+     * @param string $icon
+     * @param string $attributes
+     *
+     * @return string
+     */
+    public function getSubscriptionsOverviewButton(array $row, $href, $label, $title, $icon, $attributes)
+    {
+        if (!$row['subscription_enable']) {
+            return '';
+        }
+
+        return sprintf(
+            '<a href="%s" title="%s"%s>%s</a> ',
+            Backend::addToUrl($href.'&amp;id='.$row['id']),
+            specialchars($title),
+            $attributes,
+            Image::getHtml($icon, $label)
+        );
+    }
+
     /**
      * Get the notifications
      *

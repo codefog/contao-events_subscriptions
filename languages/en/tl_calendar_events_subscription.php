@@ -24,6 +24,10 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['disableReminders'] = [
     'Disable reminders',
     'Disable the event reminders for this subscriber.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['numberOfParticipants'] = [
+    'Number of participants',
+    'Here you can enter the number of participants.',
+];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member']       = [
     'Member',
     'Please choose the member you want to subscribe to the event.',
@@ -96,7 +100,8 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.excel'] = 'Export
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.headline'] = 'Event notifications';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.explanation'] = 'Here you can send a notification to selected member groups for the event:';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.notification'] = 'Notification';
-$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.memberGroups'] = 'Member groups';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribableMemberGroups'] = 'Member groups allowed to subscribe';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.otherMemberGroups'] = 'Other member groups';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.submit'] = 'Send a notification';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.noRecipients'] = 'There are no active members to send this notification to.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.confirmation'] = '%s notifications sent successfully!';
