@@ -56,29 +56,29 @@ class InsertTagsListener
     /**
      * Get the total limit
      *
-     * @return bool|int
+     * @return string|int
      */
     private function getTotalLimit()
     {
         if (!FE_USER_LOGGED_IN) {
-            return false;
+            return '';
         }
 
         $member = MemberConfig::create(FrontendUser::getInstance()->id);
         $limit  = $member->getTotalLimit();
 
-        return ($limit > 0) ? $limit : false;
+        return ($limit > 0) ? $limit : '';
     }
 
     /**
      * Get the total limit left
      *
-     * @return bool|int
+     * @return string|int
      */
     private function getTotalLimitLeft()
     {
         if (($limit = $this->getTotalLimit()) === false) {
-            return false;
+            return '';
         }
 
         return $limit - SubscriptionModel::countBy('member', FrontendUser::getInstance()->id);
@@ -89,18 +89,18 @@ class InsertTagsListener
      *
      * @param string $key
      *
-     * @return bool|int
+     * @return string|int
      */
     private function getPeriodLimit($key)
     {
         if (!FE_USER_LOGGED_IN || ($key !== 'unit' && $key !== 'value')) {
-            return false;
+            return '';
         }
 
         $member = MemberConfig::create(FrontendUser::getInstance()->id);
 
         if (($limit = $member->getPeriodLimit()) === null) {
-            return false;
+            return '';
         }
 
         return $limit[$key];
@@ -111,18 +111,18 @@ class InsertTagsListener
      *
      * @param string $key
      *
-     * @return bool|int
+     * @return string|int
      */
     private function getPeriodLimitLeft($key)
     {
         if (!FE_USER_LOGGED_IN || ($key !== 'unit' && $key !== 'value')) {
-            return false;
+            return '';
         }
 
         $member = MemberConfig::create(FrontendUser::getInstance()->id);
 
         if (($limit = $member->getPeriodLimit()) === null) {
-            return false;
+            return '';
         }
 
         // Return the unit immediately
@@ -156,6 +156,4 @@ class InsertTagsListener
 
         return $limit['value'] - $subscriptions;
     }
-
-
 }
