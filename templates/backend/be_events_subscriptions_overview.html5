@@ -11,7 +11,7 @@
             <table class="tl_listing">
                 <thead>
                 <tr>
-                    <th class="tl_folder_tlist"><?= $GLOBALS['TL_LANG']['tl_calendar_events']['startDate'][0] ?></th>
+                    <th class="tl_folder_tlist" style="white-space:nowrap"><?= $GLOBALS['TL_LANG']['tl_calendar_events']['startDate'][0] ?></th>
                     <th class="tl_folder_tlist"><?= $GLOBALS['TL_LANG']['tl_calendar_events']['title'][0] ?></th>
                     <th class="tl_folder_tlist"><?= $GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'][0] ?></th>
                     <th class="tl_folder_tlist"><?= $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.waitingList'] ?></th>
@@ -25,7 +25,7 @@
                 </tr>
                 <?php foreach ($group['events'] as $event): ?>
                 <tr class="hover-div">
-                    <td class="tl_file_list" style="background:none"><?= $event['date'] ?></td>
+                    <td class="tl_file_list" style="background:none;white-space:nowrap"><?= $event['date'] ?></td>
                     <td class="tl_file_list" style="background:none"><?= $event['title'] ?></td>
                     <td class="tl_file_list" style="background:none"><?= $event['subscriptions'] ?> / <?= $event['maxSubscriptions'] ?: '∞' ?></td>
                     <td class="tl_file_list" style="background:none">
