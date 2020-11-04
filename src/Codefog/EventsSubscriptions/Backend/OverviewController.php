@@ -54,7 +54,7 @@ class OverviewController
             ->execute($calendarModel->id)
             ->total;
 
-        $limit = Config::get('maxResultsPerPage');
+        $limit = Config::get('resultsPerPage');
         $page = (Input::get('esp') ?: 1) - 1;
         $pagination = new Pagination($total, $limit, 7, 'esp', new BackendTemplate('be_pagination'), true);
 
