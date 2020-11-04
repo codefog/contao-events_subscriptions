@@ -45,6 +45,8 @@
                 <?php endforeach; ?>
                 </tbody>
             </table>
+
+            <?= $this->pagination ?>
         <?php else: ?>
             <div class="tl_message">
                 <p class="tl_info"><?= $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.empty'] ?></p>
