@@ -11,7 +11,7 @@
             <table class="tl_listing">
                 <thead>
                 <tr>
-                    <th class="tl_folder_tlist"><?= $GLOBALS['TL_LANG']['tl_calendar_events']['startDate'][0] ?></th>
+                    <th class="tl_folder_tlist" style="white-space:nowrap"><?= $GLOBALS['TL_LANG']['tl_calendar_events']['startDate'][0] ?></th>
                     <th class="tl_folder_tlist"><?= $GLOBALS['TL_LANG']['tl_calendar_events']['title'][0] ?></th>
                     <th class="tl_folder_tlist"><?= $GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'][0] ?></th>
                     <th class="tl_folder_tlist"><?= $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.waitingList'] ?></th>
@@ -25,7 +25,7 @@
                 </tr>
                 <?php foreach ($group['events'] as $event): ?>
                 <tr class="hover-div">
-                    <td class="tl_file_list" style="background:none"><?= $event['date'] ?></td>
+                    <td class="tl_file_list" style="background:none;white-space:nowrap"><?= $event['date'] ?></td>
                     <td class="tl_file_list" style="background:none"><?= $event['title'] ?></td>
                     <td class="tl_file_list" style="background:none"><?= $event['subscriptions'] ?> / <?= $event['maxSubscriptions'] ?: '∞' ?></td>
                     <td class="tl_file_list" style="background:none">
@@ -36,6 +36,8 @@
                         <?php endif; ?>
                     </td>
                     <td class="tl_file_list" style="background:none;width:1%;white-space:nowrap">
+                        <a href="<?= ampersand($event['editUrl']) ?>" title="<?= \Contao\StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['tl_calendar_events']['edit'][1], $event['id'])) ?>"><?= \Contao\Image::getHtml('edit.gif') ?></a>
+                        <a href="<?= ampersand($event['notificationsUrl']) ?>" title="<?= \Contao\StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['tl_calendar_events']['sendNotifications'][1], $event['id'])) ?>"><?= \Contao\Image::getHtml('system/modules/events_subscriptions/assets/send.svg') ?></a>
                         <a href="<?= ampersand($event['url']) ?>" title="<?= \Contao\StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'][1], $event['id'])) ?>"><?= \Contao\Image::getHtml('mgroup.gif') ?></a>
                     </td>
                 </tr>
@@ -43,6 +45,8 @@
                 <?php endforeach; ?>
                 </tbody>
             </table>
+
+            <?= $this->pagination ?>
         <?php else: ?>
             <div class="tl_message">
                 <p class="tl_info"><?= $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.empty'] ?></p>

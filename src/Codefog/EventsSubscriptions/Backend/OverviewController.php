@@ -11,8 +11,11 @@ use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\Config;
 use Contao\Controller;
+use Contao\Database;
 use Contao\Date;
 use Contao\Input;
+use Contao\Model\Collection;
+use Contao\Pagination;
 use Contao\System;
 
 class OverviewController
@@ -46,33 +49,49 @@ class OverviewController
      */
     protected function createTemplate(CalendarModel $calendarModel)
     {
+        $total = (int) Database::getInstance()
+            ->prepare('SELECT COUNT(*) AS total FROM tl_calendar_events WHERE pid=? AND EXISTS(SELECT 1 FROM tl_calendar_events_subscription WHERE tl_calendar_events_subscription.pid=tl_calendar_events.id)')
+            ->execute($calendarModel->id)
+            ->total;
+
+        $limit = Config::get('maxResultsPerPage');
+        $page = (Input::get('esp') ?: 1) - 1;
+        $pagination = new Pagination($total, $limit, 7, 'esp', new BackendTemplate('be_pagination'), true);
+
         $template = new BackendTemplate('be_events_subscriptions_overview');
         $template->backUrl = Backend::getReferer();
         $template->calendar = $calendarModel->title;
-        $template->entries = $this->getSubscriptionEntries($calendarModel);
+        $template->entries = $this->getSubscriptionEntries($calendarModel, $limit, $page * $limit);
+        $template->pagination = $pagination->generate();
 
         return $template;
     }
+
 
     /**
      * Get the subscription entries
      *
      * @param CalendarModel $calendarModel
+     * @param int           $limit
+     * @param int           $offset
      *
      * @return array
      */
-    protected function getSubscriptionEntries(CalendarModel $calendarModel)
+    protected function getSubscriptionEntries(CalendarModel $calendarModel, $limit, $offset)
     {
-        $eventModels = CalendarEventsModel::findBy('pid', $calendarModel->id, ['order' => 'startTime DESC']);
+        $events = Database::getInstance()
+            ->prepare('SELECT * FROM tl_calendar_events WHERE pid=? AND EXISTS(SELECT 1 FROM tl_calendar_events_subscription WHERE tl_calendar_events_subscription.pid=tl_calendar_events.id) ORDER BY startTime DESC')
+            ->limit($limit, $offset)
+            ->execute($calendarModel->id);
 
-        if ($eventModels === null) {
+        if (!$events->numRows) {
             return [];
         }
 
         $subscriptionFactory = Services::getSubscriptionFactory();
 
         /** @var CalendarEventsModel $eventModel */
-        foreach ($eventModels as $eventModel) {
+        foreach (Collection::createFromDbResult($events, 'tl_calendar_events') as $eventModel) {
             $subscriptionModels = SubscriptionModel::findBy('pid', $eventModel->id, ['order' => 'dateCreated']);
 
             if ($subscriptionModels === null) {
@@ -116,6 +135,18 @@ class OverviewController
                 'waitingListSubscriptions' => ($maximumSubscriptions > 0) ? $waitingListCount : 0,
                 'url' => sprintf(
                     'contao?do=calendar&table=tl_calendar_events_subscription&id=%s&rt=%s&ref=%s',
+                    $eventModel->id,
+                    REQUEST_TOKEN,
+                    Input::get('ref')
+                ),
+                'editUrl' => sprintf(
+                    'contao?do=calendar&table=tl_calendar_events&act=edit&id=%s&rt=%s&ref=%s',
+                    $eventModel->id,
+                    REQUEST_TOKEN,
+                    Input::get('ref')
+                ),
+                'notificationsUrl' => sprintf(
+                    'contao?do=calendar&table=tl_calendar_events&key=subscriptions_notification&id=%s&rt=%s&ref=%s',
                     $eventModel->id,
                     REQUEST_TOKEN,
                     Input::get('ref')
