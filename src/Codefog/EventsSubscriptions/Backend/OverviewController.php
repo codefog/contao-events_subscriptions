@@ -120,6 +120,12 @@ class OverviewController
                     REQUEST_TOKEN,
                     Input::get('ref')
                 ),
+                'editUrl' => sprintf(
+                    'contao?do=calendar&table=tl_calendar_events&act=edit&id=%s&rt=%s&ref=%s',
+                    $eventModel->id,
+                    REQUEST_TOKEN,
+                    Input::get('ref')
+                ),
             ];
         }
 
