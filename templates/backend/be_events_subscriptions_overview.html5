@@ -37,6 +37,7 @@
                     </td>
                     <td class="tl_file_list" style="background:none;width:1%;white-space:nowrap">
                         <a href="<?= ampersand($event['editUrl']) ?>" title="<?= \Contao\StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['tl_calendar_events']['edit'][1], $event['id'])) ?>"><?= \Contao\Image::getHtml('edit.gif') ?></a>
+                        <a href="<?= ampersand($event['notificationsUrl']) ?>" title="<?= \Contao\StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['tl_calendar_events']['sendNotifications'][1], $event['id'])) ?>"><?= \Contao\Image::getHtml('system/modules/events_subscriptions/assets/send.svg') ?></a>
                         <a href="<?= ampersand($event['url']) ?>" title="<?= \Contao\StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'][1], $event['id'])) ?>"><?= \Contao\Image::getHtml('mgroup.gif') ?></a>
                     </td>
                 </tr>
