@@ -12,6 +12,7 @@
 namespace Codefog\EventsSubscriptions;
 
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
+use Contao\Database;
 use Contao\Date;
 
 class SubscriptionValidator
@@ -102,7 +103,13 @@ class SubscriptionValidator
             $max += $limit;
         }
 
-        return (SubscriptionModel::countBy('pid', $event->getEvent()->id) + $numberOfParticipants) <= $max;
+        $total = Database::getInstance()
+            ->prepare('SELECT SUM(numberOfParticipants) AS total FROM tl_calendar_events_subscription WHERE pid=?')
+            ->execute($event->getEvent()->id)
+            ->total
+        ;
+
+        return ($total + $numberOfParticipants) <= $max;
     }
 
     /**
