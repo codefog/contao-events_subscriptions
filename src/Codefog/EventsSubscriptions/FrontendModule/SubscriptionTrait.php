@@ -130,6 +130,7 @@ trait SubscriptionTrait
             }
 
             $subscribers[($subscription->isOnWaitingList() ? 'waitingList' : 'subscribers')][] = $subscription->getFrontendLabel();
+            $subscribers[($subscription->isOnWaitingList() ? 'waitingListParticipants' : 'subscribersParticipants')] += $model->numberOfParticipants;
         }
 
         return $subscribers;
