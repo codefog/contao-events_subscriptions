@@ -58,7 +58,9 @@ Example data you can find is:
 ```php
 $this->subscribers; // all subscribers
 $this->subscribers['subscribers']; // event subscribers
+$this->subscribers['subscribersParticipants']; // total number of participants of event subscribers
 $this->subscribers['waitingList']; // subscribers on waiting list
+$this->subscribers['waitingListParticipants']; // total number of participants of subscribers on waiting list
 $this->subscriptionMaximum; // maximum subscribers limit
 $this->subscriptionTypes; // detailed information about subscription types
 $this->subscriptionWaitingList; // 1 – waiting list enabled; 0 – disabled
