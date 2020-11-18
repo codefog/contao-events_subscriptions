@@ -8,6 +8,7 @@ use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
 use Codefog\EventsSubscriptions\Subscriber;
 use Codefog\EventsSubscriptions\SubscriptionValidator;
+use Contao\Database;
 use Contao\Environment;
 use Contao\Input;
 use Haste\Form\Form;
@@ -105,10 +106,11 @@ abstract class AbstractSubscription implements ModuleDataAwareInterface, Subscri
             return null;
         }
 
-        $total = SubscriptionModel::countBy(
-            ['pid=? AND dateCreated<? AND id!=?'],
-            [$event->getEvent()->id, $subscriptionModel->dateCreated, $subscriptionModel->id]
-        );
+        $total = Database::getInstance()
+            ->prepare('SELECT SUM(numberOfParticipants) AS total FROM tl_calendar_events_subscription WHERE pid=? AND dateCreated<? AND id!=?')
+            ->execute($event->getEvent()->id, $subscriptionModel->dateCreated, $subscriptionModel->id)
+            ->total
+        ;
 
         return ($total + $subscriptionModel->numberOfParticipants) > $max;
     }
