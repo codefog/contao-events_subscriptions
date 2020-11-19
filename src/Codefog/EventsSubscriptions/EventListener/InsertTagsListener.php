@@ -77,7 +77,7 @@ class InsertTagsListener
      */
     private function getTotalLimitLeft()
     {
-        if (($limit = $this->getTotalLimit()) === false) {
+        if (($limit = $this->getTotalLimit()) === '') {
             return '';
         }
 

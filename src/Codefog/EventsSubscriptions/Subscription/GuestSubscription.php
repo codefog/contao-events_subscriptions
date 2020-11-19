@@ -97,7 +97,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                 ],
                 $position
             )->addFormField(
-                'captcha',
+                'captcha_' . $event->getEvent()->id,
                 [
                     'label'     => &$GLOBALS['TL_LANG']['MSC']['securityQuestion'],
                     'inputType' => 'captcha',
