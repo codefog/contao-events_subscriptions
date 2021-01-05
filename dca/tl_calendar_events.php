@@ -12,6 +12,7 @@
 /**
  * Load the language files
  */
+\Contao\System::loadLanguageFile('tl_calendar');
 \Contao\System::loadLanguageFile('tl_calendar_events_subscription');
 
 /**
