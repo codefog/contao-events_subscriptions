@@ -47,7 +47,11 @@ class SubscriptionContainer
             $max   = $limit ? ($max + $limit) : 0;
         }
 
-        $count = SubscriptionModel::countBy('pid', $config->getEvent()->id);
+        $count = Database::getInstance()
+            ->prepare('SELECT SUM(numberOfParticipants) AS total FROM tl_calendar_events_subscription WHERE pid=?')
+            ->execute($config->getEvent()->id)
+            ->total
+        ;
 
         if ($max > 0) {
             Message::addInfo(
