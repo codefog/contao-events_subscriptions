@@ -89,7 +89,7 @@ The list of available tokens in every notification:
 
    A unique link that allows the user to immediately unsubscribe from the event.
    
-7. `{{event_url::##event_id##}}` or `{{event::##event_id##}}`
+7. `event_link`
 
    A link to the event itself.
 
