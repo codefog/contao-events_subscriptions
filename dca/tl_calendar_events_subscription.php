@@ -53,6 +53,12 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             ],
         ],
         'global_operations' => [
+            'newFromMemberGroup' => [
+                'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup'],
+                'href'       => 'key=subscriptions_newFromMemberGroup',
+                'icon'       => 'new.svg',
+                'attributes' => 'onclick="Backend.getScrollOffset()"',
+            ],
             'export' => [
                 'label'      => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export'],
                 'href'       => 'key=subscriptions_export',

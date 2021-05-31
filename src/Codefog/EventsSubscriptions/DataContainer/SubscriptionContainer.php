@@ -29,7 +29,7 @@ class SubscriptionContainer
     public function displaySummary()
     {
         // Return if not a list view
-        if ((int)CURRENT_ID !== (int)Input::get('id')) {
+        if ((int)CURRENT_ID !== (int)Input::get('id') || Input::get('act') || Input::get('key')) {
             return;
         }
 
