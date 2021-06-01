@@ -87,6 +87,8 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['typeRef'] = [
  */
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summary']    = 'There are %s subscription(s) to this event.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summaryMax'] = 'There are %s subscription(s) of %s possible to this event.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['activeMembers'] = 'Active';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['inactiveMembers'] = 'Inactive';
 
 /**
  * Export

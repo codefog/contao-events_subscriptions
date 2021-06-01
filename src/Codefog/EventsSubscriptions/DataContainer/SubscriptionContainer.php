@@ -18,6 +18,7 @@ use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
 use Contao\Database;
 use Contao\DataContainer;
+use Contao\Date;
 use Contao\Input;
 use Contao\Message;
 
@@ -158,13 +159,15 @@ class SubscriptionContainer
     public function getMembers(DataContainer $dc)
     {
         $members = [];
+        $time = Date::floorToMinute();
         $records = Database::getInstance()
-            ->prepare("SELECT * FROM tl_member WHERE id=? OR id NOT IN (SELECT member FROM tl_calendar_events_subscription WHERE type=? AND pid=?) ORDER BY lastname, firstname, username")
+            ->prepare("SELECT * FROM tl_member WHERE id=? OR (id NOT IN (SELECT member FROM tl_calendar_events_subscription WHERE type=? AND pid=?)) ORDER BY lastname, firstname, username")
             ->execute($dc->activeRecord->member, 'member', $dc->activeRecord->pid)
         ;
 
         while ($records->next()) {
-            $members[$records->id] = $records->lastname.' '.$records->firstname.' ('.$records->username.')';
+            $group = ($records->login && !$records->disable && (!$records->start || $records->start <= $time) && (!$records->stop || $records->stop > $time + 60)) ? $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['activeMembers'] : $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['inactiveMembers'];
+            $members[$group][$records->id] = $records->lastname.' '.$records->firstname.' ('.$records->username.')';
         }
 
         return $members;
