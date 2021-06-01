@@ -91,6 +91,10 @@ class NewFromMemberGroupController
             ], 'other-member-groups', Input::post('other-member-groups')));
         }
 
+        $template->sendNotification = new $GLOBALS['BE_FFL']['checkbox'](Widget::getAttributesFromDca([
+            'options' => [1 => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.sendNotification']],
+        ], 'send-notification', Input::post('send-notification')));
+
         return $template;
     }
 
@@ -140,9 +144,11 @@ class NewFromMemberGroupController
         }
 
         $count = 0;
-        $eventConfig = new EventConfig($eventModel->getRelated('pid'), $eventModel);
         $factory = Services::getSubscriptionFactory();
         $subscriber = Services::getSubscriber();
+
+        $eventConfig = new EventConfig($eventModel->getRelated('pid'), $eventModel);
+        $eventConfig->setExtras(['notification' => (bool) Input::post('send-notification')]);
 
         // Create the subscriptions
         foreach ($members as $member) {

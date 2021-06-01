@@ -106,6 +106,7 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.excel'] = 'Export
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.headline'] = 'Create subscriptions from member group';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.explanation'] = 'Here you can batch create multiple member subscriptions by selecting the member groups for the event:';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.noMembers'] = 'There are no active members to subscribe.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.sendNotification'] = 'Send a notification';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.submit'] = 'Create subscriptions';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.confirmation'] = '%s members subscribed to this event successfully!';
 

@@ -128,7 +128,7 @@ abstract class AbstractSubscription implements ModuleDataAwareInterface, Subscri
      */
     public function writeToModel(EventConfig $event, SubscriptionModel $model)
     {
-        if (($form = $this->getForm($event)) === null) {
+        if (($form = $this->getForm($event)) === null || !$form->isSubmitted()) {
             return;
         }
 

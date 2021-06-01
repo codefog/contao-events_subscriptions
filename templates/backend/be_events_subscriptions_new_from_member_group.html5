@@ -27,6 +27,10 @@
                         <?= $this->otherMemberGroups->parse() ?>
                     </div>
                 <?php endif; ?>
+
+                <div class="widget clr">
+                    <?= $this->sendNotification->parse() ?>
+                </div>
             </fieldset>
 
             <div class="tl_formbody_submit">
