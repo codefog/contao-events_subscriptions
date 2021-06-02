@@ -158,7 +158,11 @@ class SubscriptionContainer
      */
     public function getMembers(DataContainer $dc)
     {
-        $members = [];
+        $members = [
+            $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['activeMembers'] => [],
+            $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['inactiveMembers'] => [],
+        ];
+
         $time = Date::floorToMinute();
         $records = Database::getInstance()
             ->prepare("SELECT * FROM tl_member WHERE id=? OR (id NOT IN (SELECT member FROM tl_calendar_events_subscription WHERE type=? AND pid=?)) ORDER BY lastname, firstname, username")
