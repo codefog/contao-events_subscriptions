@@ -56,6 +56,10 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['new']    = [
     'New subscription',
     'Create a new subscriptions',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup']    = [
+    'New from member group',
+    'Create multiple subscriptions from member group',
+];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['show']   = [
     'Subscription details',
     'Show details of subscription ID %s',
@@ -83,6 +87,8 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['typeRef'] = [
  */
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summary']    = 'There are %s subscription(s) to this event.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summaryMax'] = 'There are %s subscription(s) of %s possible to this event.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['activeMembers'] = 'Active';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['inactiveMembers'] = 'Inactive';
 
 /**
  * Export
@@ -93,6 +99,16 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.count'] = 'Number
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.excelFormatHint'] = 'To enable export in Excel format please install the <strong>phpoffice/phpspreadsheet</strong> package. Alternatively you can install the deprecated <strong>phpoffice/phpexcel</strong> package.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.csv'] = 'Export as CSV';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.excel'] = 'Export as Excel';
+
+/**
+ * New from member group
+ */
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.headline'] = 'Create subscriptions from member group';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.explanation'] = 'Here you can batch create multiple member subscriptions by selecting the member groups for the event:';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.noMembers'] = 'There are no active members to subscribe.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.sendNotification'] = 'Send a notification';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.submit'] = 'Create subscriptions';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.confirmation'] = '%s members subscribed to this event successfully!';
 
 /**
  * Notification

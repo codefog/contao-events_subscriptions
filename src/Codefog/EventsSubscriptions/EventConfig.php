@@ -27,6 +27,11 @@ class EventConfig
     private $event;
 
     /**
+     * @var array
+     */
+    private $extras = [];
+
+    /**
      * EventConfig constructor.
      *
      * @param CalendarModel       $calendar
@@ -35,7 +40,7 @@ class EventConfig
     public function __construct(CalendarModel $calendar, CalendarEventsModel $event)
     {
         $this->calendar = $calendar;
-        $this->event    = $event;
+        $this->event = $event;
     }
 
     /**
@@ -70,6 +75,30 @@ class EventConfig
     public function getEvent()
     {
         return $this->event;
+    }
+
+    /**
+     * Get the exrta data.
+     *
+     * @return array
+     */
+    public function getExtras()
+    {
+        return $this->extras;
+    }
+
+    /**
+     * Set the extra data.
+     *
+     * @param array $extras
+     *
+     * @return EventConfig
+     */
+    public function setExtras(array $extras)
+    {
+        $this->extras = $extras;
+
+        return $this;
     }
 
     /**

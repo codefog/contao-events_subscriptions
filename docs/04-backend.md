@@ -26,6 +26,15 @@ the note about limit, if any.
 
 ![](images/backend-subscriptions.png)
 
+
+### Create multiple subscriptions from member group 
+
+From version 2.11 it is possible to create multiple member subscriptions just by selecting the member groups. 
+Only the members with active accounts will be subscribed to an event!
+
+![](images/backend-create-from-member-group.png)
+
+
 ### Export subscriptions
 
 The subscriptions of each event can be exported to the CSV or Excel file. Fore more information on how to alter 

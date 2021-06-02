@@ -27,6 +27,11 @@ class SubscribeEvent
     private $subscription;
 
     /**
+     * @var array
+     */
+    private $extras;
+
+    /**
      * SubscribeEvent constructor.
      *
      * @param SubscriptionModel     $model
@@ -68,5 +73,21 @@ class SubscribeEvent
     public function setSubscription($subscription)
     {
         $this->subscription = $subscription;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtras()
+    {
+        return $this->extras;
+    }
+
+    /**
+     * @param array $extras
+     */
+    public function setExtras(array $extras)
+    {
+        $this->extras = $extras;
     }
 }

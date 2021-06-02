@@ -46,6 +46,13 @@ class NotificationListener
      */
     public function onSubscribe(SubscribeEvent $event)
     {
+        $extras = $event->getExtras();
+
+        // Do not set notification if explicitly set not to do so
+        if (isset($extras['notification']) && $extras['notification'] === false) {
+            return;
+        }
+
         $this->sender->sendByType('events_subscriptions_subscribe', $event->getModel());
     }
 

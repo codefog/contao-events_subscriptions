@@ -73,10 +73,10 @@ class Subscriber
         $model->save();
 
         // Dispatch the event
-        $this->eventDispatcher->dispatch(
-            EventDispatcher::EVENT_ON_SUBSCRIBE,
-            new SubscribeEvent($model, $subscription)
-        );
+        $dispatchEvent = new SubscribeEvent($model, $subscription);
+        $dispatchEvent->setExtras($event->getExtras());
+
+        $this->eventDispatcher->dispatch(EventDispatcher::EVENT_ON_SUBSCRIBE, $dispatchEvent);
 
         return $model;
     }
