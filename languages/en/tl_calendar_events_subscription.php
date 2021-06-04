@@ -100,15 +100,29 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.excelFormatHint']
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.csv'] = 'Export as CSV';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.excel'] = 'Export as Excel';
 
+// Backend breadcrumb
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['subscriptions_export'] = [null, 'Export subscriptions of event ID %s'];
+
 /**
  * New from member group
  */
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.headline'] = 'Create subscriptions from member group';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.explanation'] = 'Here you can batch create multiple member subscriptions by selecting the member groups for the event:';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.subscribableMemberGroups'] = 'Member groups allowed to subscribe';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.otherMemberGroups'] = 'Other member groups';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.noMembers'] = 'There are no active members to subscribe.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.memberStatus'] = 'Member status';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.sendNotification'] = 'Send a notification';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.submit'] = 'Create subscriptions';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.confirmation'] = '%s members subscribed to this event successfully!';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.memberStatusRef'] = [
+    'all' => 'All members',
+    'active' => 'Only active members',
+    'preActive' => 'Active + pre-active members (with activation date in the future)',
+];
+
+// Backend breadcrumb
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['subscriptions_newFromMemberGroup'] = [null, 'Create subscriptions from member group for event ID %s'];
 
 /**
  * Notification
