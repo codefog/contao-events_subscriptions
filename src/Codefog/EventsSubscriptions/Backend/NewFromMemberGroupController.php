@@ -131,16 +131,17 @@ class NewFromMemberGroupController
 
         $where = "";
         $values = [];
-        $time = Date::floorToMinute();
 
         switch (Input::post('member-status')) {
             case 'active':
+                $time = Date::floorToMinute();
                 $where = "login=? AND (start='' OR start<=?) AND (stop='' OR stop>?) AND disable=''";
                 $values[] = 1;
                 $values[] = $time;
                 $values[] = $time + 60;
                 break;
             case 'preActive':
+                $time = Date::floorToMinute();
                 $where = "login=? AND (stop='' OR stop>?) AND disable=''";
                 $values[] = 1;
                 $values[] = $time + 60;
