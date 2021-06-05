@@ -28,6 +28,10 @@
                     </div>
                 <?php endif; ?>
 
+                <div class="widget w50 clr">
+                    <?= $this->memberStatus->parse() ?>
+                </div>
+
                 <div class="widget clr">
                     <?= $this->sendNotification->parse() ?>
                 </div>

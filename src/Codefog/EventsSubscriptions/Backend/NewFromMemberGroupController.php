@@ -78,18 +78,24 @@ class NewFromMemberGroupController
         $template->formSubmit = $formSubmit;
 
         $template->subscribableMemberGroups = new $GLOBALS['BE_FFL']['checkbox'](Widget::getAttributesFromDca([
-            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribableMemberGroups'],
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.subscribableMemberGroups'],
             'options' => $memberGroups['subscribable'],
             'eval' => ['multiple' => true],
         ], 'subscribable-member-groups', Input::post('subscribable-member-groups')));
 
         if (count($memberGroups['other']) > 0) {
             $template->otherMemberGroups = new $GLOBALS['BE_FFL']['checkbox'](Widget::getAttributesFromDca([
-                'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.otherMemberGroups'],
+                'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.otherMemberGroups'],
                 'options' => $memberGroups['other'],
                 'eval' => ['multiple' => true],
             ], 'other-member-groups', Input::post('other-member-groups')));
         }
+
+        $template->memberStatus = new $GLOBALS['BE_FFL']['select'](Widget::getAttributesFromDca([
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.memberStatus'],
+            'options' => ['all', 'active', 'preActive'],
+            'reference' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.memberStatusRef'],
+        ], 'member-status', Input::post('member-status')));
 
         $template->sendNotification = new $GLOBALS['BE_FFL']['checkbox'](Widget::getAttributesFromDca([
             'options' => [1 => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.sendNotification']],
@@ -123,11 +129,29 @@ class NewFromMemberGroupController
             Controller::reload();
         }
 
+        $where = "";
+        $values = [];
+
+        switch (Input::post('member-status')) {
+            case 'active':
+                $time = Date::floorToMinute();
+                $where = "login=? AND (start='' OR start<=?) AND (stop='' OR stop>?) AND disable=''";
+                $values[] = 1;
+                $values[] = $time;
+                $values[] = $time + 60;
+                break;
+            case 'preActive':
+                $time = Date::floorToMinute();
+                $where = "login=? AND (stop='' OR stop>?) AND disable=''";
+                $values[] = 1;
+                $values[] = $time + 60;
+                break;
+        }
+
         $members = [];
-        $time = Date::floorToMinute();
         $memberRecords = Database::getInstance()
-            ->prepare("SELECT * FROM tl_member WHERE login=? AND (start='' OR start<=?) AND (stop='' OR stop>?) AND disable='' AND id NOT IN (SELECT member FROM tl_calendar_events_subscription WHERE pid=?)")
-            ->execute(1, $time, $time + 60, $eventModel->id)
+            ->prepare("SELECT * FROM tl_member WHERE id NOT IN (SELECT member FROM tl_calendar_events_subscription WHERE pid=?)" . ($where ? (" AND " . $where) : ''))
+            ->execute(array_merge([$eventModel->id], $values))
         ;
 
         // Get only the members that belong to selected groups

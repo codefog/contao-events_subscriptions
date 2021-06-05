@@ -65,6 +65,9 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'] = [
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['sendNotifications'] = ['Send event notifications', 'Send a notifications of event ID %s'];
 
+// Backend breadcrumb
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions_notification'] = &$GLOBALS['TL_LANG']['tl_calendar_events']['sendNotifications'];
+
 /**
  * Reference
  */
