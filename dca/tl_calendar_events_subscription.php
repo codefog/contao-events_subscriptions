@@ -20,6 +20,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
         'ptable'            => 'tl_calendar_events',
         'doNotCopyRecords'  => true,
         'onload_callback'   => [
+            ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'addSendNotificationCheckbox'],
             ['Codefog\EventsSubscriptions\DataContainer\SubscriptionContainer', 'displaySummary'],
         ],
         'onsubmit_callback' => [
@@ -159,6 +160,13 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'inputType' => 'checkbox',
             'eval'      => ['tl_class' => 'w50 m12'],
             'sql'       => "char(1) NOT NULL default ''",
+        ],
+        'sendNotification' => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['sendNotification'],
+            'exclude'   => true,
+            'inputType' => 'checkbox',
+            'eval'      => ['tl_class' => 'w50'],
+            'sql'       => "char(1) NOT NULL default '1'",
         ],
         'member'       => [
             'label'            => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member'],
