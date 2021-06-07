@@ -3,14 +3,11 @@
 namespace Codefog\EventsSubscriptions\Backend;
 
 use Codefog\EventsSubscriptions\EventConfig;
-use Codefog\EventsSubscriptions\Exporter;
-use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
 use Codefog\EventsSubscriptions\Subscription\MemberSubscription;
 use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\CalendarEventsModel;
-use Contao\Config;
 use Contao\Controller;
 use Contao\Database;
 use Contao\Date;
@@ -23,7 +20,6 @@ use Contao\StringUtil;
 use Contao\System;
 use Contao\Widget;
 use Haste\Util\Format;
-use NotificationCenter\Model\Notification;
 
 class NewFromMemberGroupController
 {
