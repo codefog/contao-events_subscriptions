@@ -45,3 +45,18 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var localStorageKey = 'events-subscriptions-member-status';
+        var select = document.getElementById('ctrl_member-status');
+
+        if (window.localStorage.getItem(localStorageKey)) {
+            select.value = window.localStorage.getItem(localStorageKey);
+        }
+
+        select.addEventListener('change', function () {
+            window.localStorage.setItem(localStorageKey, select.value);
+        });
+    });
+</script>
