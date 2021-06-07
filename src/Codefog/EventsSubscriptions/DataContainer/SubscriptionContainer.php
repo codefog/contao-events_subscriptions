@@ -16,6 +16,7 @@ use Codefog\EventsSubscriptions\Event\UnsubscribeEvent;
 use Codefog\EventsSubscriptions\EventDispatcher;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\Date;
@@ -64,6 +65,28 @@ class SubscriptionContainer
     }
 
     /**
+     * Add send notification checkbox, if the record is not new.
+     */
+    public function addSendNotificationCheckbox(DataContainer $dc)
+    {
+        if (!$dc->id || Input::get('act') !== 'edit') {
+            return;
+        }
+
+        $existing = Database::getInstance()
+            ->prepare('SELECT dateCreated, type FROM tl_calendar_events_subscription WHERE id=?')
+            ->execute($dc->id)
+        ;
+
+        if ($existing->type && !$existing->dateCreated) {
+            PaletteManipulator::create()
+                ->addField('sendNotification', 'type_legend', PaletteManipulator::POSITION_APPEND)
+                ->applyToPalette($existing->type, 'tl_calendar_events_subscription')
+            ;
+        }
+    }
+
+    /**
      * Set the date created
      *
      * @param DataContainer $dc
@@ -102,10 +125,10 @@ class SubscriptionContainer
             return;
         }
 
-        Services::getEventDispatcher()->dispatch(
-            EventDispatcher::EVENT_ON_SUBSCRIBE,
-            new SubscribeEvent($subscription, Services::getSubscriptionFactory()->createFromModel($subscription))
-        );
+        $event = new SubscribeEvent($subscription, Services::getSubscriptionFactory()->createFromModel($subscription));
+        $event->setExtras(['notification' => (bool) $dc->activeRecord->sendNotification]);
+
+        Services::getEventDispatcher()->dispatch(EventDispatcher::EVENT_ON_SUBSCRIBE, $event);
     }
 
     /**
