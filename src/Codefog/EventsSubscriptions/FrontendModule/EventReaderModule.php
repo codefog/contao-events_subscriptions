@@ -61,6 +61,7 @@ class EventReaderModule extends ModuleEventReader
             /** @var \PageError404 $objHandler */
             $objHandler = new $GLOBALS['TL_PTY']['error_404']();
             $objHandler->generate($objPage->id);
+            exit;
         }
 
         // Overwrite the page title (see #2853 and #4955)
