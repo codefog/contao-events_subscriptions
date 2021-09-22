@@ -12,18 +12,18 @@
 namespace Codefog\EventsSubscriptions\EventListener;
 
 use Codefog\EventsSubscriptions\EventConfig;
+use Codefog\EventsSubscriptions\FrontendModule\SubscriptionTrait;
 use Codefog\EventsSubscriptions\Services;
+use Contao\Module;
 
 class EventsListener
 {
+    use SubscriptionTrait;
+
     /**
      * On get all events
-     *
-     * @param array $allEvents
-     *
-     * @return array
      */
-    public function onGetAllEvents(array $allEvents)
+    public function onGetAllEvents(array $allEvents, array $calendars, $start, $end, Module $module)
     {
         $factory = Services::getSubscriptionFactory();
 
@@ -32,9 +32,23 @@ class EventsListener
                 foreach ($events as $kkk => $event) {
                     $config = EventConfig::create($event['id']);
 
+                    // Set the subscription template data
+                    foreach ($this->getSubscriptionTemplateData($config, $module->getModel()->row()) as $field => $value) {
+                        $allEvents[$k][$kk][$kkk][$field] = $value;
+                    }
+
+                    // Add extra CSS classes
                     foreach ($config->getAllowedSubscriptionTypes() as $type) {
-                        if ($factory->create($type)->isSubscribed($config)) {
+                        $subscription = $factory->create($type);
+
+                        // Add CSS class if user is subscribed
+                        if ($subscription->isSubscribed($config)) {
                             $allEvents[$k][$kk][$kkk]['class'] = rtrim($event['class']) . ' subscribed';
+                        }
+
+                        // Add CSS class if user can subscribe
+                        if ($subscription->canSubscribe($config)) {
+                            $allEvents[$k][$kk][$kkk]['class'] = rtrim($event['class']) . ' can-subscribe';
                         }
                     }
                 }

@@ -40,10 +40,12 @@ it offers the same features as it's ancestor.
 Since version 2.8.0 all the events that member is subscribed to, will get a `subscribed` CSS class in the event modules
 such as event list and calendar.
 
+Since version 2.13 the `can-subscribe` CSS class is also added to the calendar module.
+
 
 ## Note on `event_` template
 
-You may need to adjust some of the `event_` templates to enable the extra data and subscription form.
+You may need to adjust some of the `cal_` and `event_` templates to enable the extra data and subscription form.
 The extension comes by default with the `event_list_subscribe` template which works as an example
 but should not be used (at least unmodified) in the production.
 
@@ -66,4 +68,12 @@ $this->subscriptionTypes; // detailed information about subscription types
 $this->subscriptionWaitingList; // 1 – waiting list enabled; 0 – disabled
 $this->subscriptionWaitingListLimit; // waiting list limit
 $this->subscribeWaitingList; // true if subscribe will be made to waiting list
+```
+
+Since version 2.13 For the calendar `cal_` templates, each event should contain the similar data:
+
+```php
+<?php foreach ($day['events'] as $event): ?>
+Subscribers: <?= $event['subscribers']['subscribersParticipants'] + $event['subscribers']['waitingListParticipants'] ?> / <?= $event['subscriptionMaximum'] ?>
+<?php endforeach; ?>
 ```
