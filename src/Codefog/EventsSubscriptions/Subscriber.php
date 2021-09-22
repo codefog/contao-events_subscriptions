@@ -15,6 +15,7 @@ use Codefog\EventsSubscriptions\Event\SubscribeEvent;
 use Codefog\EventsSubscriptions\Event\UnsubscribeEvent;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Subscription\SubscriptionInterface;
+use Contao\System;
 
 class Subscriber
 {
@@ -72,6 +73,9 @@ class Subscriber
         $model->unsubscribeToken = SubscriptionModel::generateUnsubscribeToken();
         $model->save();
 
+        // Log the subscription
+        System::log(sprintf('%s has subscribed to the event "%s" (ID %s)', strip_tags($subscription->getFrontendLabel()), $event->getEvent()->title, $event->getEvent()->id), __METHOD__, TL_GENERAL);
+
         // Dispatch the event
         $dispatchEvent = new SubscribeEvent($model, $subscription);
         $dispatchEvent->setExtras($event->getExtras());
@@ -102,6 +106,9 @@ class Subscriber
         }
 
         $subscription->setSubscriptionModel($model);
+
+        // Log the unsubscription
+        System::log(sprintf('%s has unsubscribed from the event "%s" (ID %s)', strip_tags($subscription->getFrontendLabel()), $event->getEvent()->title, $event->getEvent()->id), __METHOD__, TL_GENERAL);
 
         // First, dispatch the event (consistency with DC_Table)
         $this->eventDispatcher->dispatch(EventDispatcher::EVENT_ON_UNSUBSCRIBE, new UnsubscribeEvent($model, $subscription));
