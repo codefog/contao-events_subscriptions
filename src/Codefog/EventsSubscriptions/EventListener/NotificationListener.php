@@ -72,7 +72,7 @@ class NotificationListener
     }
 
     /**
-     * Get the subscription model that has moved from waiting list to subscriber list because of the current event.
+     * Get the subscription model that has moved from waiting list to subscriber list because of unsubcription from the event.
      *
      * @param UnsubscribeEvent $event
      *
@@ -80,7 +80,7 @@ class NotificationListener
      */
     private function getWaitingListPromotedSubscription(UnsubscribeEvent $event)
     {
-        if ($event->getSubscription()->isOnWaitingList()) {
+        if ($event->getSubscription()->isOnWaitingList() || !$event->getSubscription()->getSubscriptionModel()->numberOfParticipants) {
             return null;
         }
 
