@@ -43,7 +43,7 @@ such as event list and calendar.
 Since version 2.13 the `can-subscribe` CSS class is also added to the calendar module.
 
 
-## Note on `event_` template
+## Note on `cal_` and `event_` templates
 
 You may need to adjust some of the `cal_` and `event_` templates to enable the extra data and subscription form.
 The extension comes by default with the `event_list_subscribe` template which works as an example
@@ -61,10 +61,10 @@ Example data you can find is:
 $this->subscribers; // all subscribers
 $this->subscribers['subscribers']; // event subscribers
 $this->subscribers['subscribersParticipants']; // total number of participants of event subscribers
-$this->subscribers['subscribersData']; // detailed subscription data of subscribers
+$this->subscribers['subscribersData']; // detailed subscription data of subscribers (since version 2.13)
 $this->subscribers['waitingList']; // subscribers on waiting list
 $this->subscribers['waitingListParticipants']; // total number of participants of subscribers on waiting list
-$this->subscribers['waitingListData']; // detailed subscription data of subscribers on waiting list
+$this->subscribers['waitingListData']; // detailed subscription data of subscribers on waiting list (since version 2.13)
 $this->subscriptionMaximum; // maximum subscribers limit
 $this->subscriptionTypes; // detailed information about subscription types
 $this->subscriptionWaitingList; // 1 – waiting list enabled; 0 – disabled
