@@ -18,12 +18,6 @@
         "codefog/contao-haste": "~4.16",
         "terminal42/notification_center": "~1.4"
     },
-    "conflict": {
-        "contao-legacy/events_subscriptions": "*"
-    },
-    "replace": {
-        "contao-legacy/events_subscriptions": "self.version"
-    },
     "autoload":{
         "psr-0": {
             "Codefog\\EventsSubscriptions\\": "src"
