@@ -74,7 +74,13 @@ class Subscriber
         $model->save();
 
         // Log the subscription
-        System::log(sprintf('%s has subscribed to the event "%s" (ID %s)', strip_tags($subscription->getFrontendLabel()), $event->getEvent()->title, $event->getEvent()->id), __METHOD__, TL_GENERAL);
+        if ($subscription->isOnWaitingList()) {
+            $logMessage = '%s has subscribed to waiting list of the event "%s" (ID %s)';
+        } else {
+            $logMessage = '%s has subscribed to the event "%s" (ID %s)';
+        }
+
+        System::log(sprintf($logMessage, strip_tags($subscription->getFrontendLabel()), $event->getEvent()->title, $event->getEvent()->id), __METHOD__, TL_GENERAL);
 
         // Dispatch the event
         $dispatchEvent = new SubscribeEvent($model, $subscription);
@@ -108,7 +114,13 @@ class Subscriber
         $subscription->setSubscriptionModel($model);
 
         // Log the unsubscription
-        System::log(sprintf('%s has unsubscribed from the event "%s" (ID %s)', strip_tags($subscription->getFrontendLabel()), $event->getEvent()->title, $event->getEvent()->id), __METHOD__, TL_GENERAL);
+        if ($subscription->isOnWaitingList()) {
+            $logMessage = '%s has unsubscribed from waiting list of the event "%s" (ID %s)';
+        } else {
+            $logMessage = '%s has unsubscribed from the event "%s" (ID %s)';
+        }
+
+        System::log(sprintf($logMessage, strip_tags($subscription->getFrontendLabel()), $event->getEvent()->title, $event->getEvent()->id), __METHOD__, TL_GENERAL);
 
         // First, dispatch the event (consistency with DC_Table)
         $this->eventDispatcher->dispatch(EventDispatcher::EVENT_ON_UNSUBSCRIBE, new UnsubscribeEvent($model, $subscription));
