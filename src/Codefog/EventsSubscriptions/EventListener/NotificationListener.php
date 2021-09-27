@@ -17,6 +17,8 @@ use Codefog\EventsSubscriptions\EventConfigFactory;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\NotificationSender;
 use Codefog\EventsSubscriptions\Services;
+use Codefog\EventsSubscriptions\SubscriptionFactory;
+use Contao\System;
 
 class NotificationListener
 {
@@ -31,12 +33,18 @@ class NotificationListener
     private $sender;
 
     /**
+     * @var SubscriptionFactory
+     */
+    private $subscriptionFactory;
+
+    /**
      * NotificationListener constructor.
      */
     public function __construct()
     {
         $this->eventConfigFactory = Services::getEventConfigFactory();
         $this->sender = Services::getNotificationSender();
+        $this->subscriptionFactory = Services::getSubscriptionFactory();
     }
 
     /**
@@ -68,6 +76,12 @@ class NotificationListener
         // Get the waiting list promoted subscription
         if (($subscriptionModel = $this->getWaitingListPromotedSubscription($event)) !== null) {
             $this->sender->sendByType('events_subscriptions_listUpdate', $subscriptionModel);
+
+            $eventModel = $subscriptionModel->getEvent();
+            $subscription = $this->subscriptionFactory->createFromModel($subscriptionModel);
+
+            // Log the event
+            System::log(sprintf('%s has promoted from a waiting list to a subscribers list of the event "%s" (ID %s)', strip_tags($subscription->getFrontendLabel()), $eventModel->title, $eventModel->id), __METHOD__, TL_GENERAL);
         }
     }
 
