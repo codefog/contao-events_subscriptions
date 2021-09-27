@@ -102,7 +102,7 @@ class NotificationListener
         $olderSubscriptions = SubscriptionModel::countBy(['pid=?', 'dateCreated<?'], [$unsubscribedModel->pid, $unsubscribedModel->dateCreated]);
 
         // Return null if there are completely no other subscriptions
-        if ($newerSubscriptions === 0 && $olderSubscriptions === 0) {
+        if ($olderSubscriptions === 0) {
             return null;
         }
 
