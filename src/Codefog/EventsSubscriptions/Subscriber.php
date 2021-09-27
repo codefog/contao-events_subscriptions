@@ -78,7 +78,7 @@ class Subscriber
 
         // Log the subscription
         if ($subscription->isOnWaitingList()) {
-            $logMessage = '%s has subscribed to waiting list of the event "%s" (ID %s)';
+            $logMessage = '%s has subscribed to a waiting list of the event "%s" (ID %s)';
         } else {
             $logMessage = '%s has subscribed to the event "%s" (ID %s)';
         }
@@ -118,7 +118,7 @@ class Subscriber
 
         // Log the unsubscription
         if ($subscription->isOnWaitingList()) {
-            $logMessage = '%s has unsubscribed from waiting list of the event "%s" (ID %s)';
+            $logMessage = '%s has unsubscribed from a waiting list of the event "%s" (ID %s)';
         } else {
             $logMessage = '%s has unsubscribed from the event "%s" (ID %s)';
         }
