@@ -73,6 +73,9 @@ class Subscriber
         $model->unsubscribeToken = SubscriptionModel::generateUnsubscribeToken();
         $model->save();
 
+        // Set the subscription model before checking if it's on waiting list
+        $subscription->setSubscriptionModel($model);
+
         // Log the subscription
         if ($subscription->isOnWaitingList()) {
             $logMessage = '%s has subscribed to waiting list of the event "%s" (ID %s)';
