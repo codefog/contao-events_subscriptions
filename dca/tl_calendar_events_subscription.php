@@ -181,6 +181,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
                 'mandatory'          => true,
                 'includeBlankOption' => true,
                 'chosen'             => true,
+                'doNotCopy'          => true,
                 'tl_class'           => 'w50',
             ],
             'save_callback'    => [
