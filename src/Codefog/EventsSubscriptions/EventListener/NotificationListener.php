@@ -75,13 +75,14 @@ class NotificationListener
 
         // Get the waiting list promoted subscription
         if (($subscriptionModel = $this->getWaitingListPromotedSubscription($event)) !== null) {
-            $this->sender->sendByType('events_subscriptions_listUpdate', $subscriptionModel);
-
             $eventModel = $subscriptionModel->getEvent();
             $subscription = $this->subscriptionFactory->createFromModel($subscriptionModel);
 
             // Log the event
             System::log(sprintf('%s has promoted from a waiting list to a subscribers list of the event "%s" (ID %s)', strip_tags($subscription->getFrontendLabel()), $eventModel->title, $eventModel->id), __METHOD__, TL_GENERAL);
+
+            // Send the notification
+            $this->sender->sendByType('events_subscriptions_listUpdate', $subscriptionModel);
         }
     }
 
