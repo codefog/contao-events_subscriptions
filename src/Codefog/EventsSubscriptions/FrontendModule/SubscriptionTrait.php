@@ -15,6 +15,7 @@ use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\Exception\RedirectException;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
+use Codefog\EventsSubscriptions\Subscription\FrontendDataInterface;
 use Codefog\EventsSubscriptions\Subscription\MemberSubscription;
 use Codefog\EventsSubscriptions\Subscription\ModuleDataAwareInterface;
 use Contao\Controller;
@@ -129,8 +130,14 @@ trait SubscriptionTrait
                 $subscription->setModuleData($moduleData);
             }
 
-            $subscribers[($subscription->isOnWaitingList() ? 'waitingList' : 'subscribers')][] = $subscription->getFrontendLabel();
-            $subscribers[($subscription->isOnWaitingList() ? 'waitingListParticipants' : 'subscribersParticipants')] += $model->numberOfParticipants;
+            $isOnWaitingList = $subscription->isOnWaitingList();
+
+            $subscribers[($isOnWaitingList ? 'waitingList' : 'subscribers')][] = $subscription->getFrontendLabel();
+            $subscribers[($isOnWaitingList ? 'waitingListParticipants' : 'subscribersParticipants')] += $model->numberOfParticipants;
+
+            if ($subscription instanceof FrontendDataInterface) {
+                $subscribers[($isOnWaitingList ? 'waitingListData' : 'subscribersData')][] = $subscription->getFrontendData();
+            }
         }
 
         return $subscribers;

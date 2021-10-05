@@ -17,6 +17,8 @@ use Codefog\EventsSubscriptions\EventConfigFactory;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\NotificationSender;
 use Codefog\EventsSubscriptions\Services;
+use Codefog\EventsSubscriptions\SubscriptionFactory;
+use Contao\System;
 
 class NotificationListener
 {
@@ -31,12 +33,18 @@ class NotificationListener
     private $sender;
 
     /**
+     * @var SubscriptionFactory
+     */
+    private $subscriptionFactory;
+
+    /**
      * NotificationListener constructor.
      */
     public function __construct()
     {
         $this->eventConfigFactory = Services::getEventConfigFactory();
         $this->sender = Services::getNotificationSender();
+        $this->subscriptionFactory = Services::getSubscriptionFactory();
     }
 
     /**
@@ -67,12 +75,19 @@ class NotificationListener
 
         // Get the waiting list promoted subscription
         if (($subscriptionModel = $this->getWaitingListPromotedSubscription($event)) !== null) {
+            $eventModel = $subscriptionModel->getEvent();
+            $subscription = $this->subscriptionFactory->createFromModel($subscriptionModel);
+
+            // Log the event
+            System::log(sprintf('%s has promoted from a waiting list to a subscribers list of the event "%s" (ID %s)', strip_tags($subscription->getFrontendLabel()), $eventModel->title, $eventModel->id), __METHOD__, TL_GENERAL);
+
+            // Send the notification
             $this->sender->sendByType('events_subscriptions_listUpdate', $subscriptionModel);
         }
     }
 
     /**
-     * Get the subscription model that has moved from waiting list to subscriber list because of the current event.
+     * Get the subscription model that has moved from waiting list to subscriber list because of unsubcription from the event.
      *
      * @param UnsubscribeEvent $event
      *
@@ -80,7 +95,7 @@ class NotificationListener
      */
     private function getWaitingListPromotedSubscription(UnsubscribeEvent $event)
     {
-        if ($event->getSubscription()->isOnWaitingList()) {
+        if ($event->getSubscription()->isOnWaitingList() || !$event->getSubscription()->getSubscriptionModel()->numberOfParticipants) {
             return null;
         }
 
@@ -102,7 +117,7 @@ class NotificationListener
         $olderSubscriptions = SubscriptionModel::countBy(['pid=?', 'dateCreated<?'], [$unsubscribedModel->pid, $unsubscribedModel->dateCreated]);
 
         // Return null if there are completely no other subscriptions
-        if ($newerSubscriptions === 0 && $olderSubscriptions === 0) {
+        if ($olderSubscriptions === 0) {
             return null;
         }
 

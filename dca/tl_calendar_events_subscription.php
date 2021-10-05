@@ -116,7 +116,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'label'  => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['dateCreated'],
             'filter' => true,
             'flag'   => 8,
-            'eval'   => ['rgxp' => 'datim'],
+            'eval'   => ['doNotCopy' => true, 'rgxp' => 'datim'],
             'sql'    => "int(10) unsigned NOT NULL default '0'",
         ],
         'type'         => [
@@ -141,7 +141,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'filter'     => true,
             'inputType'  => 'select',
             'foreignKey' => 'tl_user.name',
-            'eval'       => ['includeBlankOption' => true, 'tl_class' => 'w50'],
+            'eval'       => ['doNotCopy' => true, 'includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql'        => "int(10) unsigned NOT NULL default '0'",
         ],
         'numberOfParticipants'    => [
@@ -165,7 +165,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'label'     => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['sendNotification'],
             'exclude'   => true,
             'inputType' => 'checkbox',
-            'eval'      => ['tl_class' => 'w50'],
+            'eval'      => ['doNotCopy' => true, 'tl_class' => 'w50'],
             'sql'       => "char(1) NOT NULL default '1'",
         ],
         'member'       => [
@@ -181,6 +181,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
                 'mandatory'          => true,
                 'includeBlankOption' => true,
                 'chosen'             => true,
+                'doNotCopy'          => true,
                 'tl_class'           => 'w50',
             ],
             'save_callback'    => [
@@ -212,10 +213,12 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
         'lastReminder' => [
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastReminder'],
             'flag'  => 8,
+            'eval'  => ['doNotCopy' => true],
             'sql'   => "int(10) unsigned NOT NULL default '0'",
         ],
         'unsubscribeToken' => [
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['unsubscribeToken'],
+            'eval'  => ['doNotCopy' => true],
             'sql'   => "varchar(32) NOT NULL default ''",
         ],
     ],

@@ -15,6 +15,7 @@ use Codefog\EventsSubscriptions\Event\SubscribeEvent;
 use Codefog\EventsSubscriptions\Event\UnsubscribeEvent;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Subscription\SubscriptionInterface;
+use Contao\System;
 
 class Subscriber
 {
@@ -72,6 +73,18 @@ class Subscriber
         $model->unsubscribeToken = SubscriptionModel::generateUnsubscribeToken();
         $model->save();
 
+        // Set the subscription model before checking if it's on waiting list
+        $subscription->setSubscriptionModel($model);
+
+        // Log the subscription
+        if ($subscription->isOnWaitingList()) {
+            $logMessage = '%s has subscribed to a waiting list of the event "%s" (ID %s)';
+        } else {
+            $logMessage = '%s has subscribed to the event "%s" (ID %s)';
+        }
+
+        System::log(sprintf($logMessage, strip_tags($subscription->getFrontendLabel()), $event->getEvent()->title, $event->getEvent()->id), __METHOD__, TL_GENERAL);
+
         // Dispatch the event
         $dispatchEvent = new SubscribeEvent($model, $subscription);
         $dispatchEvent->setExtras($event->getExtras());
@@ -102,6 +115,15 @@ class Subscriber
         }
 
         $subscription->setSubscriptionModel($model);
+
+        // Log the unsubscription
+        if ($subscription->isOnWaitingList()) {
+            $logMessage = '%s has unsubscribed from a waiting list of the event "%s" (ID %s)';
+        } else {
+            $logMessage = '%s has unsubscribed from the event "%s" (ID %s)';
+        }
+
+        System::log(sprintf($logMessage, strip_tags($subscription->getFrontendLabel()), $event->getEvent()->title, $event->getEvent()->id), __METHOD__, TL_GENERAL);
 
         // First, dispatch the event (consistency with DC_Table)
         $this->eventDispatcher->dispatch(EventDispatcher::EVENT_ON_UNSUBSCRIBE, new UnsubscribeEvent($model, $subscription));
