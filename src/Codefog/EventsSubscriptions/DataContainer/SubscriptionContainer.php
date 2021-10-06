@@ -22,6 +22,7 @@ use Contao\DataContainer;
 use Contao\Date;
 use Contao\Input;
 use Contao\Message;
+use Contao\System;
 
 class SubscriptionContainer
 {
@@ -121,13 +122,28 @@ class SubscriptionContainer
      */
     public function dispatchSubscribeEvent(DataContainer $dc)
     {
-        if (Input::post('SUBMIT_TYPE') === 'auto' || $dc->activeRecord->dateCreated || ($subscription = SubscriptionModel::findByPk($dc->id)) === null) {
+        if (Input::post('SUBMIT_TYPE') === 'auto' || $dc->activeRecord->dateCreated || ($subscriptionModel = SubscriptionModel::findByPk($dc->id)) === null) {
             return;
         }
 
-        $event = new SubscribeEvent($subscription, Services::getSubscriptionFactory()->createFromModel($subscription));
+        $subscription = Services::getSubscriptionFactory()->createFromModel($subscriptionModel);
+
+        // Set the subscription model before checking if it's on waiting list
+        $subscription->setSubscriptionModel($subscriptionModel);
+
+        // Log the subscription
+        if ($subscription->isOnWaitingList()) {
+            $logMessage = '%s has been subscribed to a waiting list of the event "%s" (ID %s)';
+        } else {
+            $logMessage = '%s has been subscribed to the event "%s" (ID %s)';
+        }
+
+        System::log(sprintf($logMessage, strip_tags($subscription->getFrontendLabel()), $subscriptionModel->getEvent()->title, $subscriptionModel->getEvent()->id), __METHOD__, TL_GENERAL);
+
+        $event = new SubscribeEvent($subscriptionModel, $subscription);
         $event->setExtras(['notification' => (bool) $dc->activeRecord->sendNotification]);
 
+        // Dispatch the event
         Services::getEventDispatcher()->dispatch(EventDispatcher::EVENT_ON_SUBSCRIBE, $event);
     }
 
@@ -138,14 +154,24 @@ class SubscriptionContainer
      */
     public function dispatchUnsubscribeEvent(DataContainer $dc)
     {
-        if (($subscription = SubscriptionModel::findByPk($dc->id)) === null) {
+        if (($subscriptionModel = SubscriptionModel::findByPk($dc->id)) === null) {
             return;
         }
 
-        Services::getEventDispatcher()->dispatch(
-            EventDispatcher::EVENT_ON_UNSUBSCRIBE,
-            new UnsubscribeEvent($subscription, Services::getSubscriptionFactory()->createFromModel($subscription))
-        );
+        $subscription = Services::getSubscriptionFactory()->createFromModel($subscriptionModel);
+        $subscription->setSubscriptionModel($subscriptionModel);
+
+        // Log the unsubscription
+        if ($subscription->isOnWaitingList()) {
+            $logMessage = '%s has been unsubscribed from a waiting list of the event "%s" (ID %s)';
+        } else {
+            $logMessage = '%s has been unsubscribed from the event "%s" (ID %s)';
+        }
+
+        System::log(sprintf($logMessage, strip_tags($subscription->getFrontendLabel()), $subscriptionModel->getEvent()->title, $subscriptionModel->getEvent()->id), __METHOD__, TL_GENERAL);
+
+        // Dispatch the event
+        Services::getEventDispatcher()->dispatch(EventDispatcher::EVENT_ON_UNSUBSCRIBE, new UnsubscribeEvent($subscriptionModel, $subscription));
     }
 
     /**
