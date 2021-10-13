@@ -15,7 +15,6 @@ use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\FrontendModule\SubscriptionTrait;
 use Codefog\EventsSubscriptions\Services;
 use Contao\Module;
-use Contao\ModuleCalendar;
 
 class EventsListener
 {
@@ -34,7 +33,7 @@ class EventsListener
                     $config = EventConfig::create($event['id']);
 
                     // Set the subscription template data for calendar module
-                    if ($module instanceof ModuleCalendar) {
+                    if ($module->type === 'calendar') {
                         foreach ($this->getSubscriptionTemplateData($config, $module->getModel()->row()) as $field => $value) {
                             $allEvents[$k][$kk][$kkk][$field] = $value;
                         }
