@@ -8,7 +8,6 @@ use Codefog\EventsSubscriptions\Services;
 use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\CalendarEventsModel;
-use Contao\Config;
 use Contao\Controller;
 use Contao\Date;
 use Contao\Environment;
@@ -105,7 +104,7 @@ class ExportController
         $fileName = sprintf(
             '%s_%s.%s',
             standardize($eventModel->title),
-            standardize(Date::parse(Config::get('dateFormat'), $eventModel->startDate)),
+            standardize(Date::parse('Y-m-d', $eventModel->startDate)),
             $file->extension
         );
 
