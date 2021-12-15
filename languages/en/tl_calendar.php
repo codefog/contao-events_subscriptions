@@ -62,6 +62,19 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscription_legend'] = 'Subscription settin
  * Buttons
  */
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview'] = ['Subscriptions overview', 'View an overview of subscriptions of calendar ID %s'];
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_export'] = ['Subscriptions export', 'Export subscriptions of the current calendar'];
+
+/**
+ * Export
+ */
+$GLOBALS['TL_LANG']['tl_calendar']['export.headline'] = 'Export subscriptions';
+$GLOBALS['TL_LANG']['tl_calendar']['export.explanation'] = 'You are about to export the subscriptions data for the calendar:';
+$GLOBALS['TL_LANG']['tl_calendar']['export.explanationFilters'] = 'Use the fields below to limit the exported subscriptions by date bounds. The filter will affect the date of subscription.';
+$GLOBALS['TL_LANG']['tl_calendar']['export.startDate'] = ['Start date', 'Here you can enter the subscriptions start date.'];
+$GLOBALS['TL_LANG']['tl_calendar']['export.endDate'] = ['End date', 'Here you can enter the subscriptionsm end date.'];
+$GLOBALS['TL_LANG']['tl_calendar']['export.excelFormatHint'] = 'To enable export in Excel format please install the <strong>phpoffice/phpspreadsheet</strong> package. Alternatively you can install the deprecated <strong>phpoffice/phpexcel</strong> package.';
+$GLOBALS['TL_LANG']['tl_calendar']['export.csv'] = 'Export as CSV';
+$GLOBALS['TL_LANG']['tl_calendar']['export.excel'] = 'Export as Excel';
 
 /**
  * Reference
