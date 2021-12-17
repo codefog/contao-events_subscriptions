@@ -50,6 +50,7 @@ array_insert($GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations
         'href'       => 'key=subscriptions_exportCalendar',
         'icon'       => 'system/modules/events_subscriptions/assets/export.png',
         'attributes' => 'onclick="Backend.getScrollOffset()"',
+        'button_callback' => ['Codefog\EventsSubscriptions\DataContainer\EventsContainer', 'getSubscriptionsExportButton'],
     ],
 ]);
 

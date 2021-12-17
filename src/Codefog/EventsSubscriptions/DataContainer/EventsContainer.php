@@ -110,6 +110,27 @@ class EventsContainer
     }
 
     /**
+     * Get the "subscriptions export" button
+     *
+     * @return string
+     */
+    public function getSubscriptionsExportButton($href, $label, $title, $class, $attributes)
+    {
+        if (($calendarModel = CalendarModel::findByPk(CURRENT_ID)) === null || !$calendarModel->subscription_enable) {
+            return '';
+        }
+
+        return sprintf(
+            '<a href="%s" class="%s" title="%s"%s>%s</a> ',
+            str_replace('&amp;table=tl_calendar_events', '', Backend::addToUrl($href.'&amp;id='.CURRENT_ID)),
+            $class,
+            specialchars($title),
+            $attributes,
+            $label
+        );
+    }
+
+    /**
      * Get the "notifications" button
      *
      * @param array  $row
