@@ -37,7 +37,7 @@ Only the members with active accounts will be subscribed to an event!
 
 ### Export subscriptions
 
-The subscriptions of each event can be exported to the CSV or Excel file. Fore more information on how to alter 
+The subscriptions of each event or calendar can be exported to the CSV or Excel file. Fore more information on how to alter 
 the exported data please check the [Developers](08-developers.md) section.
 
 > To export data in Excel format you have to install the [phpoffice/phpspreadsheet](https://packagist.org/packages/phpoffice/phpspreadsheet) package. 

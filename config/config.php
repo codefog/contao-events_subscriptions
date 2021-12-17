@@ -17,6 +17,10 @@ $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_export'] = [
     'Codefog\EventsSubscriptions\Backend\ExportController',
     'run',
 ];
+$GLOBALS['BE_MOD']['content']['calendar']['subscriptions_exportCalendar'] = [
+    'Codefog\EventsSubscriptions\Backend\ExportCalendarController',
+    'run',
+];
 $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_newFromMemberGroup'] = [
     'Codefog\EventsSubscriptions\Backend\NewFromMemberGroupController',
     'run',

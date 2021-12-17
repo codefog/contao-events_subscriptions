@@ -45,6 +45,7 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.exportHeaderFields'] = [
     'event_title'              => 'Event title',
     'event_start'              => 'Event start',
     'event_end'                => 'Event end',
+    'subscription_date'        => 'Subscription date',
     'subscription_type'        => 'Subscription type',
     'subscription_waitingList' => 'Waiting list',
     'subscription_firstname'   => 'Firstname',

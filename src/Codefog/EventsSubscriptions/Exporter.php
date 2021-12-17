@@ -2,11 +2,13 @@
 
 namespace Codefog\EventsSubscriptions;
 
+use Codefog\EventsSubscriptions\Event\ExportCalendarEvent;
 use Codefog\EventsSubscriptions\Event\ExportEvent;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Subscription\ExportAwareInterface;
 use Codefog\EventsSubscriptions\Subscription\SubscriptionInterface;
 use Contao\CalendarEventsModel;
+use Contao\CalendarModel;
 use Contao\Config;
 use Contao\Controller;
 use Contao\Date;
@@ -56,7 +58,114 @@ class Exporter
      */
     public function exportByEvent(CalendarEventsModel $event, $format = self::FORMAT_CSV)
     {
-        return $this->export($event, $format, SubscriptionModel::findBy('pid', $event->id));
+        $subscriptions = [];
+
+        // Create the subscription instances
+        if (($subscriptionModels = SubscriptionModel::findBy('pid', $event->id)) !== null) {
+            /** @var SubscriptionModel $subscriptionModel */
+            foreach ($subscriptionModels as $subscriptionModel) {
+                $subscription = $this->factory->createFromModel($subscriptionModel);
+
+                // Only the export aware subscriptions
+                if ($subscription instanceof ExportAwareInterface) {
+                    $subscriptions[] = $subscription;
+                }
+            }
+        }
+
+        $columns = $this->getColumns($subscriptions);
+
+        $reader = new ArrayReader($this->prepareData($event, $subscriptions, $columns));
+        $reader->setHeaderFields($columns);
+
+        $writer = $this->getFileWriter($format);
+
+        // Dispatch the event
+        $this->eventDispatcher->dispatch(
+            EventDispatcher::EVENT_ON_EXPORT,
+            $event = new ExportEvent($reader, $writer, $event, $subscriptions)
+        );
+
+        $writer->writeFrom($event->getReader());
+
+        return new File($event->getWriter()->getFilename());
+    }
+
+    /**
+     * Export subscriptions by calendar
+     *
+     * @return File
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function exportByCalendar(CalendarModel $calendar, $startTstamp = null, $endTstamp = null, $format = self::FORMAT_CSV)
+    {
+        $readerData = [];
+        $subscriptions = [];
+
+        // Get the reader data
+        if (($events = CalendarEventsModel::findBy('pid', $calendar->id)) !== null) {
+            $columns = ['pid IN (' . implode(', ', $events->fetchEach('id')) . ')'];
+            $values = [];
+
+            if ($startTstamp !== null) {
+                $columns[] = 'dateCreated>=?';
+                $values[] = $startTstamp;
+            }
+
+            if ($endTstamp !== null) {
+                $columns[] = 'dateCreated<=?';
+                $values[] = $endTstamp;
+            }
+
+            // Create the subscription instances
+            if (($subscriptionModels = SubscriptionModel::findBy($columns, $values)) !== null) {
+                /** @var SubscriptionModel $subscriptionModel */
+                foreach ($subscriptionModels as $subscriptionModel) {
+                    $subscription = $this->factory->createFromModel($subscriptionModel);
+
+                    // Only the export aware subscriptions
+                    if ($subscription instanceof ExportAwareInterface) {
+                        $subscriptions[] = $subscription;
+                    }
+                }
+            }
+
+            $columns = $this->getColumns($subscriptions);
+
+            /** @var CalendarEventsModel $event */
+            foreach ($events as $event) {
+                $eventSubscriptions = [];
+
+                // Get only the subscriptions for the currently iterated event
+                foreach ($subscriptions as $subscription) {
+                    if ((int) $event->id === (int) $subscription->getSubscriptionModel()->pid) {
+                        $eventSubscriptions[] = $subscription;
+                    }
+                }
+
+                if (count($eventSubscriptions) === 0) {
+                    continue;
+                }
+
+                $readerData = array_merge($readerData, $this->prepareData($event, $eventSubscriptions, $columns));
+            }
+        }
+
+        $reader = new ArrayReader($readerData);
+        $reader->setHeaderFields($columns);
+
+        $writer = $this->getFileWriter($format);
+
+        // Dispatch the event
+        $this->eventDispatcher->dispatch(
+            EventDispatcher::EVENT_ON_EXPORT_CALENDAR,
+            $event = new ExportCalendarEvent($reader, $writer, $calendar, $subscriptions)
+        );
+
+        $writer->writeFrom($event->getReader());
+
+        return new File($event->getWriter()->getFilename());
     }
 
     /**
@@ -84,63 +193,6 @@ class Exporter
             default:
                 throw new \InvalidArgumentException(sprintf('Invalid export format: %s', $format));
         }
-    }
-
-    /**
-     * Export the subscriptions to a file
-     *
-     * @param CalendarEventsModel $event
-     * @param string              $format
-     * @param Collection          $models
-     *
-     * @return File
-     */
-    private function export($eventModel, $format, Collection $models = null)
-    {
-        $subscriptions = [];
-
-        // Create the subscription instances
-        if ($models !== null) {
-            /** @var SubscriptionModel $model */
-            foreach ($models as $model) {
-                $subscription = $this->factory->createFromModel($model);
-
-                // Only the export aware subscriptions
-                if ($subscription instanceof ExportAwareInterface) {
-                    $subscriptions[] = $subscription;
-                }
-            }
-        }
-
-        $reader = $this->getFileReader($eventModel, $subscriptions);
-        $writer = $this->getFileWriter($format);
-
-        // Dispatch the event
-        $this->eventDispatcher->dispatch(
-            EventDispatcher::EVENT_ON_EXPORT,
-            $event = new ExportEvent($reader, $writer, $eventModel, $subscriptions)
-        );
-
-        $writer->writeFrom($event->getReader());
-
-        return new File($event->getWriter()->getFilename(), true);
-    }
-
-    /**
-     * Get the file reader
-     *
-     * @param CalendarEventsModel $event
-     * @param array               $subscriptions
-     *
-     * @return ArrayReader
-     */
-    private function getFileReader(CalendarEventsModel $event, array $subscriptions)
-    {
-        $columns = $this->getColumns($subscriptions);
-        $reader  = new ArrayReader($this->prepareData($event, $subscriptions, $columns));
-        $reader->setHeaderFields($columns);
-
-        return $reader;
     }
 
     /**
@@ -186,6 +238,7 @@ class Exporter
             'event_title'              => $headerFields['event_title'],
             'event_start'              => $headerFields['event_start'],
             'event_end'                => $headerFields['event_end'],
+            'subscription_date'        => $headerFields['subscription_date'],
             'subscription_type'        => $headerFields['subscription_type'],
             'subscription_waitingList' => $headerFields['subscription_waitingList'],
             'subscription_firstname'   => $headerFields['subscription_firstname'],
@@ -243,6 +296,7 @@ class Exporter
                 $subscription->getExportRow(),
                 $eventData,
                 [
+                    'subscription_date'        => Date::parse(Config::get('datimFormat'), $model->dateCreated),
                     'subscription_type'        => $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types']['reference'][$model->type],
                     'subscription_waitingList' => $subscription->isOnWaitingList() ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'],
                 ]
