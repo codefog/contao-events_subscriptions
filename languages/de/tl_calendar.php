@@ -64,6 +64,18 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscription_legend'] = 'Anmeldung Einstellu
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview'] = ['Anmeldungen Übersicht', 'Zeige eine Übersicht der Anmeldungen des Kalenders ID %s'];
 
 /**
+ * Export
+ */
+$GLOBALS['TL_LANG']['tl_calendar']['export.headline'] = 'Anmeldungen exportieren';
+$GLOBALS['TL_LANG']['tl_calendar']['export.explanation'] = 'Sie sind dabei, die Anmeldedaten dieses Kalenders zu exportieren:';
+$GLOBALS['TL_LANG']['tl_calendar']['export.explanationFilters'] = 'Mit den nachfolgenden Feldern kann der export auf einen beliebigen Zeitraum eingeschränkt werden. Der Filter wird auf das Datum der Anmeldung angewendet.';
+$GLOBALS['TL_LANG']['tl_calendar']['export.startDate'] = ['Start-Datum', 'Bitte Start-Datum der Anmeldungen eintragen'];
+$GLOBALS['TL_LANG']['tl_calendar']['export.endDate'] = ['End-Datum', 'Bitte End-Datum der Anmeldungen eintragen'];
+$GLOBALS['TL_LANG']['tl_calendar']['export.excelFormatHint'] = 'Um einen Export im Excel-Format zu generieren, bitte das <strong>phpoffice/phpspreadsheet</strong> Paket installieren. Alternativ kann auch das veraltete <strong>phpoffice/phpexcel</strong> Paket installiert werden.';
+$GLOBALS['TL_LANG']['tl_calendar']['export.csv'] = 'Export als CSV';
+$GLOBALS['TL_LANG']['tl_calendar']['export.excel'] = 'Export als Excel';
+
+/**
  * Reference
  */
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.headline'] = 'Anmeldeübersicht für Kalender "%s"';
