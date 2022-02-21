@@ -107,14 +107,14 @@ class NotificationListener
             return null;
         }
 
-        $newerSubscriptions = SubscriptionModel::countBy(['id!=?', 'pid=?', 'dateCreated>=?'], [$unsubscribedModel->id, $unsubscribedModel->pid, $unsubscribedModel->dateCreated]);
+        $newerSubscriptions = SubscriptionModel::countBy(['id!=?', 'pid=?', 'dateCreated>=?', 'numberOfParticipants>?'], [$unsubscribedModel->id, $unsubscribedModel->pid, $unsubscribedModel->dateCreated, 0]);
 
         // Return null if there are no newer subscriptions (i.e. no subscription to be promoted)
         if ($newerSubscriptions === 0) {
             return null;
         }
 
-        $olderSubscriptions = SubscriptionModel::countBy(['pid=?', 'dateCreated<?'], [$unsubscribedModel->pid, $unsubscribedModel->dateCreated]);
+        $olderSubscriptions = SubscriptionModel::countBy(['pid=?', 'dateCreated<?', 'numberOfParticipants>?'], [$unsubscribedModel->pid, $unsubscribedModel->dateCreated, 0]);
 
         // Return null if there are completely no other subscriptions
         if ($olderSubscriptions === 0) {
