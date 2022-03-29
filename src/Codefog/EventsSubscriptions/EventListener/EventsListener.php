@@ -30,6 +30,10 @@ class EventsListener
         foreach ($allEvents as $k => $periods) {
             foreach ($periods as $kk => $events) {
                 foreach ($events as $kkk => $event) {
+                    if (!isset($event['id'])) {
+                        continue;
+                    }
+
                     $config = EventConfig::create($event['id']);
 
                     // Set the subscription template data for calendar module
