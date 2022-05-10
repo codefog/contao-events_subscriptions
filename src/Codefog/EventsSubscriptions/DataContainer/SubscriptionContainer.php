@@ -185,7 +185,13 @@ class SubscriptionContainer
     {
         $model = SubscriptionModel::findByPk($row['id']);
 
-        return Services::getSubscriptionFactory()->createFromModel($model)->getBackendLabel();
+        try {
+            $subscription = Services::getSubscriptionFactory()->createFromModel($model);
+        } catch (\InvalidArgumentException $e) {
+            return '';
+        }
+
+        return $subscription->getBackendLabel();
     }
 
     /**
