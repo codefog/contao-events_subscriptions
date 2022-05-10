@@ -53,7 +53,13 @@ class EventsListener
 
                         // Add CSS class if user is subscribed
                         if ($subscription->isSubscribed($config)) {
-                            $allEvents[$k][$kk][$kkk]['class'] = rtrim($event['class']) . ' subscribed';
+                            $class = 'subscribed';
+
+                            if ($subscription->isOnWaitingList()) {
+                                $class .= ' subscribed-waiting-list';
+                            }
+
+                            $allEvents[$k][$kk][$kkk]['class'] = rtrim($event['class']) . ' ' . $class;
                         }
 
                         // Add CSS class if user can subscribe
