@@ -175,8 +175,13 @@ class NewFromMemberGroupController
             $memberModel = new MemberModel();
             $memberModel->setRow($member);
 
-            /** @var MemberSubscription $subscription */
-            $subscription = $factory->create('member');
+            try {
+                /** @var MemberSubscription $subscription */
+                $subscription = $factory->create('member');
+            } catch (\InvalidArgumentException $e) {
+                continue;
+            }
+
             $subscription->setMemberModel($memberModel);
 
             $subscriber->subscribe($eventConfig, $subscription);

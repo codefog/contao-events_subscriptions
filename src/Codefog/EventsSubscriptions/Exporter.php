@@ -64,7 +64,11 @@ class Exporter
         if (($subscriptionModels = SubscriptionModel::findBy('pid', $event->id)) !== null) {
             /** @var SubscriptionModel $subscriptionModel */
             foreach ($subscriptionModels as $subscriptionModel) {
-                $subscription = $this->factory->createFromModel($subscriptionModel);
+                try {
+                    $subscription = $this->factory->createFromModel($subscriptionModel);
+                } catch (\InvalidArgumentException $e) {
+                    continue;
+                }
 
                 // Only the export aware subscriptions
                 if ($subscription instanceof ExportAwareInterface) {
@@ -122,7 +126,11 @@ class Exporter
             if (($subscriptionModels = SubscriptionModel::findBy($columns, $values)) !== null) {
                 /** @var SubscriptionModel $subscriptionModel */
                 foreach ($subscriptionModels as $subscriptionModel) {
-                    $subscription = $this->factory->createFromModel($subscriptionModel);
+                    try {
+                        $subscription = $this->factory->createFromModel($subscriptionModel);
+                    } catch (\InvalidArgumentException $e) {
+                        continue;
+                    }
 
                     // Only the export aware subscriptions
                     if ($subscription instanceof ExportAwareInterface) {

@@ -53,8 +53,13 @@ trait SubscriptionTrait
         $factory = Services::getSubscriptionFactory();
 
         foreach ($config->getAllowedSubscriptionTypes() as $type) {
-            $subscription = $factory->create($type);
-            $form         = $subscription->getForm($config);
+            try {
+                $subscription = $factory->create($type);
+            } catch (\InvalidArgumentException $e) {
+                continue;
+            }
+
+            $form = $subscription->getForm($config);
 
             if ($form !== null && $form->validate()) {
                 try {
@@ -124,7 +129,11 @@ trait SubscriptionTrait
          * @var SubscriptionModel $model
          */
         foreach ($subscriptions as $model) {
-            $subscription = $factory->createFromModel($model);
+            try {
+                $subscription = $factory->createFromModel($model);
+            } catch (\InvalidArgumentException $e) {
+                continue;
+            }
 
             if ($subscription instanceof ModuleDataAwareInterface) {
                 $subscription->setModuleData($moduleData);

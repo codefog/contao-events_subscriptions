@@ -113,7 +113,11 @@ class Automator
 
             // Skip the reminders for waiting lists, if enabled
             if ($calendar->subscription_skipWaitingListReminders) {
-                $subscription = $this->subscriptionFactory->createFromModel($subscriptionModel);
+                try {
+                    $subscription = $this->subscriptionFactory->createFromModel($subscriptionModel);
+                } catch (\InvalidArgumentException $e) {
+                    continue;
+                }
 
                 if ($subscription->isOnWaitingList()) {
                     continue;

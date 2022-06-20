@@ -112,7 +112,11 @@ class OverviewController
 
             /** @var SubscriptionModel $subscriptionModel */
             foreach ($subscriptionModels as $subscriptionModel) {
-                $subscription = $subscriptionFactory->createFromModel($subscriptionModel);
+                try {
+                    $subscription = $subscriptionFactory->createFromModel($subscriptionModel);
+                } catch (\InvalidArgumentException $e) {
+                    continue;
+                }
 
                 if ($subscription->isOnWaitingList()) {
                     $waitingListCount += $subscriptionModel->numberOfParticipants;

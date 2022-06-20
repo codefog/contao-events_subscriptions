@@ -45,7 +45,11 @@ class EventsListener
 
                     // Add extra CSS classes
                     foreach ($config->getAllowedSubscriptionTypes() as $type) {
-                        $subscription = $factory->create($type);
+                        try {
+                            $subscription = $factory->create($type);
+                        } catch (\InvalidArgumentException $e) {
+                            continue;
+                        }
 
                         // Add CSS class if user is subscribed
                         if ($subscription->isSubscribed($config)) {

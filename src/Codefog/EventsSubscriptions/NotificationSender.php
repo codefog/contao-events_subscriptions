@@ -48,7 +48,11 @@ class NotificationSender
      */
     public function send(Notification $notification, SubscriptionModel $model)
     {
-        $subscription = $this->factory->createFromModel($model);
+        try {
+            $subscription = $this->factory->createFromModel($model);
+        } catch (\InvalidArgumentException $e) {
+            return;
+        }
 
         if (!($subscription instanceof NotificationAwareInterface) || ($event = $model->getEvent()) === null) {
             return;
