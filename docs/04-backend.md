@@ -43,3 +43,10 @@ the exported data please check the [Developers](08-developers.md) section.
 > To export data in Excel format you have to install the [phpoffice/phpspreadsheet](https://packagist.org/packages/phpoffice/phpspreadsheet) package. 
 
 ![](images/backend-subscriptions-export.png)
+
+
+## Sending notifications per event
+
+As of version 2.15, you can send the notifications manually per every event:
+
+![](images/backend-notifications.png)

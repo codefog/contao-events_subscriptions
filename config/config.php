@@ -147,9 +147,9 @@ $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['events_subscriptions'] = [
     ],
     'events_subscription_event' => [
         'recipients'           => ['admin_email', 'recipient_email'],
-        'email_subject'        => ['admin_email', 'recipient_email', 'event_*', 'calendar_*', 'member_*', 'days_before_event'],
-        'email_text'           => ['admin_email', 'recipient_email', 'event_*', 'event_link', 'calendar_*', 'member_*', 'days_before_event'],
-        'email_html'           => ['admin_email', 'recipient_email', 'event_*', 'event_link', 'calendar_*', 'member_*', 'days_before_event'],
+        'email_subject'        => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'calendar_*', 'member_*', 'days_before_event'],
+        'email_text'           => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'event_link', 'calendar_*', 'member_*', 'days_before_event'],
+        'email_html'           => ['admin_email', 'recipient_email', 'subscription_*', 'event_*', 'event_link', 'calendar_*', 'member_*', 'days_before_event'],
         'email_sender_name'    => ['admin_email', 'recipient_email'],
         'email_sender_address' => ['admin_email', 'recipient_email'],
         'email_recipient_cc'   => ['admin_email', 'recipient_email'],

@@ -134,6 +134,11 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['subscriptions_newFromMem
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.headline'] = 'Event notifications';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.explanation'] = 'Here you can send a notification to selected member groups for the event:';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.notification'] = 'Notification';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.notificationExplanation'] = 'Please choose the notification that will be sent.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribersHeadline'] = 'Subscribers of the event';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribersExplanation'] = 'Send a notification to all subscribers of the current event. The notification will be sent to both guest and member subscriptions.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.groupsHeadline'] = 'Not subscribed members';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.groupsExplanation'] = 'Send a notification to members of the selected groups that haven\'t subscribed to the event yet.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribableMemberGroups'] = 'Member groups allowed to subscribe';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.otherMemberGroups'] = 'Other member groups';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.submit'] = 'Send a notification';
