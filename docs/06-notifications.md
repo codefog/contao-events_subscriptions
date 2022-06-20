@@ -75,21 +75,24 @@ The list of available tokens in every notification:
 
    True if the subscriber is on the waiting list, false otherwise.
 
-4. `event_*`
+5. `event_*`
 
    All data of the event. Enter the field name in place of asterisk to get
    the desired data, e.g. `event_startDate` to get the event's start date.
 
-5. `calendar_*`
+6. `calendar_*`
 
    All data of the event's calendar. Enter the field name in place of asterisk to get
    the desired data, e.g. `calendar_title` to get the calendar's title.
 
-6. `unsubscribe_link`
+7. `unsubscribe_link`
 
    A unique link that allows the user to immediately unsubscribe from the event.
    
-7. `event_link`
+8. `event_link`
 
    A link to the event itself.
 
+9. `days_before_event`
+
+   A number of days before the event, `0` if the event is past.

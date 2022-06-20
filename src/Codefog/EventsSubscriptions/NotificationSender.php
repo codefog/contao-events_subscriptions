@@ -155,6 +155,16 @@ class NotificationSender
             $tokens = array_merge($tokens, $this->getModelTokens($calendar, 'calendar_'));
         }
 
+        $eventDate = (new \DateTime())->setTimestamp((int) $event->startTime)->setTimezone(new \DateTimeZone(Config::get('timeZone')));
+        $today = (new \DateTime())->setTimezone(new \DateTimeZone(Config::get('timeZone')));
+
+        // Add the days before event token, if the event is upcoming
+        if ($eventDate > $today) {
+            $tokens['days_before_event'] = $today->diff($eventDate)->days;
+        } else {
+            $tokens['days_before_event'] = 0;
+        }
+
         return $tokens;
     }
 }
