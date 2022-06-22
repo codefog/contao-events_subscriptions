@@ -10,13 +10,10 @@ use Codefog\EventsSubscriptions\Subscription\NotificationAwareInterface;
 use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\CalendarEventsModel;
-use Contao\CalendarModel;
-use Contao\Config;
 use Contao\Controller;
 use Contao\Database;
 use Contao\Date;
 use Contao\Environment;
-use Contao\Events;
 use Contao\Input;
 use Contao\MemberGroupModel;
 use Contao\Message;
@@ -159,7 +156,7 @@ class NotificationController
         }
 
         $count = 0;
-        $basicTokens = $this->getNotificationTokens($eventModel);
+        $basicTokens = $this->notificationSender->getBasicTokens($eventModel);
         $factory = Services::getSubscriptionFactory();
 
         /** @var SubscriptionModel $subscriptionModel */
@@ -221,7 +218,7 @@ class NotificationController
             Controller::reload();
         }
 
-        $basicTokens = $this->getNotificationTokens($eventModel);
+        $basicTokens = $this->notificationSender->getBasicTokens($eventModel);
         $count = 0;
 
         foreach ($members as $member) {
@@ -280,26 +277,5 @@ class NotificationController
         }
 
         return $notifications;
-    }
-
-    /**
-     * Get the notification tokens.
-     */
-    protected function getNotificationTokens(CalendarEventsModel $eventModel)
-    {
-        $tokens = [
-            'admin_email' => $GLOBALS['TL_ADMIN_EMAIL'] ?: Config::get('adminEmail'),
-        ];
-
-        // Generate event tokens
-        $tokens = array_merge($tokens, $this->notificationSender->getModelTokens($eventModel, 'event_'));
-        $tokens['event_link'] = Events::generateEventUrl($eventModel, true);
-
-        // Generate calendar tokens
-        if (($calendar = CalendarModel::findByPk($eventModel->pid)) !== null) {
-            $tokens = array_merge($tokens, $this->notificationSender->getModelTokens($calendar, 'calendar_'));
-        }
-
-        return $tokens;
     }
 }

@@ -128,23 +128,13 @@ class NotificationSender
     }
 
     /**
-     * Generate the tokens
-     *
-     * @param CalendarEventsModel        $event
-     * @param NotificationAwareInterface $subscription
-     *
-     * @return array
+     * Get the basic tokens.
      */
-    private function generateTokens(CalendarEventsModel $event, NotificationAwareInterface $subscription)
+    public function getBasicTokens(CalendarEventsModel $event)
     {
-        $tokens                    = $subscription->getNotificationTokens();
-        $tokens['admin_email']     = $GLOBALS['TL_ADMIN_EMAIL'] ?: Config::get('adminEmail');
-        $tokens['recipient_email'] = $subscription->getNotificationEmail();
-
-        // Waiting list token
-        if ($subscription instanceof SubscriptionInterface) {
-            $tokens['subscription_waitingList'] = $subscription->isOnWaitingList();
-        }
+        $tokens = [
+            'admin_email' => $GLOBALS['TL_ADMIN_EMAIL'] ?: Config::get('adminEmail'),
+        ];
 
         // Generate event tokens
         $tokens = array_merge($tokens, $this->getModelTokens($event, 'event_'));
@@ -163,6 +153,22 @@ class NotificationSender
             $tokens['days_before_event'] = $today->diff($eventDate)->days;
         } else {
             $tokens['days_before_event'] = 0;
+        }
+
+        return $tokens;
+    }
+
+    /**
+     * Generate the tokens
+     */
+    private function generateTokens(CalendarEventsModel $event, NotificationAwareInterface $subscription)
+    {
+        $tokens = array_merge($this->getBasicTokens($event), $subscription->getNotificationTokens());
+        $tokens['recipient_email'] = $subscription->getNotificationEmail();
+
+        // Waiting list token
+        if ($subscription instanceof SubscriptionInterface) {
+            $tokens['subscription_waitingList'] = $subscription->isOnWaitingList();
         }
 
         return $tokens;
