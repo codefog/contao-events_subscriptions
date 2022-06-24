@@ -26,8 +26,29 @@
             <fieldset class="tl_tbox nolegend">
                 <div class="widget w50 clr">
                     <?= $this->notification->parse() ?>
+                    <p class="tl_help tl_tip"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.notificationExplanation'] ?></p>
                 </div>
+            </fieldset>
 
+            <div style="margin:0 -1px;height:18px;background-color:#eaeaec;border-top:1px solid #d0d0d2;border-bottom:1px solid #d0d0d2"></div>
+
+            <h2 class="sub_headline" style="margin-top:18px"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribersHeadline'] ?></h2>
+
+            <p style="margin:3px 18px 18px"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribersExplanation'] ?></p>
+
+            <div class="tl_formbody_submit">
+                <div class="tl_submit_container">
+                    <button type="submit" name="action_subscribers" class="tl_submit"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.submit'] ?></button>
+                </div>
+            </div>
+
+            <div style="margin:0 -1px;height:18px;background-color:#eaeaec;border-top:1px solid #d0d0d2;border-bottom:1px solid #d0d0d2"></div>
+
+            <h2 class="sub_headline" style="margin-top:18px"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.groupsHeadline'] ?></h2>
+
+            <p style="margin:3px 18px 18px"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.groupsExplanation'] ?></p>
+
+            <fieldset class="tl_tbox nolegend">
                 <div class="widget clr">
                     <?= $this->subscribableMemberGroups->parse() ?>
                 </div>
@@ -41,7 +62,7 @@
 
             <div class="tl_formbody_submit">
                 <div class="tl_submit_container">
-                    <button type="submit" class="tl_submit"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.submit'] ?></button>
+                    <button type="submit" name="action_groups" class="tl_submit"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.submit'] ?></button>
                 </div>
             </div>
         </div>

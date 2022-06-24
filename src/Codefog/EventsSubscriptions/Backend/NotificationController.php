@@ -3,18 +3,17 @@
 namespace Codefog\EventsSubscriptions\Backend;
 
 use Codefog\EventsSubscriptions\EventConfig;
+use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\NotificationSender;
 use Codefog\EventsSubscriptions\Services;
+use Codefog\EventsSubscriptions\Subscription\NotificationAwareInterface;
 use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\CalendarEventsModel;
-use Contao\CalendarModel;
-use Contao\Config;
 use Contao\Controller;
 use Contao\Database;
 use Contao\Date;
 use Contao\Environment;
-use Contao\Events;
 use Contao\Input;
 use Contao\MemberGroupModel;
 use Contao\Message;
@@ -123,10 +122,65 @@ class NotificationController
      */
     protected function processForm(CalendarEventsModel $eventModel, array $memberGroups = [])
     {
-        if (!($notificationId = Input::post('notification'))) {
+        if (!($notificationId = (int) Input::post('notification'))
+            || !array_key_exists($notificationId, $this->getNotifications())
+            || ($notification = Notification::findByPk($notificationId)) === null
+        ) {
             Controller::reload();
         }
 
+        if (isset($_POST['action_subscribers'])) {
+            $count = $this->handleSubscribersAction($eventModel, $notification);
+        } elseif (isset($_POST['action_groups'])) {
+            $count = $this->handleGroupsAction($eventModel, $notification, $memberGroups);
+        }
+
+        // Update the last notification time
+        $eventModel->subscription_lastNotificationSent = time();
+        $eventModel->save();
+
+        Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.confirmation'], $count));
+        Controller::redirect(Backend::getReferer());
+    }
+
+    /**
+     * Send notification to all subscribers of the event.
+     */
+    protected function handleSubscribersAction(CalendarEventsModel $eventModel, Notification $notification)
+    {
+        $subscriptionModels = SubscriptionModel::findBy('pid', $eventModel->id);
+
+        if ($subscriptionModels === null) {
+            Message::addError($GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.noRecipients']);
+            Controller::reload();
+        }
+
+        $count = 0;
+        $basicTokens = $this->notificationSender->getBasicTokens($eventModel);
+        $factory = Services::getSubscriptionFactory();
+
+        /** @var SubscriptionModel $subscriptionModel */
+        foreach ($subscriptionModels as $subscriptionModel) {
+            $subscription = $factory->createFromModel($subscriptionModel);
+
+            if (!($subscription instanceof NotificationAwareInterface)) {
+                continue;
+            }
+
+            $tokens = array_merge($basicTokens, $subscription->getNotificationTokens());
+            $tokens['recipient_email'] = $subscription->getNotificationEmail();
+
+            $count += count(array_filter($notification->send($tokens)));
+        }
+
+        return $count;
+    }
+
+    /**
+     * Send notification to unsubscribed members of selected groups.
+     */
+    protected function handleGroupsAction(CalendarEventsModel $eventModel, Notification $notification, array $memberGroups)
+    {
         $memberGroupIds = [];
 
         // Assign subscribable member groups
@@ -141,13 +195,6 @@ class NotificationController
 
         if (count($memberGroupIds) === 0) {
             Message::addError($GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.noRecipients']);
-            Controller::reload();
-        }
-
-        $notificationId = (int) $notificationId;
-
-        // Validate submitted data
-        if (!array_key_exists($notificationId, $this->getNotifications()) || count($memberGroupIds) === 0 || ($notification = Notification::findByPk($notificationId)) === null) {
             Controller::reload();
         }
 
@@ -171,35 +218,17 @@ class NotificationController
             Controller::reload();
         }
 
-        $basicTokens = [
-            'admin_email' => $GLOBALS['TL_ADMIN_EMAIL'] ?: Config::get('adminEmail'),
-        ];
-
-        // Generate event tokens
-        $basicTokens = array_merge($basicTokens, $this->notificationSender->getModelTokens($eventModel, 'event_'));
-        $basicTokens['event_link'] = Events::generateEventUrl($eventModel, true);
-
-        // Generate calendar tokens
-        if (($calendar = CalendarModel::findByPk($eventModel->pid)) !== null) {
-            $basicTokens = array_merge($basicTokens, $this->notificationSender->getModelTokens($calendar, 'calendar_'));
-        }
-
+        $basicTokens = $this->notificationSender->getBasicTokens($eventModel);
         $count = 0;
 
         foreach ($members as $member) {
             $tokens = array_merge($basicTokens, $this->notificationSender->getTokens($member, 'tl_member', 'member_'));
             $tokens['recipient_email'] = $member['email'];
 
-            /** @var Notification $notification */
             $count += count(array_filter($notification->send($tokens, $member->language)));
         }
 
-        // Update the last notification time
-        $eventModel->subscription_lastNotificationSent = time();
-        $eventModel->save();
-
-        Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.confirmation'], $count));
-        Controller::redirect(Backend::getReferer());
+        return $count;
     }
 
     /**
