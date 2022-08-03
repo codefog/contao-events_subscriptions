@@ -67,10 +67,26 @@ class SubscriptionValidator
             return false;
         }
 
-        return SubscriptionModel::findOneBy(
-            ['pid=? AND member=?'],
-            [$event->getEvent()->id, $member->getMember()->id]
-        ) !== null;
+        static $cache;
+
+        // Improve the performance by fetching all subscriptions in advance
+        if (!is_array($cache)) {
+            $cache = [];
+
+            $records = Database::getInstance()
+                ->prepare('SELECT pid, member FROM tl_calendar_events_subscription WHERE type=?')
+                ->execute('member')
+            ;
+
+            while ($records->next()) {
+                $cache[$records->pid][] = (int) $records->member;
+            }
+        }
+
+        $eventId = $event->getEvent()->id;
+        $memberId = $member->getMember()->id;
+
+        return isset($cache[$eventId]) && in_array($memberId, $cache[$eventId], true);
     }
 
     /**
@@ -103,11 +119,20 @@ class SubscriptionValidator
             $max += $limit;
         }
 
-        $total = Database::getInstance()
-            ->prepare('SELECT SUM(numberOfParticipants) AS total FROM tl_calendar_events_subscription WHERE pid=?')
-            ->execute($event->getEvent()->id)
-            ->total
-        ;
+        static $cache;
+
+        // Improve the performance by fetching all subscriptions in advance
+        if (!is_array($cache)) {
+            $cache = [];
+            $records = Database::getInstance()->execute('SELECT SUM(numberOfParticipants) AS total, pid FROM tl_calendar_events_subscription GROUP BY pid');
+
+            while ($records->next()) {
+                $cache[$records->pid] = (int) $records->total;
+            }
+        }
+
+        $eventId = $event->getEvent()->id;
+        $total = isset($cache[$eventId]) ? $cache[$eventId] : 0;
 
         return ($total + $numberOfParticipants) <= $max;
     }

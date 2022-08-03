@@ -62,7 +62,7 @@ class EventsListener
 
                             // Add CSS class if user is on a waiting list
                             if ($subscription instanceof MemberSubscription && FE_USER_LOGGED_IN) {
-                                $subscriptionModel = SubscriptionModel::findOneBy(['pid=? AND member=?'], [$event['id'], FrontendUser::getInstance()->id]);
+                                $subscriptionModel = SubscriptionModel::findByPidAndMember($event['id'], FrontendUser::getInstance()->id);
 
                                 if ($subscriptionModel !== null) {
                                     $subscription->setSubscriptionModel($subscriptionModel);

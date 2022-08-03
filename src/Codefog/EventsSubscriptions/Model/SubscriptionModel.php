@@ -52,4 +52,12 @@ class SubscriptionModel extends Model
     {
         return md5(uniqid('', true));
     }
+
+    /**
+     * Find the record by pid and member.
+     */
+    public static function findByPidAndMember($pid, $member)
+    {
+        return static::findOneBy(['pid=?', 'member=?', 'type=?'], [$pid, $member, 'member']);
+    }
 }

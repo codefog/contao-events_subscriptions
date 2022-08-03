@@ -94,7 +94,7 @@ trait SubscriptionTrait
 
             // Check if member is on waiting list
             if ($data['subscriptionTypes'][$type]['isSubscribed'] && $subscription instanceof MemberSubscription) {
-                $subscription->setSubscriptionModel(SubscriptionModel::findOneBy(['pid=? AND member=?'], [$config->getEvent()->id, FrontendUser::getInstance()->id]));
+                $subscription->setSubscriptionModel(SubscriptionModel::findByPidAndMember($config->getEvent()->id, FrontendUser::getInstance()->id));
                 $data['subscriptionTypes'][$type]['isOnWaitingList'] = $subscription->isOnWaitingList();
             }
         }

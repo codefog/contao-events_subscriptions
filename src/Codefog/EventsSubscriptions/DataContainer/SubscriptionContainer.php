@@ -244,7 +244,7 @@ class SubscriptionContainer
      */
     public function checkIfAlreadyExists($value, DataContainer $dc)
     {
-        $model = SubscriptionModel::findOneBy(['pid=? AND member=?'], [$dc->activeRecord->pid, $value]);
+        $model = SubscriptionModel::findByPidAndMember($dc->activeRecord->pid, $value);
 
         if ($value && $model !== null && (int)$model->id !== (int)$dc->id) {
             throw new \Exception(
