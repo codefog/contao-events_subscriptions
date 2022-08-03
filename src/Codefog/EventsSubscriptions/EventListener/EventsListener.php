@@ -13,7 +13,10 @@ namespace Codefog\EventsSubscriptions\EventListener;
 
 use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\FrontendModule\SubscriptionTrait;
+use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
+use Codefog\EventsSubscriptions\Subscription\MemberSubscription;
+use Contao\FrontendUser;
 use Contao\Module;
 
 class EventsListener
@@ -51,15 +54,32 @@ class EventsListener
                             continue;
                         }
 
+                        $class = '';
+
                         // Add CSS class if user is subscribed
                         if ($subscription->isSubscribed($config)) {
-                            $allEvents[$k][$kk][$kkk]['class'] = rtrim($event['class']) . ' subscribed';
+                            $class .= ' subscribed';
+
+                            // Add CSS class if user is on a waiting list
+                            if ($subscription instanceof MemberSubscription && FE_USER_LOGGED_IN) {
+                                $subscriptionModel = SubscriptionModel::findOneBy(['pid=? AND member=?'], [$event['id'], FrontendUser::getInstance()->id]);
+
+                                if ($subscriptionModel !== null) {
+                                    $subscription->setSubscriptionModel($subscriptionModel);
+
+                                    if ($subscription->isOnWaitingList()) {
+                                        $class .= ' subscribed-waiting-list';
+                                    }
+                                }
+                            }
                         }
 
                         // Add CSS class if user can subscribe
                         if ($subscription->canSubscribe($config)) {
-                            $allEvents[$k][$kk][$kkk]['class'] = rtrim($event['class']) . ' can-subscribe';
+                            $class .= ' can-subscribe';
                         }
+
+                        $allEvents[$k][$kk][$kkk]['class'] .= $class;
                     }
                 }
             }
