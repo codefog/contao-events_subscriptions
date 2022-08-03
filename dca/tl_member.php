@@ -16,6 +16,11 @@
 \Contao\System::loadLanguageFile('tl_member_group');
 
 /**
+ * Global config
+ */
+$GLOBALS['TL_DCA']['tl_member']['config']['ondelete_callback'][] = [\Codefog\EventsSubscriptions\EventListener\MemberListener::class, 'onDeleteCallback'];
+
+/**
  * Extend palettes
  */
 $GLOBALS['TL_DCA']['tl_member']['palettes']['__selector__'][] = 'subscription_enableLimit';
