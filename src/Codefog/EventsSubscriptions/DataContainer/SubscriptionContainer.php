@@ -45,7 +45,7 @@ class SubscriptionContainer
         $max = $config->getMaximumSubscriptions();
 
         // Get the waiting list settings
-        if ($config->hasWaitingList()) {
+        if ($max > 0 && $config->hasWaitingList()) {
             $limit = $config->getWaitingListLimit();
             $max   = $limit ? ($max + $limit) : 0;
         }
