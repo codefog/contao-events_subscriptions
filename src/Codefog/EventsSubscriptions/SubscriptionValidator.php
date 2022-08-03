@@ -83,8 +83,8 @@ class SubscriptionValidator
             }
         }
 
-        $eventId = $event->getEvent()->id;
-        $memberId = $member->getMember()->id;
+        $eventId = (int) $event->getEvent()->id;
+        $memberId = (int) $member->getMember()->id;
 
         return isset($cache[$eventId]) && in_array($memberId, $cache[$eventId], true);
     }
