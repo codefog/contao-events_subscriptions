@@ -126,6 +126,7 @@ class EventReaderModule extends ModuleEventReader
 
         $until = '';
         $recurring = '';
+        $arrRange = [];
 
         // Recurring event
         if ($objEvent->recurring)
