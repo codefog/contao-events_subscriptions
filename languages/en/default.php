@@ -51,6 +51,7 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.exportHeaderFields'] = [
     'subscription_firstname'   => 'Firstname',
     'subscription_lastname'    => 'Lastname',
     'subscription_email'       => 'E-mail address',
+    'subscription_numberOfParticipants' => 'Number of participants',
 ];
 
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.memberExportHeaderFields'] = [

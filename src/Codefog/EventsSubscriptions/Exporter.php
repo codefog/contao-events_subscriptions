@@ -252,6 +252,7 @@ class Exporter
             'subscription_firstname'   => $headerFields['subscription_firstname'],
             'subscription_lastname'    => $headerFields['subscription_lastname'],
             'subscription_email'       => $headerFields['subscription_email'],
+            'subscription_numberOfParticipants' => $headerFields['subscription_numberOfParticipants'],
         ];
 
         /** @var ExportAwareInterface $subscription */
