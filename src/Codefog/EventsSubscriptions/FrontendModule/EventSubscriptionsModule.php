@@ -14,7 +14,9 @@ namespace Codefog\EventsSubscriptions\FrontendModule;
 use Codefog\EventsSubscriptions\MemberConfig;
 use Codefog\EventsSubscriptions\Services;
 use Contao\BackendTemplate;
+use Contao\CalendarEventsModel;
 use Contao\Controller;
+use Contao\Events;
 use Contao\FrontendUser;
 use Contao\Message;
 use Contao\ModuleEventlist;
@@ -300,6 +302,21 @@ class EventSubscriptionsModule extends ModuleEventlist
             // Add enclosure
             if ($event['addEnclosure']) {
                 Controller::addEnclosuresToTemplate($objTemplate, $event);
+            }
+
+            // schema.org information
+            if (method_exists(Events::class, 'getSchemaOrgData')) {
+                $objTemplate->getSchemaOrgData = static function () use ($objTemplate, $event)
+                {
+                    $jsonLd = Events::getSchemaOrgData((new CalendarEventsModel())->setRow($event));
+
+                    if ($objTemplate->addImage && $objTemplate->figure)
+                    {
+                        $jsonLd['image'] = $objTemplate->figure->getSchemaOrgData();
+                    }
+
+                    return $jsonLd;
+                };
             }
 
             $strEvents .= $objTemplate->parse();
