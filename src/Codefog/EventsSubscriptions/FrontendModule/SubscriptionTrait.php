@@ -115,7 +115,7 @@ trait SubscriptionTrait
      */
     protected function generateEventSubscribers(EventConfig $config, array $moduleData = [])
     {
-        $subscribers = ['subscribers' => [], 'waitingList' => []];
+        $subscribers = ['subscribers' => [], 'waitingList' => [], 'subscribersParticipants' => 0, 'waitingListParticipants' => 0];
         $subscriptions = SubscriptionModel::findBy('pid', $config->getEvent()->id, ['order' => 'dateCreated']);
 
         if ($subscriptions === null) {
