@@ -59,7 +59,7 @@ class NotificationSender
         }
 
         $tokens = $this->generateTokens($event, $subscription);
-        $notification->send($tokens, $tokens['subscription_language']);
+        $notification->send($tokens, $tokens['subscription_language'] ?? '');
     }
 
     /**
