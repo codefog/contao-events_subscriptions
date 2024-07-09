@@ -12,75 +12,26 @@
 namespace Codefog\EventsSubscriptions\Event;
 
 use Contao\CalendarModel;
-use Haste\IO\Reader\ArrayReader;
-use Haste\IO\Writer\AbstractWriter;
+use Contao\File;
 
 class ExportCalendarEvent
 {
-    /**
-     * @var ArrayReader
-     */
-    private $reader;
-
-    /**
-     * @var AbstractWriter
-     */
-    private $writer;
-
-    /**
-     * @var CalendarModel
-     */
-    private $calendar;
-
-    /**
-     * @var array
-     */
-    private $subscriptions;
-
-    /**
-     * @param ArrayReader $reader
-     * @param AbstractWriter $writer
-     * @param CalendarModel $calendar
-     * @param array $subscriptions
-     */
-    public function __construct(ArrayReader $reader, AbstractWriter $writer, CalendarModel $calendar, array $subscriptions)
+    public function __construct(
+        private File $file,
+        private CalendarModel $calendar,
+        private array $subscriptions,
+    )
     {
-        $this->reader = $reader;
-        $this->writer = $writer;
-        $this->calendar = $calendar;
-        $this->subscriptions = $subscriptions;
     }
 
-    /**
-     * @return ArrayReader
-     */
-    public function getReader()
+    public function getFile(): File
     {
-        return $this->reader;
+        return $this->file;
     }
 
-    /**
-     * @param ArrayReader $reader
-     */
-    public function setReader(ArrayReader $reader)
+    public function setFile(File $file): void
     {
-        $this->reader = $reader;
-    }
-
-    /**
-     * @return AbstractWriter
-     */
-    public function getWriter()
-    {
-        return $this->writer;
-    }
-
-    /**
-     * @param AbstractWriter $writer
-     */
-    public function setWriter(AbstractWriter $writer)
-    {
-        $this->writer = $writer;
+        $this->file = $file;
     }
 
     /**

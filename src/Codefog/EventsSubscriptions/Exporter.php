@@ -2,6 +2,8 @@
 
 namespace Codefog\EventsSubscriptions;
 
+use Codefog\EventsSubscriptions\Event\ExportCalendarEvent;
+use Codefog\EventsSubscriptions\Event\ExportEvent;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Subscription\ExportAwareInterface;
 use Codefog\EventsSubscriptions\Subscription\SubscriptionInterface;
@@ -47,19 +49,19 @@ class Exporter
     /**
      * Export subscriptions by event
      *
-     * @param CalendarEventsModel $event
+     * @param CalendarEventsModel $eventModel
      * @param string              $format
      *
      * @return File
      *
      * @throws \InvalidArgumentException
      */
-    public function exportByEvent(CalendarEventsModel $event, $format = self::FORMAT_CSV)
+    public function exportByEvent(CalendarEventsModel $eventModel, $format = self::FORMAT_CSV)
     {
         $subscriptions = [];
 
         // Create the subscription instances
-        if (($subscriptionModels = SubscriptionModel::findBy('pid', $event->id)) !== null) {
+        if (($subscriptionModels = SubscriptionModel::findBy('pid', $eventModel->id)) !== null) {
             /** @var SubscriptionModel $subscriptionModel */
             foreach ($subscriptionModels as $subscriptionModel) {
                 try {
@@ -75,23 +77,21 @@ class Exporter
             }
         }
 
-        $data = $this->prepareData($event, $subscriptions, $this->getColumns($subscriptions));
-        $tmpFile = tempnam('system/tmp', 'es-');
+        $data = $this->prepareData($eventModel, $subscriptions, $this->getColumns($subscriptions));
 
-        match ($format) {
-            self::FORMAT_CSV => $this->exportToCsvFile($data, $tmpFile),
-            self::FORMAT_EXCEL => $this->exportToExcelFile($data, $tmpFile),
+        $file = match ($format) {
+            self::FORMAT_CSV => $this->exportToCsvFile($data),
+            self::FORMAT_EXCEL => $this->exportToExcelFile($data),
             default => throw new \InvalidArgumentException(sprintf('Invalid export format: %s', $format)),
         };
 
-        // TODO: use new events
         // Dispatch the event
-        //$this->eventDispatcher->dispatch(
-        //    EventDispatcher::EVENT_ON_EXPORT,
-        //    $event = new ExportEvent($reader, $writer, $event, $subscriptions)
-        //);
+        $this->eventDispatcher->dispatch(
+            EventDispatcher::EVENT_ON_EXPORT,
+            $event = new ExportEvent($file, $eventModel, $subscriptions)
+        );
 
-        return new File($tmpFile);
+        return $event->getFile();
     }
 
     /**
@@ -159,35 +159,40 @@ class Exporter
             }
         }
 
-        $tmpFile = tempnam('system/tmp', 'es-');
-
-        match ($format) {
-            self::FORMAT_CSV => $this->exportToCsvFile($data, $tmpFile),
-            self::FORMAT_EXCEL => $this->exportToExcelFile($data, $tmpFile),
+        $file = match ($format) {
+            self::FORMAT_CSV => $this->exportToCsvFile($data),
+            self::FORMAT_EXCEL => $this->exportToExcelFile($data),
             default => throw new \InvalidArgumentException(sprintf('Invalid export format: %s', $format)),
         };
 
-        // TODO: use new events
         // Dispatch the event
-        //$this->eventDispatcher->dispatch(
-        //    EventDispatcher::EVENT_ON_EXPORT_CALENDAR,
-        //    $event = new ExportCalendarEvent($reader, $writer, $calendar, $subscriptions)
-        //);
+        $this->eventDispatcher->dispatch(
+            EventDispatcher::EVENT_ON_EXPORT_CALENDAR,
+            $event = new ExportCalendarEvent($file, $calendar, $subscriptions)
+        );
 
-        return new File($tmpFile);
+        return $event->getFile();
     }
 
-    private function exportToCsvFile(array $data, string $tmpFile): void
+    private function exportToCsvFile(array $data): File
     {
+        $projectDir = System::getContainer()->getParameter('kernel.project_dir');
+        $tmpFile = tempnam(Path::join($projectDir, 'system/tmp'), 'es-') . '.csv';
+
         $writer = Writer::createFromString();
         $writer->insertOne(array_keys($data[0]));
         $writer->insertAll($data);
 
-        file_put_contents(Path::join(System::getContainer()->getParameter('kernel.project_dir'), $tmpFile . '.csv'), $writer->toString());
+        file_put_contents($tmpFile, $writer->toString());
+
+        return new File(Path::makeRelative($tmpFile, $projectDir));
     }
 
-    private function exportToExcelFile(array $data, string $tmpFile): void
+    private function exportToExcelFile(array $data): File
     {
+        $projectDir = System::getContainer()->getParameter('kernel.project_dir');
+        $tmpFile = tempnam(Path::join($projectDir, 'system/tmp'), 'es-') . '.xlsx';
+
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
@@ -211,7 +216,9 @@ class Exporter
         }
 
         $writer = new Xlsx($spreadsheet);
-        $writer->save(Path::join(System::getContainer()->getParameter('kernel.project_dir'), $tmpFile . '.xlsx'));
+        $writer->save($tmpFile);
+
+        return new File(Path::makeRelative($tmpFile, $projectDir));
     }
 
     /**

@@ -28,7 +28,7 @@ class EventDispatcher
      */
     public function dispatch($name, $event)
     {
-        if (!is_array($GLOBALS['TL_HOOKS'][$name])) {
+        if (!is_array($GLOBALS['TL_HOOKS'][$name] ?? null)) {
             return;
         }
 
