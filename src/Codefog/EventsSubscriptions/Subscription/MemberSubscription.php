@@ -5,10 +5,11 @@ namespace Codefog\EventsSubscriptions\Subscription;
 use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\MemberConfig;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
+use Codefog\HasteBundle\Form\Form;
+use Codefog\HasteBundle\Formatter;
 use Contao\FrontendUser;
 use Contao\MemberModel;
-use Haste\Form\Form;
-use Haste\Util\Format;
+use Contao\System;
 
 class MemberSubscription extends AbstractSubscription implements ExportAwareInterface, NotificationAwareInterface
 {
@@ -291,7 +292,7 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
         ];
 
         foreach ($member->row() as $k => $v) {
-            $tokens['subscription_'.$k] = Format::dcaValue($member::getTable(), $k, $v);
+            $tokens['subscription_'.$k] = System::getContainer()->get(Formatter::class)->dcaValue($member::getTable(), $k, $v);
         }
 
         $tokens['subscription_numberOfParticipants'] = $this->subscriptionModel->numberOfParticipants;

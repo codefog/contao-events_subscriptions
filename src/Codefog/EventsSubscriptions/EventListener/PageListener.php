@@ -13,10 +13,11 @@ namespace Codefog\EventsSubscriptions\EventListener;
 
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
+use Codefog\HasteBundle\UrlParser;
 use Contao\Controller;
 use Contao\Input;
 use Contao\PageModel;
-use Haste\Util\Url;
+use Contao\System;
 
 class PageListener
 {
@@ -52,6 +53,6 @@ class PageListener
         }
 
         // Simply reload the page without token parameter
-        Controller::redirect(Url::removeQueryString(['event_unsubscribe']));
+        Controller::redirect(System::getContainer()->get(UrlParser::class)->removeQueryString(['event_unsubscribe']));
     }
 }

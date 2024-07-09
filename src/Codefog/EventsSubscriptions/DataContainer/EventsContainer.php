@@ -16,12 +16,12 @@ use Contao\Backend;
 use Contao\BackendUser;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
 use Contao\System;
-use Haste\Dca\PaletteManipulator;
 
 class EventsContainer
 {
@@ -49,8 +49,8 @@ class EventsContainer
         }
 
         PaletteManipulator::create()
-            ->addLegend('subscription_legend', 'title_legend', \Haste\Dca\PaletteManipulator::POSITION_AFTER, true)
-            ->addField('subscription_override', 'subscription_legend', \Haste\Dca\PaletteManipulator::POSITION_APPEND)
+            ->addLegend('subscription_legend', 'title_legend', PaletteManipulator::POSITION_AFTER, true)
+            ->addField('subscription_override', 'subscription_legend', PaletteManipulator::POSITION_APPEND)
             ->applyToPalette('internal', 'tl_calendar_events')
             ->applyToPalette('article', 'tl_calendar_events')
             ->applyToPalette('external', 'tl_calendar_events')

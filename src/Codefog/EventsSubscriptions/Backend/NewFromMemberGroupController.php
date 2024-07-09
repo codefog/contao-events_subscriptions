@@ -5,6 +5,7 @@ namespace Codefog\EventsSubscriptions\Backend;
 use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\Services;
 use Codefog\EventsSubscriptions\Subscription\MemberSubscription;
+use Codefog\HasteBundle\Formatter;
 use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\CalendarEventsModel;
@@ -19,7 +20,6 @@ use Contao\Message;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Widget;
-use Haste\Util\Format;
 
 class NewFromMemberGroupController
 {
@@ -62,7 +62,7 @@ class NewFromMemberGroupController
 
         // Format the event data
         foreach ($eventModel->row() as $k => $v) {
-            $eventData[$k] = Format::dcaValue($eventModel::getTable(), $k, $v);;
+            $eventData[$k] = System::getContainer()->get(Formatter::class)->dcaValue($eventModel::getTable(), $k, $v);
         }
 
         $template = new BackendTemplate('be_events_subscriptions_new_from_member_group');

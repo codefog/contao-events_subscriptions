@@ -5,6 +5,7 @@ namespace Codefog\EventsSubscriptions\Backend;
 use Codefog\EventsSubscriptions\Exporter;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
+use Codefog\HasteBundle\Formatter;
 use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\CalendarEventsModel;
@@ -13,7 +14,6 @@ use Contao\Date;
 use Contao\Environment;
 use Contao\Input;
 use Contao\System;
-use Haste\Util\Format;
 
 class ExportController
 {
@@ -69,7 +69,7 @@ class ExportController
 
         // Format the event data
         foreach ($eventModel->row() as $k => $v) {
-            $eventData[$k] = Format::dcaValue($eventModel::getTable(), $k, $v);;
+            $eventData[$k] = System::getContainer()->get(Formatter::class)->dcaValue($eventModel::getTable(), $k, $v);
         }
 
         $template = new BackendTemplate('be_events_subscriptions_export');

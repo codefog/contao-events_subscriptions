@@ -14,13 +14,14 @@ namespace Codefog\EventsSubscriptions;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Subscription\NotificationAwareInterface;
 use Codefog\EventsSubscriptions\Subscription\SubscriptionInterface;
+use Codefog\HasteBundle\Formatter;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\Config;
 use Contao\Events;
 use Contao\Model;
 use Contao\Model\Collection;
-use Haste\Util\Format;
+use Contao\System;
 use NotificationCenter\Model\Notification;
 
 class NotificationSender
@@ -108,7 +109,7 @@ class NotificationSender
         $tokens = [];
 
         foreach ($data as $k => $v) {
-            $tokens[$prefix.$k] = Format::dcaValue($table, $k, $v);
+            $tokens[$prefix.$k] = System::getContainer()->get(Formatter::class)->dcaValue($table, $k, $v);
         }
 
         return $tokens;

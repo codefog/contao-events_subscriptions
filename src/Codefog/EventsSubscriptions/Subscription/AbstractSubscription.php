@@ -8,10 +8,10 @@ use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\Services;
 use Codefog\EventsSubscriptions\Subscriber;
 use Codefog\EventsSubscriptions\SubscriptionValidator;
+use Codefog\HasteBundle\Form\Form;
 use Contao\Database;
 use Contao\Environment;
 use Contao\Input;
-use Haste\Form\Form;
 
 abstract class AbstractSubscription implements FrontendDataInterface, ModuleDataAwareInterface, SubscriptionInterface
 {

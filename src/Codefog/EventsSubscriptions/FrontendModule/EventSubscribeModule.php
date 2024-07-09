@@ -15,7 +15,7 @@ use Codefog\EventsSubscriptions\Services;
 use Contao\BackendTemplate;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
-use Haste\Input\Input;
+use Contao\Input;
 
 class EventSubscribeModule extends \Module
 {
@@ -70,7 +70,7 @@ class EventSubscribeModule extends \Module
         }
 
         return CalendarEventsModel::findPublishedByParentAndIdOrAlias(
-            Input::getAutoItem('events'),
+            Input::get('events') ?: Input::get('auto_item'),
             $calendars->fetchEach('id')
         );
     }

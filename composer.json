@@ -11,12 +11,14 @@
         }
     ],
     "require": {
-        "php": "^7.0|^8.0",
-        "contao/core-bundle":"^4.4",
-        "contao/calendar-bundle":"^4.4",
+        "php": "^8.1",
+        "contao/core-bundle":"^4.13",
+        "contao/calendar-bundle":"^4.13",
         "contao-community-alliance/composer-plugin":"^2.4.1 || ~3.0",
-        "codefog/contao-haste": "~4.16",
-        "terminal42/notification_center": "~1.4"
+        "codefog/contao-haste": "^5.2",
+        "terminal42/notification_center": "^1.4",
+        "league/csv": "^9.16",
+        "phpoffice/phpspreadsheet": "^2.1"
     },
     "autoload":{
         "psr-0": {
@@ -31,6 +33,11 @@
             "runonce": [
                 "system/modules/events_subscriptions/config/upgrade.php"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
         }
     }
 }

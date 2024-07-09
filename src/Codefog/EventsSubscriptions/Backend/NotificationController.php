@@ -7,6 +7,7 @@ use Codefog\EventsSubscriptions\Model\SubscriptionModel;
 use Codefog\EventsSubscriptions\NotificationSender;
 use Codefog\EventsSubscriptions\Services;
 use Codefog\EventsSubscriptions\Subscription\NotificationAwareInterface;
+use Codefog\HasteBundle\Formatter;
 use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\CalendarEventsModel;
@@ -20,7 +21,6 @@ use Contao\Message;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Widget;
-use Haste\Util\Format;
 use NotificationCenter\Model\Notification;
 
 class NotificationController
@@ -79,7 +79,7 @@ class NotificationController
 
         // Format the event data
         foreach ($eventModel->row() as $k => $v) {
-            $eventData[$k] = Format::dcaValue($eventModel::getTable(), $k, $v);;
+            $eventData[$k] = System::getContainer()->get(Formatter::class)->dcaValue($eventModel::getTable(), $k, $v);
         }
 
         $template = new BackendTemplate('be_events_subscriptions_notification');
@@ -89,7 +89,7 @@ class NotificationController
         $template->eventRaw = $eventModel->row();
         $template->action = Environment::get('request');
         $template->formSubmit = $formSubmit;
-        $template->lastNotificationDate = ($eventModel->subscription_lastNotificationSent) ? Format::datim($eventModel->subscription_lastNotificationSent) : null;
+        $template->lastNotificationDate = ($eventModel->subscription_lastNotificationSent) ? System::getContainer()->get(Formatter::class)->datim($eventModel->subscription_lastNotificationSent) : null;
 
         $template->notification = new $GLOBALS['BE_FFL']['select'](Widget::getAttributesFromDca([
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.notification'],

@@ -4,8 +4,8 @@ namespace Codefog\EventsSubscriptions\Subscription;
 
 use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
-use Haste\Form\Form;
-use Haste\Util\ArrayPosition;
+use Codefog\HasteBundle\Form\Form;
+use Codefog\HasteBundle\Util\ArrayPosition;
 
 class GuestSubscription extends AbstractSubscription implements ExportAwareInterface,  NotificationAwareInterface
 {

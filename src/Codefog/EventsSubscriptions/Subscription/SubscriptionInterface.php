@@ -4,7 +4,7 @@ namespace Codefog\EventsSubscriptions\Subscription;
 
 use Codefog\EventsSubscriptions\EventConfig;
 use Codefog\EventsSubscriptions\Model\SubscriptionModel;
-use Haste\Form\Form;
+use Codefog\HasteBundle\Form\Form;
 
 interface SubscriptionInterface
 {

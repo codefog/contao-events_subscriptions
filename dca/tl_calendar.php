@@ -9,6 +9,8 @@
  * @link      http://github.com/codefog/contao-events_subscriptions
  */
 
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
+
 /**
  * Load tl_calendar_events data container
  */
@@ -33,9 +35,9 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_memberGroupsLimit';
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_reminders';
 
-\Haste\Dca\PaletteManipulator::create()
-    ->addLegend('subscription_legend', 'title_legend', \Haste\Dca\PaletteManipulator::POSITION_AFTER, true)
-    ->addField('subscription_enable', 'subscription_legend', \Haste\Dca\PaletteManipulator::POSITION_APPEND)
+PaletteManipulator::create()
+    ->addLegend('subscription_legend', 'title_legend', PaletteManipulator::POSITION_AFTER, true)
+    ->addField('subscription_enable', 'subscription_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('default', 'tl_calendar');
 
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']      = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_waitingList,subscription_reminders,subscription_unsubscribeLinkPage,subscription_subscribeNotification,subscription_unsubscribeNotification,subscription_listUpdateNotification';
