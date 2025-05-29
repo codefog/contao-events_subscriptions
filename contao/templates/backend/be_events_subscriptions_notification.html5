@@ -1,0 +1,70 @@
+
+<div id="tl_buttons">
+    <a href="<?= \Contao\StringUtil::ampersand($this->backUrl) ?>" class="header_back" title="<?= \Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']) ?>"><?= $GLOBALS['TL_LANG']['MSC']['backBT'] ?></a>
+</div>
+
+<div class="maintenance_active">
+    <h2 class="sub_headline"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.headline'] ?></h2>
+
+    <div class="tl_tbox" style="padding:12px 18px;">
+        <p><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.explanation'] ?> <strong><?= $this->event['title'] ?> (<?= $this->event['startDate'] . ($this->eventRaw['addTime'] ? (' ' . $this->event['startTime']) : '') ?>)</strong></p>
+
+        <?php if ($this->lastNotificationDate): ?>
+            <div class="tl_message">
+                <p class="tl_info"><?= sprintf($GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.lastNotificationDate'], $this->lastNotificationDate) ?></p>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <?= $this->message ?>
+
+    <form action="<?= $this->action ?>" method="post">
+        <div class="tl_formbody_edit">
+            <input type="hidden" name="FORM_SUBMIT" value="<?= $this->formSubmit ?>">
+            <input type="hidden" name="REQUEST_TOKEN" value="<?= $this->requestToken ?>">
+
+            <fieldset class="tl_tbox nolegend">
+                <div class="widget w50 clr">
+                    <?= $this->notification->parse() ?>
+                    <p class="tl_help tl_tip"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.notificationExplanation'] ?></p>
+                </div>
+            </fieldset>
+
+            <div style="margin:0 -1px;height:18px;background-color:#eaeaec;border-top:1px solid #d0d0d2;border-bottom:1px solid #d0d0d2"></div>
+
+            <h2 class="sub_headline" style="margin-top:18px"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribersHeadline'] ?></h2>
+
+            <p style="margin:3px 18px 18px"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribersExplanation'] ?></p>
+
+            <div class="tl_formbody_submit">
+                <div class="tl_submit_container">
+                    <button type="submit" name="action_subscribers" class="tl_submit"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.submit'] ?></button>
+                </div>
+            </div>
+
+            <div style="margin:0 -1px;height:18px;background-color:#eaeaec;border-top:1px solid #d0d0d2;border-bottom:1px solid #d0d0d2"></div>
+
+            <h2 class="sub_headline" style="margin-top:18px"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.groupsHeadline'] ?></h2>
+
+            <p style="margin:3px 18px 18px"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.groupsExplanation'] ?></p>
+
+            <fieldset class="tl_tbox nolegend">
+                <div class="widget clr">
+                    <?= $this->subscribableMemberGroups->parse() ?>
+                </div>
+
+                <?php if (isset($this->otherMemberGroups)): ?>
+                    <div class="widget clr">
+                        <?= $this->otherMemberGroups->parse() ?>
+                    </div>
+                <?php endif; ?>
+            </fieldset>
+
+            <div class="tl_formbody_submit">
+                <div class="tl_submit_container">
+                    <button type="submit" name="action_groups" class="tl_submit"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.submit'] ?></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
