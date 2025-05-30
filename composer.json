@@ -35,6 +35,9 @@
             "Codefog\\EventsSubscriptionsBundle\\": "src"
         }
     },
+    "extra": {
+        "contao-manager-plugin": "Codefog\\EventsSubscriptionsBundle\\ContaoManager\\Plugin"
+    },
     "config": {
         "allow-plugins": {
             "terminal42/contao-build-tools": true,
