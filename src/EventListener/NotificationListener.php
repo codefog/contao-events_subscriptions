@@ -15,6 +15,9 @@ use Codefog\EventsSubscriptionsBundle\Event\SubscribeEvent;
 use Codefog\EventsSubscriptionsBundle\Event\UnsubscribeEvent;
 use Codefog\EventsSubscriptionsBundle\EventConfigFactory;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
+use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsListUpdateType;
+use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsSubscribeType;
+use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsUnsubscribeType;
 use Codefog\EventsSubscriptionsBundle\NotificationSender;
 use Codefog\EventsSubscriptionsBundle\Services;
 use Codefog\EventsSubscriptionsBundle\SubscriptionFactory;
@@ -62,7 +65,7 @@ class NotificationListener
             return;
         }
 
-        $this->sender->sendByType('events_subscriptions_subscribe', $event->getModel());
+        $this->sender->sendByType(EventsSubscriptionsSubscribeType::NAME, $event->getModel());
     }
 
     /**
@@ -72,7 +75,7 @@ class NotificationListener
      */
     public function onUnsubscribe(UnsubscribeEvent $event)
     {
-        $this->sender->sendByType('events_subscriptions_unsubscribe', $event->getModel());
+        $this->sender->sendByType(EventsSubscriptionsUnsubscribeType::NAME, $event->getModel());
 
         // Get the waiting list promoted subscription
         if (($subscriptionModel = $this->getWaitingListPromotedSubscription($event)) !== null) {
@@ -80,13 +83,13 @@ class NotificationListener
             $subscription = $this->subscriptionFactory->createFromModel($subscriptionModel);
 
             // Log the event
-            System::getContainer()->get('monolog.logger.contao')->log(
+            System::getContainer()->get('monolog.logger.contao')->info(
                 sprintf('%s has promoted from a waiting list to a subscribers list of the event "%s" (ID %s)', strip_tags($subscription->getFrontendLabel()), $eventModel->title, $eventModel->id),
                 ['contao' => new ContaoContext(__METHOD__, ContaoContext::GENERAL)],
             );
 
             // Send the notification
-            $this->sender->sendByType('events_subscriptions_listUpdate', $subscriptionModel);
+            $this->sender->sendByType(EventsSubscriptionsListUpdateType::NAME, $subscriptionModel);
         }
     }
 

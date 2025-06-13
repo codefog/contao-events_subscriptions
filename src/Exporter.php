@@ -68,7 +68,7 @@ class Exporter
         }
 
         $columns = $this->getColumns($subscriptions);
-        $data = array_merge($columns, $this->prepareData($event, $subscriptions, $columns));
+        $data = array_merge([$columns], $this->prepareData($event, $subscriptions, $columns));
 
         // Dispatch the event
         $this->eventDispatcher->dispatch(
@@ -117,16 +117,9 @@ class Exporter
         return $fileInfo;
     }
 
-    /**
-     * Export subscriptions by calendar
-     *
-     * @return File
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function exportByCalendar(CalendarModel $calendar, $startTstamp = null, $endTstamp = null, $format = self::FORMAT_CSV)
+    public function exportByCalendar(CalendarModel $calendar, $startTstamp = null, $endTstamp = null, $format = self::FORMAT_CSV): \SplFileInfo
     {
-        $readerData = [];
+        $data = [];
         $subscriptions = [];
 
         // Get the reader data
@@ -161,7 +154,7 @@ class Exporter
                 }
             }
 
-            $columns = $this->getColumns($subscriptions);
+            $exportColumns = $this->getColumns($subscriptions);
 
             /** @var CalendarEventsModel $event */
             foreach ($events as $event) {
@@ -178,24 +171,27 @@ class Exporter
                     continue;
                 }
 
-                $readerData = array_merge($readerData, $this->prepareData($event, $eventSubscriptions, $columns));
+                $data = array_merge($data, $this->prepareData($event, $eventSubscriptions, $exportColumns));
             }
         }
 
-        $reader = new ArrayReader($readerData);
-        $reader->setHeaderFields($columns);
-
-        $writer = $this->getFileWriter($format);
+        if (isset($exportColumns)) {
+            $data = [[$exportColumns], ...$data];
+        }
 
         // Dispatch the event
         $this->eventDispatcher->dispatch(
             EventDispatcher::EVENT_ON_EXPORT_CALENDAR,
-            $event = new ExportCalendarEvent($reader, $writer, $calendar, $subscriptions)
+            $event = new ExportCalendarEvent($data, $format, $calendar, $subscriptions)
         );
 
-        $writer->writeFrom($event->getReader());
+        $data = $event->getData();
 
-        return new File($event->getWriter()->getFilename());
+        return match ($format = $event->getFormat()) {
+            self::FORMAT_CSV => $this->exportToCsv($data),
+            self::FORMAT_EXCEL => $this->exportToExcel($data),
+            default => throw new \InvalidArgumentException(sprintf('Unsupported export type: %s', $format)),
+        };
     }
 
     /**

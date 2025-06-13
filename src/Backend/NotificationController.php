@@ -4,6 +4,7 @@ namespace Codefog\EventsSubscriptionsBundle\Backend;
 
 use Codefog\EventsSubscriptionsBundle\EventConfig;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
+use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsEventType;
 use Codefog\EventsSubscriptionsBundle\NotificationCenterHelper;
 use Codefog\EventsSubscriptionsBundle\NotificationSender;
 use Codefog\EventsSubscriptionsBundle\Services;
@@ -264,6 +265,6 @@ class NotificationController
      */
     protected function getNotifications()
     {
-        return System::getContainer()->get(NotificationCenterHelper::class)->getNotificationsByType('events_subscription_event');
+        return System::getContainer()->get(NotificationCenterHelper::class)->getNotificationsByType(EventsSubscriptionsEventType::NAME);
     }
 }

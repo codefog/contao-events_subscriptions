@@ -141,9 +141,7 @@ class NotificationSender
      */
     public function getBasicTokens(CalendarEventsModel $event)
     {
-        $tokens = [
-            'admin_email' => $GLOBALS['TL_ADMIN_EMAIL'] ?: Config::get('adminEmail'),
-        ];
+        $tokens = [];
 
         // Generate event tokens
         $tokens = array_merge($tokens, $this->getModelTokens($event, 'event_'));

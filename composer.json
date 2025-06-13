@@ -24,7 +24,8 @@
         "codefog/contao-haste": "^5.2",
         "terminal42/notification_center": "^2.4",
         "league/csv": "^9.23",
-        "phpoffice/phpspreadsheet": "^4.3"
+        "phpoffice/phpspreadsheet": "^4.3",
+        "symfony/mime": "^6.4 || ^7.3"
     },
     "require-dev": {
         "contao/manager-plugin": "^2.0",

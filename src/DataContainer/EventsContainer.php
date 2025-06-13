@@ -45,7 +45,7 @@ class EventsContainer
         }
 
         // Return if the subscription is not enabled
-        if (!CalendarModel::findByPk($pid)->subscription_enable) {
+        if (!CalendarModel::findByPk($pid)?->subscription_enable) {
             return;
         }
 

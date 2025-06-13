@@ -39,7 +39,7 @@ class CronListener
         $remindersSent = $this->automator->sendReminders();
 
         if ($remindersSent > 0) {
-            System::getContainer()->get('monolog.logger.contao')->log(
+            System::getContainer()->get('monolog.logger.contao')->info(
                 sprintf('A total number of %s event reminders have been sent', $remindersSent),
                 ['contao' => new ContaoContext(__METHOD__, ContaoContext::CRON)],
             );

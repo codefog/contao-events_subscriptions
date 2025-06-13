@@ -8,6 +8,6 @@ class CodefogEventsSubscriptionsBundle extends Bundle
 {
     public function getPath(): string
     {
-        return dir(__DIR__);
+        return dirname(__DIR__);
     }
 }

@@ -52,7 +52,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             ],
             'export' => [
                 'href' => 'key=subscriptions_export',
-                'icon' => 'system/modules/events_subscriptions/assets/export.png',
+                'icon' => 'theme_import.svg',
                 'attributes' => 'onclick="Backend.getScrollOffset()"',
             ],
             'all',

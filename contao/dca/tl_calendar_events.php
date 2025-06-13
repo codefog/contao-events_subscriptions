@@ -25,13 +25,15 @@ if (($index = array_search(['tl_calendar_events', 'checkPermission'], $GLOBALS['
 // Global operations
 ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'], 0, [
     'subscriptions_overview' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview'],
         'href' => 'key=subscriptions_overview',
         'icon' => 'mgroup.svg',
         'button_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\EventsContainer', 'getSubscriptionsOverviewButton'],
     ],
     'subscriptions_export' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_export'],
         'href' => 'key=subscriptions_exportCalendar',
-        'icon' => 'system/modules/events_subscriptions/assets/export.png', // TODO
+        'icon' => 'theme_import.svg',
         'attributes' => 'onclick="Backend.getScrollOffset()"',
         'button_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\EventsContainer', 'getSubscriptionsExportButton'],
     ],
@@ -41,7 +43,7 @@ ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_
 $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['sendNotifications'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['sendNotifications'],
     'href' => 'key=subscriptions_notification',
-    'icon' => 'system/modules/events_subscriptions/assets/send.svg', // TODO
+    'icon' => 'mover.svg',
     'button_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\EventsContainer', 'getNotificationsButton'],
 ];
 

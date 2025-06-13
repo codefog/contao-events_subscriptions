@@ -11,6 +11,10 @@
 
 namespace Codefog\EventsSubscriptionsBundle\DataContainer;
 
+use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsListUpdateType;
+use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsReminderType;
+use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsSubscribeType;
+use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsUnsubscribeType;
 use Contao\Backend;
 use Contao\Database;
 use Contao\Image;
@@ -52,7 +56,7 @@ class CalendarContainer
      */
     public function getNotifications()
     {
-        return $this->getNotificationsByType('events_subscriptions_reminder');
+        return $this->getNotificationsByType(EventsSubscriptionsReminderType::NAME);
     }
 
     /**
@@ -62,7 +66,7 @@ class CalendarContainer
      */
     public function getSubscribeNotifications()
     {
-        return $this->getNotificationsByType('events_subscriptions_subscribe');
+        return $this->getNotificationsByType(EventsSubscriptionsSubscribeType::NAME);
     }
 
     /**
@@ -72,7 +76,7 @@ class CalendarContainer
      */
     public function getUnsubscribeNotifications()
     {
-        return $this->getNotificationsByType('events_subscriptions_unsubscribe');
+        return $this->getNotificationsByType(EventsSubscriptionsUnsubscribeType::NAME);
     }
 
     /**
@@ -82,7 +86,7 @@ class CalendarContainer
      */
     public function getListUpdateNotifications()
     {
-        return $this->getNotificationsByType('events_subscriptions_listUpdate');
+        return $this->getNotificationsByType(EventsSubscriptionsListUpdateType::NAME);
     }
 
     /**

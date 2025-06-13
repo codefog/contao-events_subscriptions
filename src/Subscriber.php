@@ -84,7 +84,7 @@ class Subscriber
             $logMessage = '%s has subscribed to the event "%s" (ID %s)';
         }
 
-        System::getContainer()->get('monolog.logger.contao')->log(
+        System::getContainer()->get('monolog.logger.contao')->info(
             sprintf($logMessage, strip_tags($subscription->getFrontendLabel()), $event->getEvent()->title, $event->getEvent()->id),
             ['contao' => new ContaoContext(__METHOD__, ContaoContext::GENERAL)],
         );
@@ -127,7 +127,7 @@ class Subscriber
             $logMessage = '%s has unsubscribed from the event "%s" (ID %s)';
         }
 
-        System::getContainer()->get('monolog.logger.contao')->log(
+        System::getContainer()->get('monolog.logger.contao')->info(
             sprintf($logMessage, strip_tags($subscription->getFrontendLabel()), $event->getEvent()->title, $event->getEvent()->id),
             ['contao' => new ContaoContext(__METHOD__, ContaoContext::GENERAL)],
         );

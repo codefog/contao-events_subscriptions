@@ -30,7 +30,7 @@
                 </div>
             </fieldset>
 
-            <div style="margin:0 -1px;height:18px;background-color:#eaeaec;border-top:1px solid #d0d0d2;border-bottom:1px solid #d0d0d2"></div>
+            <div style="margin:0 -1px;height:18px;background-color:var(--body-bg);border-top:1px solid var(--content-border);border-bottom:1px solid var(--content-border)"></div>
 
             <h2 class="sub_headline" style="margin-top:18px"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribersHeadline'] ?></h2>
 
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div style="margin:0 -1px;height:18px;background-color:#eaeaec;border-top:1px solid #d0d0d2;border-bottom:1px solid #d0d0d2"></div>
+            <div style="margin:0 -1px;height:18px;background-color:var(--body-bg);border-top:1px solid var(--content-border);border-bottom:1px solid var(--content-border)"></div>
 
             <h2 class="sub_headline" style="margin-top:18px"><?= $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.groupsHeadline'] ?></h2>
 

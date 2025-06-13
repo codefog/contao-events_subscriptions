@@ -3,6 +3,7 @@
 namespace Codefog\EventsSubscriptionsBundle\Backend;
 
 use Codefog\EventsSubscriptionsBundle\Exporter;
+use Codefog\EventsSubscriptionsBundle\ExporterHelper;
 use Codefog\EventsSubscriptionsBundle\Services;
 use Codefog\HasteBundle\Formatter;
 use Contao\Backend;
@@ -135,9 +136,9 @@ class ExportCalendarController
             '%s_%s.%s',
             StringUtil::standardize($calendarModel->title),
             StringUtil::standardize(Date::parse('Y-m-d')),
-            $file->extension
+            $file->getExtension()
         );
 
-        $file->sendToBrowser($fileName);
+        System::getContainer()->get(ExporterHelper::class)->download($file, $fileName);
     }
 }

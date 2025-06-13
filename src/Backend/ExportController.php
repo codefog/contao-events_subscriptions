@@ -3,6 +3,7 @@
 namespace Codefog\EventsSubscriptionsBundle\Backend;
 
 use Codefog\EventsSubscriptionsBundle\Exporter;
+use Codefog\EventsSubscriptionsBundle\ExporterHelper;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
 use Codefog\EventsSubscriptionsBundle\Services;
 use Codefog\HasteBundle\Formatter;
@@ -106,9 +107,9 @@ class ExportController
             '%s_%s.%s',
             StringUtil::standardize($eventModel->title),
             StringUtil::standardize(Date::parse('Y-m-d', $eventModel->startDate)),
-            $file->extension
+            $file->getExtension(),
         );
 
-        $file->sendToBrowser($fileName);
+        System::getContainer()->get(ExporterHelper::class)->download($file, $fileName);
     }
 }
