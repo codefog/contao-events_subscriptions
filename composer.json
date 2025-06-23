@@ -9,7 +9,7 @@
         "subscriptions",
         "calendar"
     ],
-    "type": "contao-module",
+    "type": "contao-bundle",
     "license": "MIT",
     "authors": [
         {
