@@ -33,6 +33,7 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_unsubscribeEndTime'] = [
     'Hier können Sie den Zeitversatz vor Beginn des Events festlegen ab wann eine Abmeldung nicht mehr möglich ist. Lassen Sie das Feld leer, wenn Sie dies nicht benötigen.'
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_numberOfParticipants'] = ['Enable number of participants', 'Erlaube die Angabe einer Anzahl an Teilnehmern bei der Anmeldung'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_numberOfParticipantsLimit'] = ['Teilnehmerbegrenzung', 'Hier können Sie die Anzahl der Teilnehmer pro Anmeldung begrenzen. Geben Sie 0 ein, um unbegrenzte Teilnehmer zu erlauben.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_waitingList']        = [
     'Warteliste aktivieren',
     'Erlauben Sie die Anmeldung auf die Warteliste.',

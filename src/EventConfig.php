@@ -192,6 +192,11 @@ class EventConfig
         return $this->get('subscription_numberOfParticipants') ? true : false;
     }
 
+    public function getNumberOfParticipantsLimit()
+    {
+        return (int) $this->get('subscription_numberOfParticipantsLimit');
+    }
+
     /**
      * Return true if the event has a member groups limit
      *

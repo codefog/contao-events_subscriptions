@@ -89,6 +89,22 @@ class SubscriptionValidator
         return isset($cache[$eventId]) && in_array($memberId, $cache[$eventId], true);
     }
 
+    public function validateNumberOfParticipantsLimit(EventConfig $event, $numberOfParticipants = 1): bool
+    {
+        if (!$event->canProvideNumberOfParticipants()) {
+            return true;
+        }
+
+        $limit = $event->getNumberOfParticipantsLimit();
+
+        // No limit
+        if ($limit === 0) {
+            return true;
+        }
+
+        return $numberOfParticipants <= $limit;
+    }
+
     /**
      * Validate the maximum number of subscriptions
      *

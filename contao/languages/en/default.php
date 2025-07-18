@@ -25,6 +25,7 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.enableReminders']         = 'Se
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.canSubscribeUntil']       = 'You can subscribe until: %s';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.canUnsubscribeUntil']     = 'You can unsubscribe until: %s';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipants']    = 'Number of participants';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsLimit'] = 'You can subscribe up to %d participants to this event.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsExceeded'] = 'Unfortunately, you cannot subscribe because the maximum number of participants in this event is %d.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsExceededWaitingList'] = 'Unfortunately, you cannot subscribe because the maximum number of participants in this event is %d, with an extra waiting list of %d slots.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsSubscribeToWaitingList'] = 'You can only be subscribed to the waiting list of this event because the maximum number of participants is %d. Please re-submit the form to subscribe to the waiting list.';

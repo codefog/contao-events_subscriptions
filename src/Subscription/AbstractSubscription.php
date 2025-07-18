@@ -208,12 +208,27 @@ abstract class AbstractSubscription implements FrontendDataInterface, ModuleData
      */
     protected function validateNumberOfParticipants(Form $form, EventConfig $event)
     {
-        if (!$event->canProvideNumberOfParticipants() || $this->getSubscriptionValidator()->validateMaximumSubscriptions($event, $form->fetch('numberOfParticipants'), true)) {
+        if (!$event->canProvideNumberOfParticipants()) {
+            return true;
+        }
+
+        $numberOfParticipants = (int) $form->fetch('numberOfParticipants');
+        $subscriptionValidator = $this->getSubscriptionValidator();
+
+        if (!$subscriptionValidator->validateNumberOfParticipantsLimit($event, $numberOfParticipants)) {
+            $this->throwRedirectException(
+                null,
+                sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsLimit'], $event->getNumberOfParticipantsLimit()),
+                $event->getEvent()->id,
+            );
+        }
+
+        if ($subscriptionValidator->validateMaximumSubscriptions($event, $numberOfParticipants, true)) {
             return true;
         }
 
         // If waiting list is enabled and subscription to it can be made, notify the user first
-        if ($event->hasWaitingList() && $this->getSubscriptionValidator()->validateMaximumSubscriptions($event, $form->fetch('numberOfParticipants'))) {
+        if ($event->hasWaitingList() && $subscriptionValidator->validateMaximumSubscriptions($event, $numberOfParticipants)) {
             // Return true if the user confirmed the subscription
             if (isset($_POST['waitingList'])) {
                 return true;

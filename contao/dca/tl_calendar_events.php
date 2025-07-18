@@ -58,9 +58,11 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptions'] 
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_override';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_waitingList';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_memberGroupsLimit';
+$GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_numberOfParticipants';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override'] = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_waitingList';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_memberGroupsLimit'] = 'subscription_memberGroups';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_numberOfParticipants'] = 'subscription_numberOfParticipantsLimit';
 
 // Fields
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_override'] = [
@@ -120,8 +122,14 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_unsubscribeEndT
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_numberOfParticipants'] = [
     'filter' => true,
     'inputType' => 'checkbox',
-    'eval' => ['tl_class' => 'clr'],
+    'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
     'sql' => ['type' => Types::BOOLEAN, 'default' => false],
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_numberOfParticipantsLimit'] = [
+    'inputType' => 'text',
+    'eval' => ['rgxp' => 'digit', 'tl_class' => 'clr'],
+    'sql' => ['type' => Types::SMALLINT, 'unsigned' => true, 'default' => 0],
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_waitingList'] = [
