@@ -1,8 +1,15 @@
 {
     "name": "codefog/contao-events_subscriptions",
     "description": "events_subscriptions extension for Contao Open Source CMS",
-    "keywords": ["contao", "event", "events", "subscription", "subscriptions", "calendar"],
-    "type": "contao-module",
+    "keywords": [
+        "contao",
+        "event",
+        "events",
+        "subscription",
+        "subscriptions",
+        "calendar"
+    ],
+    "type": "contao-bundle",
     "license": "MIT",
     "authors": [
         {
@@ -11,26 +18,31 @@
         }
     ],
     "require": {
-        "php": "^7.0|^8.0",
-        "contao/core-bundle":"^4.4",
-        "contao/calendar-bundle":"^4.4",
-        "contao-community-alliance/composer-plugin":"^2.4.1 || ~3.0",
-        "codefog/contao-haste": "~4.16",
-        "terminal42/notification_center": "~1.4"
+        "php": "^8.1",
+        "contao/core-bundle": "^5.3",
+        "contao/calendar-bundle": "^5.3",
+        "codefog/contao-haste": "^5.2",
+        "terminal42/notification_center": "^2.4",
+        "league/csv": "^9.23",
+        "phpoffice/phpspreadsheet": "^4.3",
+        "symfony/mime": "^6.4 || ^7.3"
     },
-    "autoload":{
-        "psr-0": {
-            "Codefog\\EventsSubscriptions\\": "src"
+    "require-dev": {
+        "contao/manager-plugin": "^2.0",
+        "terminal42/contao-build-tools": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Codefog\\EventsSubscriptionsBundle\\": "src"
         }
     },
     "extra": {
-        "contao": {
-            "sources": {
-                "": "system/modules/events_subscriptions"
-            },
-            "runonce": [
-                "system/modules/events_subscriptions/config/upgrade.php"
-            ]
+        "contao-manager-plugin": "Codefog\\EventsSubscriptionsBundle\\ContaoManager\\Plugin"
+    },
+    "config": {
+        "allow-plugins": {
+            "terminal42/contao-build-tools": true,
+            "php-http/discovery": true
         }
     }
 }
