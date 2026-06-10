@@ -12,7 +12,7 @@
 
     <?= $this->message ?>
 
-    <form action="<?= $this->action ?>" method="post">
+    <form action="<?= $this->action ?>" method="post" data-turbo="false">
         <div class="tl_formbody_edit">
             <input type="hidden" name="FORM_SUBMIT" value="<?= $this->formSubmit ?>">
             <input type="hidden" name="REQUEST_TOKEN" value="<?= $this->requestToken ?>">

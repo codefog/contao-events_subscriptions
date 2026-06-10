@@ -19,7 +19,7 @@
 
     <div class="tl_formbody_submit">
         <div class="tl_submit_container">
-            <form action="<?= $this->action ?>" method="post">
+            <form action="<?= $this->action ?>" method="post" data-turbo="false">
                 <input type="hidden" name="FORM_SUBMIT" value="<?= $this->formSubmit ?>">
                 <input type="hidden" name="REQUEST_TOKEN" value="<?= $this->requestToken ?>">
 

@@ -17,7 +17,7 @@
         <?php endif; ?>
     </div>
 
-    <form action="<?= $this->action ?>" method="post">
+    <form action="<?= $this->action ?>" method="post" data-turbo="false">
         <div class="tl_formbody_edit">
             <fieldset class="tl_tbox">
                 <div class="widget w50 wizard">
